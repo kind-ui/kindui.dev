@@ -2,6 +2,7 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "kindui-dev",
   "compatibility_date": "2026-11-16",
+  "routes": [{ "pattern": "kindui.dev", "custom_domain": true }],
   "assets": {
     "directory": "./out",
     "html_handling": "auto-trailing-slash",
