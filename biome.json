@@ -10,7 +10,8 @@
     "includes": [
       "**",
       "!**/*.md",
-      "!vendor"
+      "!vendor",
+      "!components/ui"
     ]
   },
   "formatter": {

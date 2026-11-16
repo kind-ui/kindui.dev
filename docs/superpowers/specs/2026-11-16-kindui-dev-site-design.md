@@ -72,7 +72,7 @@ Copy the approved homepage (app, components, examples, lib, public, vendor, pack
 ### Hosting and deploys
 
 - `wrangler.jsonc` serves `./out` as static assets with `html_handling: "auto-trailing-slash"` and `not_found_handling: "404-page"`.
-- **`ci.yml` (pull requests):** `npm ci`, `npm run lint`, `npm run typecheck` (`next typegen && tsc --noEmit`), `npm run build`, then `lycheeverse/lychee-action` in offline mode over `out/` to check internal links. `.lycheeignore` lists `/r/`, the phase 2 path; phase 2 deletes it.
+- **`ci.yml` (pull requests):** `npm ci`, `npm run lint`, `npm run typecheck` (`next typegen && tsc --noEmit`), `npm run build`, then `lycheeverse/lychee-action` in offline mode over `out/` to check internal links. `.lycheeignore` lists `/r/` and the library sub-pages under `/docs/agent-ui/` and `/docs/charts/`, which arrive in phase 2; phase 2 deletes those lines.
 - **`deploy.yml` (push to main):** the same build, then `cloudflare/wrangler-action` deploy. It runs in a `production` environment holding `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`, with a concurrency group so deploys don't overlap.
 - **Rollback:** revert the commit, which redeploys, or `wrangler rollback`.
 
