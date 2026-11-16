@@ -52,7 +52,7 @@ const faqs: { q: string; a: React.ReactNode }[] = [
 
 export function Faq() {
   return (
-    <section aria-labelledby="faq-title" className="mx-auto max-w-[760px] px-5 pt-32 sm:px-9">
+    <section aria-labelledby="faq-title" className="mx-auto max-w-[760px] px-5 pt-20 sm:px-9 sm:pt-32">
       <Reveal>
         <h2
           id="faq-title"

@@ -37,9 +37,9 @@ const tiles: { name: string; slug: string; Example: ComponentType; wide?: boolea
 export function ComponentsGrid() {
   return (
     <div>
-      <div className="mt-10 grid gap-3 sm:gap-4 md:grid-cols-3">
+      <div className="mt-10 grid grid-cols-[minmax(0,1fr)] gap-3 sm:gap-4 md:grid-cols-3">
         {tiles.map(({ name, slug, Example, wide }, index) => (
-          <Reveal key={slug} delay={(index % 3) * 0.06} className={wide ? "md:col-span-2" : undefined}>
+          <Reveal key={slug} delay={(index % 3) * 0.06} className={wide ? "min-w-0 md:col-span-2" : "min-w-0"}>
             <article className="flex h-full min-w-0 flex-col rounded-[22px] border border-[var(--home-border)] bg-[var(--home-bg)] p-5 shadow-[var(--home-tile-shadow)]">
               <h3 className="text-[13px] text-[var(--home-muted-fg)]">
                 <Link

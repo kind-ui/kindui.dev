@@ -42,7 +42,7 @@ export function Together() {
 
   const done = !thinking && count >= answer.length;
   return (
-    <section aria-labelledby="together-title" className="mx-auto max-w-[1260px] px-5 pt-32 sm:px-9">
+    <section aria-labelledby="together-title" className="mx-auto max-w-[1260px] px-5 pt-20 sm:px-9 sm:pt-32">
       <Reveal>
         <h2
           id="together-title"

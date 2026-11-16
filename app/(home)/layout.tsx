@@ -1,7 +1,7 @@
 import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
 import type { Metadata } from "next";
-import { themeScript } from "@/components/theme-switcher";
+import { ThemeProvider } from "@/components/theme-switcher";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -21,11 +21,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning className={`${GeistSans.variable} ${GeistMono.variable}`}>
-      <head>
-        {/* biome-ignore lint/security/noDangerouslySetInnerHtml: static theme bootstrap */}
-        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
-      </head>
-      <body>{children}</body>
+      <body>
+        <ThemeProvider>{children}</ThemeProvider>
+      </body>
     </html>
   );
 }

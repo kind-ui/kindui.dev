@@ -36,13 +36,13 @@ const features = [
 
 export function Features() {
   return (
-    <section id="agents" className="mx-auto max-w-[920px] scroll-mt-8 px-5 py-32 sm:px-9">
+    <section id="agents" className="mx-auto max-w-[920px] scroll-mt-8 px-5 py-20 sm:px-9 sm:py-32">
       <Reveal>
         <h2 className="text-center text-[clamp(32px,4vw,52px)] leading-[1.1] font-medium tracking-[-0.055em]">
           What every library includes.
         </h2>
       </Reveal>
-      <div className="mt-20 grid gap-x-16 gap-y-14 sm:grid-cols-2">
+      <div className="mt-12 grid gap-x-16 gap-y-10 sm:mt-20 sm:grid-cols-2 sm:gap-y-14">
         {features.map((f, i) => (
           <Reveal key={f.title} delay={(i % 2) * 0.08}>
             <f.icon className="size-7 text-muted-foreground" strokeWidth={1.4} aria-hidden />

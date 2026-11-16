@@ -47,7 +47,7 @@ export function ChartsSection() {
       docs={links.chartsDocs}
     >
       <div className="rounded-[32px] border border-border bg-stage p-3 sm:p-4">
-        <div className="grid gap-3 sm:gap-4 md:grid-cols-3 md:[grid-auto-rows:minmax(330px,auto)]">
+        <div className="grid grid-cols-[minmax(0,1fr)] gap-3 sm:gap-4 md:grid-cols-3 md:[grid-auto-rows:minmax(330px,auto)]">
           <ChartsGrid />
         </div>
         <MoreRow library="charts" />
