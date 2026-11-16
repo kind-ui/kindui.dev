@@ -1,4 +1,4 @@
-import { Accessibility, Bot, Blocks, MoonStar, PackageOpen, Waves } from "lucide-react";
+import { Accessibility, Blocks, Bot, MoonStar, PackageOpen, Waves } from "lucide-react";
 import { Reveal } from "./reveal";
 
 const features = [

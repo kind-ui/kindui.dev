@@ -13,7 +13,11 @@ export function SiteNav() {
   return (
     <header className="mx-auto flex h-[84px] max-w-[1260px] items-center justify-between gap-5 px-5 sm:px-9">
       <div className="flex items-center gap-10">
-        <a href="/" aria-label="Kind UI home" className="inline-flex items-center gap-2 text-[28px] max-sm:text-[23px]">
+        <a
+          href="/"
+          aria-label="Kind UI home"
+          className="inline-flex items-center gap-2 text-[28px] max-sm:text-[23px]"
+        >
           <span className="emoji text-2xl max-sm:text-xl" aria-hidden>
             🌸
           </span>

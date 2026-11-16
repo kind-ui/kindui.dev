@@ -1,6 +1,6 @@
 "use client";
 import { CornerDownLeft, Search as SearchIcon } from "lucide-react";
-import { useEffect, useId, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import { links } from "@/lib/links";
 
 type Entry = { title: string; group: string; href: string };
@@ -8,13 +8,33 @@ type Entry = { title: string; group: string; href: string };
 const agentDocs = links.agentUiDocs;
 const chartsDocs = links.chartsDocs;
 const agentComponents = [
-  "Conversation", "Message", "Step", "Streaming Text", "Loader", "Thinking Indicator", "Typing Indicator",
-  "Markdown", "Code Block", "Composer", "Attachments", "Markdown Table", "Uploader",
+  "Conversation",
+  "Message",
+  "Step",
+  "Streaming Text",
+  "Loader",
+  "Thinking Indicator",
+  "Typing Indicator",
+  "Markdown",
+  "Code Block",
+  "Composer",
+  "Attachments",
+  "Markdown Table",
+  "Uploader",
 ];
 const chartTypes = [
-  ["Line", "line"], ["Area", "area"], ["Bar", "bar"], ["Combo", "combo"], ["Pie / Donut", "pie"],
-  ["Radar", "radar"], ["Radial / Activity rings", "radial"], ["Scatter / Bubble", "scatter"],
-  ["Heatmap", "heatmap"], ["Histogram", "histogram"], ["Box plot", "box-plot"], ["Sankey", "sankey"],
+  ["Line", "line"],
+  ["Area", "area"],
+  ["Bar", "bar"],
+  ["Combo", "combo"],
+  ["Pie / Donut", "pie"],
+  ["Radar", "radar"],
+  ["Radial / Activity rings", "radial"],
+  ["Scatter / Bubble", "scatter"],
+  ["Heatmap", "heatmap"],
+  ["Histogram", "histogram"],
+  ["Box plot", "box-plot"],
+  ["Sankey", "sankey"],
   ["Waterfall", "waterfall"],
 ] as const;
 const slug = (s: string) => s.toLowerCase().replace(/\s+/g, "-");
@@ -25,7 +45,11 @@ const entries: Entry[] = [
   { title: "Charts docs", group: "Docs", href: chartsDocs },
   { title: "Installation", group: "Docs", href: `${chartsDocs}installation/` },
   { title: "Agents", group: "Docs", href: `${chartsDocs}agents/` },
-  ...agentComponents.map((c) => ({ title: c, group: "Agent UI", href: `${agentDocs}/components/${slug(c)}` })),
+  ...agentComponents.map((c) => ({
+    title: c,
+    group: "Agent UI",
+    href: `${agentDocs}/components/${slug(c)}`,
+  })),
   ...chartTypes.map(([t, s]) => ({ title: t, group: "Charts", href: `${chartsDocs}components/${s}/` })),
 ];
 
@@ -41,12 +65,12 @@ export function Search() {
     return q ? entries.filter((e) => `${e.title} ${e.group}`.toLowerCase().includes(q)) : entries;
   }, [query]);
 
-  const open = () => {
+  const open = useCallback(() => {
     setQuery("");
     setActive(0);
     dialog.current?.showModal();
     input.current?.focus();
-  };
+  }, []);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -58,7 +82,7 @@ export function Search() {
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, []);
+  }, [open]);
 
   return (
     <>
@@ -70,12 +94,14 @@ export function Search() {
       >
         <SearchIcon size={14} aria-hidden />
         <span className="max-sm:hidden">Search</span>
-        <kbd className="ml-6 rounded-md border border-border px-1.5 py-0.5 font-sans text-[11px] max-sm:hidden">⌘K</kbd>
+        <kbd className="ml-6 rounded-md border border-border px-1.5 py-0.5 font-sans text-[11px] max-sm:hidden">
+          ⌘K
+        </kbd>
       </button>
       <dialog
         ref={dialog}
         aria-label="Search docs"
-        onClick={(e) => e.target === e.currentTarget && dialog.current?.close()}
+        onPointerDown={(e) => e.target === e.currentTarget && dialog.current?.close()}
         className="mx-auto mt-[12vh] w-[min(560px,calc(100vw-32px))] rounded-[20px] border border-border bg-background p-0 text-foreground shadow-[0_30px_80px_-20px_#00000040] backdrop:bg-black/30 backdrop:backdrop-blur-sm"
       >
         <div className="flex items-center gap-2 border-b border-border px-4">
@@ -98,22 +124,29 @@ export function Search() {
                 location.href = results[active].href;
               }
             }}
-            role="combobox"
-            aria-expanded="true"
-            aria-controls={listId}
-            aria-activedescendant={results[active] ? `${listId}-${active}` : undefined}
+            enterKeyHint="go"
+            aria-label="Search components and docs"
+            aria-describedby={listId}
             placeholder="Search components and docs"
             className="h-12 flex-1 bg-transparent text-[15px] outline-none focus-visible:outline-none placeholder:text-muted-foreground"
           />
-          <kbd className="rounded-md border border-border px-1.5 py-0.5 text-[11px] text-muted-foreground">Esc</kbd>
+          <kbd className="rounded-md border border-border px-1.5 py-0.5 text-[11px] text-muted-foreground">
+            Esc
+          </kbd>
         </div>
-        <ul id={listId} role="listbox" aria-label="Results" className="max-h-[50vh] overflow-y-auto p-2">
-          {results.length === 0 && <li className="px-3 py-6 text-center text-sm text-muted-foreground">No results</li>}
+        <p id={listId} aria-live="polite" className="sr-only">
+          {results.length === 1 ? "1 result" : `${results.length} results`}
+        </p>
+        <ul aria-label="Results" className="max-h-[50vh] overflow-y-auto p-2">
+          {results.length === 0 && (
+            <li className="px-3 py-6 text-center text-sm text-muted-foreground">No results</li>
+          )}
           {results.map((r, i) => (
-            <li key={r.href} id={`${listId}-${i}`} role="option" aria-selected={i === active}>
+            <li key={r.href}>
               <a
                 href={r.href}
                 onMouseEnter={() => setActive(i)}
+                onFocus={() => setActive(i)}
                 className={`flex items-center justify-between rounded-xl px-3 py-2.5 text-sm ${i === active ? "bg-muted" : ""}`}
               >
                 <span>{r.title}</span>

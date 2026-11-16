@@ -24,7 +24,11 @@ export function Chapter({
   children: React.ReactNode;
 }) {
   return (
-    <section id={id} aria-labelledby={`${id}-title`} className={`mx-auto max-w-[1260px] scroll-mt-8 px-5 sm:px-9 ${first ? "pt-6" : "pt-20 sm:pt-32"}`}>
+    <section
+      id={id}
+      aria-labelledby={`${id}-title`}
+      className={`mx-auto max-w-[1260px] scroll-mt-8 px-5 sm:px-9 ${first ? "pt-6" : "pt-20 sm:pt-32"}`}
+    >
       <Reveal>
         <div className="grid grid-cols-[minmax(0,1fr)] gap-8 border-t border-border pt-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,420px)] lg:items-end">
           <div>

@@ -1,5 +1,6 @@
-import { links } from "@/lib/links";
+import Image from "next/image";
 import { siX } from "simple-icons";
+import { links } from "@/lib/links";
 import { GitHubMark, Wordmark } from "./wordmark";
 
 const agent = (slug: string) => `${links.agentUiDocs}/components/${slug}`;
@@ -69,10 +70,12 @@ const groups: { title: string; items: [string, string][]; all?: [string, string]
 export function SiteFooter() {
   return (
     <footer className="relative isolate mt-24 overflow-hidden">
-      <img
+      <Image
         src="/footer-clouds.webp"
         alt=""
         aria-hidden
+        width={1920}
+        height={280}
         className="footer-art absolute inset-x-0 bottom-0 -z-10 h-[280px] w-full object-cover object-bottom"
       />
       <div className="mx-auto max-w-[1400px] px-5 pt-20 pb-24 sm:px-9">
@@ -113,7 +116,10 @@ export function SiteFooter() {
               </a>
             </div>
           </div>
-          <nav aria-label="Footer" className="grid grid-cols-2 gap-x-8 gap-y-12 sm:grid-cols-3 xl:grid-cols-5">
+          <nav
+            aria-label="Footer"
+            className="grid grid-cols-2 gap-x-8 gap-y-12 sm:grid-cols-3 xl:grid-cols-5"
+          >
             {groups.map((g) => (
               <div key={g.title}>
                 <h2 className="text-[11px] tracking-[0.12em] text-muted-foreground uppercase">{g.title}</h2>

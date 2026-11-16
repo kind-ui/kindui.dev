@@ -68,7 +68,7 @@ export function CopyPrompt() {
         ref={dialog}
         aria-labelledby={titleId}
         onClose={() => setOpen(false)}
-        onClick={(e) => e.target === e.currentTarget && setOpen(false)}
+        onPointerDown={(e) => e.target === e.currentTarget && setOpen(false)}
         className="m-auto w-[min(640px,calc(100vw-32px))] rounded-[24px] border border-border bg-background p-0 text-left text-foreground shadow-[0_30px_80px_-20px_#00000040] backdrop:bg-black/30 backdrop:backdrop-blur-sm"
       >
         <div className="space-y-5 p-6">
@@ -90,19 +90,24 @@ export function CopyPrompt() {
               <X size={16} />
             </button>
           </div>
-          <div role="radiogroup" aria-label="Library" className="flex w-fit gap-1 rounded-full bg-muted p-1 text-[13px]">
+          <fieldset className="flex w-fit gap-1 rounded-full bg-muted p-1 text-[13px]">
+            <legend className="sr-only">Library</legend>
             {choices.map((c) => (
-              <button
+              <label
                 key={c.key}
-                type="button"
-                role="radio"
-                aria-checked={choice === c.key}
-                onClick={() => {
-                  setChoice(c.key);
-                  setCopied(false);
-                }}
-                className="relative rounded-full px-4 py-1.5 text-muted-foreground transition-colors aria-checked:text-foreground"
+                className="relative cursor-pointer rounded-full px-4 py-1.5 text-muted-foreground transition-colors has-checked:text-foreground has-focus-visible:outline has-focus-visible:outline-foreground"
               >
+                <input
+                  type="radio"
+                  name={pillId}
+                  value={c.key}
+                  checked={choice === c.key}
+                  onChange={() => {
+                    setChoice(c.key);
+                    setCopied(false);
+                  }}
+                  className="sr-only"
+                />
                 {choice === c.key && (
                   <motion.span
                     layoutId={pillId}
@@ -111,9 +116,9 @@ export function CopyPrompt() {
                   />
                 )}
                 <span className="relative">{c.label}</span>
-              </button>
+              </label>
             ))}
-          </div>
+          </fieldset>
           <div className="relative rounded-2xl border border-border bg-muted/60">
             <AnimatePresence mode="wait" initial={false}>
               <motion.pre

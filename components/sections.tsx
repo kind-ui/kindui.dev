@@ -3,8 +3,8 @@ import { commands, links } from "@/lib/links";
 import { ComponentsGrid } from "./agent/components-grid";
 import { Stage } from "./agent/stage/stage";
 import { Chapter } from "./chapter";
-import { UiSdkLogo } from "./ui-sdk-logo";
 import { ChartsGrid, MoreRow } from "./hero";
+import { UiSdkLogo } from "./ui-sdk-logo";
 
 export function AgentSection() {
   return (
@@ -16,10 +16,12 @@ export function AgentSection() {
       title={
         <>
           Agent-ready UI, built on{" "}
-          <a href={links.uiSdk} className="whitespace-nowrap transition-opacity hover:opacity-70">
-            <UiSdkLogo className="align-baseline" />
-          </a>
-          .
+          <span className="whitespace-nowrap">
+            <a href={links.uiSdk} className="transition-opacity hover:opacity-70">
+              <UiSdkLogo className="align-baseline" />
+            </a>
+            .
+          </span>
         </>
       }
       body="Messages, the steps an agent took, answers that stream in, and a composer to reply. Your agent can read every component and use its controls, without screenshots. Works in React, Vue, Svelte, Solid and Web Components."

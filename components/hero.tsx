@@ -5,9 +5,9 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { links } from "@/lib/links";
 import { agentNames, BrandIcon } from "./brand-icon";
 import { LeadsDonutChart, OrdersBarChart, RingsTile, TrialsLineChart } from "./charts";
-import { ease } from "./reveal";
 import { CopyPrompt } from "./copy-prompt";
 import { Install } from "./install";
+import { ease } from "./reveal";
 import { Stickers } from "./stickers";
 
 type Library = "charts" | "agent";
@@ -76,13 +76,13 @@ function AgentPill() {
 
   useEffect(() => {
     if (reduced || paused) return;
-    const t = window.setTimeout(() => {
+    const t = window.setInterval(() => {
       if (!document.hidden) setIndex((i) => (i + 1) % agentNames.length);
     }, 2600);
-    return () => window.clearTimeout(t);
-  }, [index, paused, reduced]);
+    return () => window.clearInterval(t);
+  }, [paused, reduced]);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: re-measure whenever the name changes.
+  // The sizer holds the current name, so observing it re-measures whenever the name changes.
   useLayoutEffect(() => {
     const measure = measureRef.current;
     const button = buttonRef.current;
@@ -96,9 +96,11 @@ function AgentPill() {
         Number.parseFloat(s.borderRightWidth);
       setWidth(Math.ceil(measure.getBoundingClientRect().width + chrome));
     };
-    update();
+    const observer = new ResizeObserver(update);
+    observer.observe(measure);
     void document.fonts.ready.then(update);
-  }, [name]);
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <motion.button
@@ -182,9 +184,7 @@ export function Tile({
         <h3 className="text-[13px] text-muted-foreground">{title}</h3>
         {note && <span className="text-[11px] text-muted-foreground">{note}</span>}
       </div>
-      {stat && (
-        <p className="mt-1 mb-2 text-[28px] leading-tight font-medium tracking-[-0.04em]">{stat}</p>
-      )}
+      {stat && <p className="mt-1 mb-2 text-[28px] leading-tight font-medium tracking-[-0.04em]">{stat}</p>}
       <div className="flex flex-1 flex-col justify-center">{children}</div>
     </div>
   );
@@ -211,11 +211,35 @@ export function ChartsGrid() {
 
 const more: Record<Library, { names: string[]; href: string }> = {
   charts: {
-    names: ["Area", "Combo", "Radar", "Radial", "Scatter", "Heatmap", "Waterfall", "Sankey", "Histogram", "Box plot"],
+    names: [
+      "Area",
+      "Combo",
+      "Radar",
+      "Radial",
+      "Scatter",
+      "Heatmap",
+      "Waterfall",
+      "Sankey",
+      "Histogram",
+      "Box plot",
+    ],
     href: links.chartsDocs,
   },
   agent: {
-    names: ["Reasoning", "Tool", "Plan", "Task", "Subagent", "Confirmation", "Question", "Model Selector", "Sources", "Inline Citation", "Terminal", "File Tree"],
+    names: [
+      "Reasoning",
+      "Tool",
+      "Plan",
+      "Task",
+      "Subagent",
+      "Confirmation",
+      "Question",
+      "Model Selector",
+      "Sources",
+      "Inline Citation",
+      "Terminal",
+      "File Tree",
+    ],
     href: links.agentUiDocs,
   },
 };

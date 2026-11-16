@@ -7,12 +7,7 @@
   },
   "files": {
     "ignoreUnknown": true,
-    "includes": [
-      "**",
-      "!**/*.md",
-      "!vendor",
-      "!components/ui"
-    ]
+    "includes": ["**", "!**/*.md", "!vendor", "!components/ui"]
   },
   "formatter": {
     "enabled": true,

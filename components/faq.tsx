@@ -22,8 +22,9 @@ const faqs: { q: string; a: React.ReactNode }[] = [
     q: "How do I install a component?",
     a: (
       <>
-        Install the package from npm, or run <code className="font-mono text-foreground">npx shadcn@latest add</code>{" "}
-        with a component name to copy its source into your project. The copied code is yours to edit.
+        Install the package from npm, or run{" "}
+        <code className="font-mono text-foreground">npx shadcn@latest add</code> with a component name to copy
+        its source into your project. The copied code is yours to edit.
       </>
     ),
   },
@@ -35,8 +36,8 @@ const faqs: { q: string; a: React.ReactNode }[] = [
         <a href={links.llms} className="text-foreground underline underline-offset-4">
           llms.txt
         </a>{" "}
-        file, so your coding agent knows how to use it. Agent UI components also expose their state and actions
-        through UI SDK, so an agent can read a page and use the controls directly.
+        file, so your coding agent knows how to use it. Agent UI components also expose their state and
+        actions through UI SDK, so an agent can read a page and use the controls directly.
       </>
     ),
   },

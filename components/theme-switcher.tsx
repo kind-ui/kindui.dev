@@ -25,19 +25,25 @@ export function ThemeSwitcher() {
   useEffect(() => setMounted(true), []);
 
   return (
-    <div role="radiogroup" aria-label="Theme" className="flex rounded-full border border-border bg-background/85 p-[3px] backdrop-blur-md">
+    <fieldset className="flex rounded-full border border-border bg-background/85 p-[3px] backdrop-blur-md">
+      <legend className="sr-only">Theme</legend>
       {options.map(({ key, label, Icon }) => {
         const checked = mounted && theme === key;
         return (
-          <button
+          <label
             key={key}
-            type="button"
-            role="radio"
-            aria-checked={checked}
-            aria-label={label}
-            onClick={() => setTheme(key)}
-            className="relative grid size-7 place-items-center rounded-full text-muted-foreground transition-colors hover:text-foreground aria-checked:text-foreground"
+            title={label}
+            className="relative grid size-7 cursor-pointer place-items-center rounded-full text-muted-foreground transition-colors hover:text-foreground has-checked:text-foreground has-focus-visible:outline has-focus-visible:outline-foreground"
           >
+            <input
+              type="radio"
+              name="theme"
+              value={key}
+              checked={checked}
+              onChange={() => setTheme(key)}
+              aria-label={label}
+              className="sr-only"
+            />
             {checked && (
               <motion.span
                 layoutId="theme-pill"
@@ -46,9 +52,9 @@ export function ThemeSwitcher() {
               />
             )}
             <Icon size={14} className="relative" aria-hidden />
-          </button>
+          </label>
         );
       })}
-    </div>
+    </fieldset>
   );
 }

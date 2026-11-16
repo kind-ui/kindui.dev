@@ -1,9 +1,9 @@
 "use client";
 import { ActivityRings, BarChart } from "@kind-ui/charts";
 import { Check } from "lucide-react";
-import { ThinkingIndicator } from "@/components/ui/thinking-indicator";
 import { motion, useReducedMotion } from "motion/react";
 import { useRef, useState } from "react";
+import { ThinkingIndicator } from "@/components/ui/thinking-indicator";
 
 type Sticker = {
   id: string;
@@ -130,19 +130,65 @@ function Toggle() {
 }
 
 const stickers: Sticker[] = [
-  { id: "rings", label: "<ActivityRings />", style: { left: "12vw", bottom: "3%" }, rotate: -6, delay: 0, render: MiniRings },
-  { id: "bubble", label: "<Message />", style: { left: "3vw", top: "40%" }, rotate: 4, delay: 0.6, render: Bubble },
-  { id: "thinking", label: "<ThinkingIndicator />", style: { left: "9vw", top: "6%" }, rotate: -3, delay: 1.2, render: Thinking },
-  { id: "bars", label: "<BarChart />", style: { right: "8vw", bottom: "2%" }, rotate: 5, delay: 0.3, render: MiniBars },
-  { id: "toggle", label: "<Switch />", style: { right: "12vw", top: "7%" }, rotate: -8, delay: 0.9, render: Toggle },
-  { id: "approved", label: "<ToolApproval />", style: { right: "3vw", top: "42%" }, rotate: 3, delay: 1.5, render: Approved },
+  {
+    id: "rings",
+    label: "<ActivityRings />",
+    style: { left: "12vw", bottom: "3%" },
+    rotate: -6,
+    delay: 0,
+    render: MiniRings,
+  },
+  {
+    id: "bubble",
+    label: "<Message />",
+    style: { left: "3vw", top: "40%" },
+    rotate: 4,
+    delay: 0.6,
+    render: Bubble,
+  },
+  {
+    id: "thinking",
+    label: "<ThinkingIndicator />",
+    style: { left: "9vw", top: "6%" },
+    rotate: -3,
+    delay: 1.2,
+    render: Thinking,
+  },
+  {
+    id: "bars",
+    label: "<BarChart />",
+    style: { right: "8vw", bottom: "2%" },
+    rotate: 5,
+    delay: 0.3,
+    render: MiniBars,
+  },
+  {
+    id: "toggle",
+    label: "<Switch />",
+    style: { right: "12vw", top: "7%" },
+    rotate: -8,
+    delay: 0.9,
+    render: Toggle,
+  },
+  {
+    id: "approved",
+    label: "<ToolApproval />",
+    style: { right: "3vw", top: "42%" },
+    rotate: 3,
+    delay: 1.5,
+    render: Approved,
+  },
 ];
 
 export function Stickers() {
   const reduced = useReducedMotion();
   const bounds = useRef<HTMLDivElement>(null);
   return (
-    <div ref={bounds} aria-hidden className="pointer-events-none absolute inset-y-0 left-1/2 z-10 hidden w-screen -translate-x-1/2 xl:block">
+    <div
+      ref={bounds}
+      aria-hidden
+      className="pointer-events-none absolute inset-y-0 left-1/2 z-10 hidden w-screen -translate-x-1/2 xl:block"
+    >
       {stickers.map((s) => (
         <motion.div
           key={s.id}

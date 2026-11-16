@@ -51,10 +51,14 @@ export function Together() {
           Use them together.
         </h2>
         <p className="mx-auto mt-4 max-w-[520px] text-center text-lg leading-snug text-muted-foreground">
-          Ask a question, get a chart back. Both libraries share the same colors and type, so they match with no extra styling.
+          Ask a question, get a chart back. Both libraries share the same colors and type, so they match with
+          no extra styling.
         </p>
       </Reveal>
-      <div ref={ref} className="mx-auto mt-14 max-w-[720px] rounded-[32px] border border-border bg-stage p-3 sm:p-4">
+      <div
+        ref={ref}
+        className="mx-auto mt-14 max-w-[720px] rounded-[32px] border border-border bg-stage p-3 sm:p-4"
+      >
         <div className="overflow-hidden rounded-[22px] border border-border bg-background shadow-[var(--home-tile-shadow)]">
           <Conversation aria-label="Conversation" messageCount={2}>
             <ConversationViewport>

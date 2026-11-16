@@ -116,7 +116,11 @@ export function RadarTile() {
         aria-label="Plan A and Plan B compared across five qualities"
       >
         <RadarChart.Grid gridType="polygon" stroke="var(--chart-grid)" />
-        <RadarChart.AngleAxis dataKey="category" tick={{ fontSize: 11, fill: "var(--chart-axis)" }} tickLine={false} />
+        <RadarChart.AngleAxis
+          dataKey="category"
+          tick={{ fontSize: 11, fill: "var(--chart-axis)" }}
+          tickLine={false}
+        />
         <RadarChart.Series dataKey="a" strokeWidth={2.5} fillOpacity={0.18} />
         <RadarChart.Series dataKey="b" strokeWidth={2.5} fillOpacity={0.18} />
         <RadarChart.Tooltip />

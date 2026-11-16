@@ -1,6 +1,6 @@
 @import "tailwindcss";
-@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 @import "../../node_modules/@kind-ui/agent-ui/dist/styles/agent-ui.css";
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 @source "../../node_modules/@kind-ui/charts/dist";
 
 @theme inline {
@@ -225,13 +225,9 @@ body {
 }
 
 .shimmer-text {
-  background: linear-gradient(
-      90deg,
-      var(--muted-foreground) 0%,
-      var(--foreground) 50%,
-      var(--muted-foreground) 100%
-    )
-    0 0 / 200% 100%;
+  background:
+    linear-gradient(90deg, var(--muted-foreground) 0%, var(--foreground) 50%, var(--muted-foreground) 100%) 0
+    0 / 200% 100%;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;

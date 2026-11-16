@@ -2,6 +2,7 @@
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import type { ComponentType } from "react";
+import { Reveal } from "@/components/reveal";
 import AttachmentsExample from "@/examples/attachments/basic";
 import CodeBlockExample from "@/examples/code-block/basic";
 import ComposerExample from "@/examples/composer/basic";
@@ -16,7 +17,6 @@ import ThinkingIndicatorExample from "@/examples/thinking-indicator/basic";
 import TypingIndicatorExample from "@/examples/typing-indicator/basic";
 import UploaderExample from "@/examples/uploader/basic";
 import { docsHref } from "./data";
-import { Reveal } from "@/components/reveal";
 
 const tiles: { name: string; slug: string; Example: ComponentType; wide?: boolean }[] = [
   { name: "Conversation", slug: "conversation", Example: ConversationExample, wide: true },
@@ -39,7 +39,11 @@ export function ComponentsGrid() {
     <div>
       <div className="mt-10 grid grid-cols-[minmax(0,1fr)] gap-3 sm:gap-4 md:grid-cols-3">
         {tiles.map(({ name, slug, Example, wide }, index) => (
-          <Reveal key={slug} delay={(index % 3) * 0.06} className={wide ? "min-w-0 md:col-span-2" : "min-w-0"}>
+          <Reveal
+            key={slug}
+            delay={(index % 3) * 0.06}
+            className={wide ? "min-w-0 md:col-span-2" : "min-w-0"}
+          >
             <article className="flex h-full min-w-0 flex-col rounded-[22px] border border-[var(--home-border)] bg-[var(--home-bg)] p-5 shadow-[var(--home-tile-shadow)]">
               <h3 className="text-[13px] text-[var(--home-muted-fg)]">
                 <Link

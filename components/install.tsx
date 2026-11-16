@@ -1,7 +1,7 @@
 "use client";
 import { Check, Copy } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { useEffect, useId, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { ease } from "./reveal";
 
 type Library = "agent" | "charts";
@@ -13,13 +13,30 @@ const libraries: { key: Library; label: string; pkg: string; items: string[] }[]
     key: "agent",
     label: "Agent UI",
     pkg: "@kind-ui/agent-ui",
-    items: ["conversation", "message", "composer", "step", "markdown", "code-block", "attachments", "uploader"],
+    items: [
+      "conversation",
+      "message",
+      "composer",
+      "step",
+      "markdown",
+      "code-block",
+      "attachments",
+      "uploader",
+    ],
   },
   {
     key: "charts",
     label: "Charts",
     pkg: "@kind-ui/charts",
-    items: ["line-chart", "bar-chart", "area-chart", "pie-chart", "radar-chart", "sankey-chart", "activity-rings"],
+    items: [
+      "line-chart",
+      "bar-chart",
+      "area-chart",
+      "pie-chart",
+      "radar-chart",
+      "sankey-chart",
+      "activity-rings",
+    ],
   },
 ];
 
@@ -43,19 +60,22 @@ export function Install() {
   const [manager, setManager] = useState<Manager>("npm");
   const [copied, setCopied] = useState(false);
   const [itemIndex, setItemIndex] = useState(0);
-  const [paused, setPaused] = useState(false);
   const lib = libraries.find((l) => l.key === library) ?? libraries[0];
   const item = lib.items[itemIndex % lib.items.length];
   const text = command(lib, manager, item);
   const cycling = manager === "shadcn";
 
+  const panel = useRef<HTMLDivElement>(null);
+
+  // Pauses while the panel is hovered or keyboard-focused, so the command doesn't change under the reader.
   useEffect(() => {
-    if (!cycling || reduced || paused) return;
-    const t = window.setTimeout(() => {
-      if (!document.hidden) setItemIndex((i) => i + 1);
+    if (!cycling || reduced) return;
+    const t = window.setInterval(() => {
+      if (!document.hidden && !panel.current?.matches(":hover, :has(:focus-visible)"))
+        setItemIndex((i) => i + 1);
     }, 1800);
-    return () => window.clearTimeout(t);
-  }, [cycling, reduced, paused, itemIndex]);
+    return () => window.clearInterval(t);
+  }, [cycling, reduced]);
 
   return (
     <div className="mx-auto mt-10 w-full max-w-[460px] text-left">
@@ -89,12 +109,7 @@ export function Install() {
         ))}
       </div>
 
-      <div
-        onMouseEnter={() => setPaused(true)}
-        onMouseLeave={() => setPaused(false)}
-        onFocusCapture={() => setPaused(true)}
-        onBlurCapture={() => setPaused(false)}
-        className="install-panel rounded-[18px] border border-border px-4 pt-2.5 pb-4">
+      <div ref={panel} className="install-panel rounded-[18px] border border-border px-4 pt-2.5 pb-4">
         <div className="flex items-center justify-between">
           <div role="tablist" aria-label="Installation option" className="flex gap-0.5">
             {managers.map((m) => (

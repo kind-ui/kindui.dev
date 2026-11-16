@@ -1,7 +1,8 @@
 // Brand paths: Lobe Icons (Claude/Gemini/Grok), Simple Icons (Copilot); Codex SVG supplied by the user.
 "use client";
-import { siGithubcopilot } from "simple-icons";
+import Image from "next/image";
 import { useId } from "react";
+import { siGithubcopilot } from "simple-icons";
 
 export const agentNames = ["Codex", "Claude", "Copilot", "Gemini", "Grok", "your agents"] as const;
 
@@ -13,8 +14,7 @@ export function BrandIcon({ name }: { name: string }) {
         <path d={siGithubcopilot.path} />
       </svg>
     );
-  if (name === "Codex")
-    return <img src="/brand/codex.svg" alt="" aria-hidden="true" width={32} height={32} />;
+  if (name === "Codex") return <Image src="/brand/codex.svg" alt="" aria-hidden width={32} height={32} />;
   if (name === "Claude")
     return (
       <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className="">
