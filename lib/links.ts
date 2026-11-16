@@ -7,7 +7,7 @@ export const links = {
   agentUiRepo: "https://github.com/kind-ui/agent-ui",
   creator: "https://x.com/BhaveshChow",
   org: "https://github.com/kind-ui",
-  llms: "https://kindui.dev/docs/charts/llms.txt",
+  llms: "/docs/charts/llms.txt",
   npmCharts: "https://www.npmjs.com/package/@kind-ui/charts",
   uiSdk: "https://ui-sdk.dev/",
 };
