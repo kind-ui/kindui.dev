@@ -84,6 +84,23 @@ body {
   letter-spacing: 0;
 }
 
+/* Headline: each sentence is its own line, and a pill keeps its punctuation, so a pill changing width
+   never reflows the other sentence. */
+.hero-sentence {
+  display: block;
+  white-space: nowrap;
+}
+@media (max-width: 767px) {
+  .hero-sentence:first-child {
+    white-space: normal;
+  }
+}
+.pill-slot {
+  display: inline-flex;
+  align-items: baseline;
+  white-space: nowrap;
+}
+
 /* Headline pills */
 .pill {
   position: relative;

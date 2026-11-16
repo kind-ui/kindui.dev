@@ -24,12 +24,18 @@ export function Hero() {
           id="hero-title"
           className="mx-auto max-w-[1100px] text-[clamp(32px,4.2vw,58px)] leading-[1.5] font-medium tracking-[-0.055em]"
         >
-          <span className="md:whitespace-nowrap">
+          {/* Each sentence lays out on its own, so the agent pill changing width never reflows the other line. */}
+          <span className="hero-sentence">
             Delightful <LibraryPill label="AI interfaces" icon={<ChatGlyph />} href="#agent-ui" /> and{" "}
-            <LibraryPill label="charts" icon={<ChartsGlyph />} href="#charts" />,
-          </span>{" "}
-          <span className="md:whitespace-nowrap">
-            ready for <AgentPill />.
+            <span className="pill-slot">
+              <LibraryPill label="charts" icon={<ChartsGlyph />} href="#charts" />,
+            </span>
+          </span>
+          <span className="hero-sentence">
+            ready for{" "}
+            <span className="pill-slot">
+              <AgentPill />.
+            </span>
           </span>
         </h1>
         <div className="mt-8 flex flex-wrap justify-center gap-2 text-sm">
