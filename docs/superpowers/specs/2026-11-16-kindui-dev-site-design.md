@@ -105,18 +105,73 @@ Retiring `apps/showcase` itself belongs to the charts docs rewrite in phase 2.
 - `/llms.txt` covers only this repo's pages until phase 2.
 - agent-ui's release-time namespace check (`scripts/check-registry-namespace.mjs`) needs `/r/registry.json`. It only runs when `KINDUI_HOSTING` is `true`, which stays unset until phase 2.
 
-## Phase 2: library docs and the merged registry (outline)
+## Phase 2: library docs and the merged registry
 
-Phase 2 gets its own spec revision and plan. Its shape:
+Each library's docs render in this repo's Fumadocs shell, from the library's own repository at its pinned release tag, and its registry is served from `/r/`. Agent UI goes first (phase 2a); Charts follows once its docs are rewritten onto the same stack (phase 2b).
 
-1. **Prerequisite:** rewrite the charts docs onto agent-ui's stack (Fumadocs 16.19.3 Base UI, Next 16.4.6) and retire `apps/showcase`.
-2. **`@kind-ui/docs-kit`:** move the shared MDX components (preview, install tabs, type tables) from this repo into a small package published from here. Each library's local docs preview installs it instead of copying.
-3. **Per-release asset:** each library's release attaches `<lib>-site-<version>.tar.gz` and its `.sha256`, gated by `KINDUI_HOSTING`, containing:
-   - `docs/`: self-contained content (MDX, `meta.json`, examples, generated pages). Anything a library generates from its own source, such as agent-ui's `fumadocs-typescript` type tables and charts' `npm run generate` pages, is resolved before packing, so this repo needs no library source.
-   - `r/`: the library's registry, at the same version.
-4. **Links:** library content uses links relative to its own root, not absolute `/docs/...`. Agent UI's current Get Started page becomes the `/docs/agent-ui` root page.
-5. **This repo:** `libraries.json` pins each library's release version. The build downloads and verifies each asset, extracts `docs/` to `content/docs/<lib>/`, installs the registry items so examples' `@/components/ui/...` imports resolve, and merges every `r/` into `/r/` (one flat `@kind-ui` namespace; the build fails on a duplicate item name). Renovate opens one PR per library release, and nothing auto-merges.
-6. Turn on immutable releases in both library repos, then set `KINDUI_HOSTING=true`.
+### How a library is pulled in
+
+- **Pin:** `libraries.json` maps each library to its repo, tag format, version and the paths the docs need:
+
+  ```json
+  {
+    "agent-ui": {
+      "repo": "kind-ui/agent-ui",
+      "tag": "v{version}",
+      "version": "0.3.1",
+      "docs": "apps/docs",
+      "paths": ["apps/docs/content", "apps/docs/examples", "apps/docs/source.config.ts", "packages/agent-ui/src"]
+    }
+  }
+  ```
+
+- **Fetch:** `scripts/fetch-libraries.mjs` runs before `dev`, `build` and `typecheck`. For each library it:
+  - sparse-checks out `paths` at the tag into `.libraries/<lib>/`, keeping the repo's layout, so every path relative to an MDX file (type tables, includes) resolves unchanged;
+  - downloads `<lib>-site-<version>.tar.gz` and its `.sha256` from the release, checks the hash, and extracts only `r/` to `.libraries/<lib>/r/`;
+  - fails, naming the library and version, when the tag or asset is missing, the hash differs, or the installed `@kind-ui/<lib>` npm version differs from the pin.
+
+  `.libraries/` is gitignored.
+- **Render:** each library's docs folder (`.libraries/<lib>/<docs>`) is a [Fumadocs MDX workspace](https://www.fumadocs.dev/docs/mdx/workspace) with its own collection and the library's own `source.config.ts` options (Agent UI's `fumadocs-typescript` type tables). `lib/source.ts` combines the root collection and each workspace with a multi-source `loader()`, mounting each library under `/docs/<lib>/`. The library's `meta.json` gives the sidebar order; this repo sets the root-folder title, description and icon, so the library needs no kindui.dev-specific metadata.
+- **Components:** examples import `@/components/ui/<name>`, as a shadcn user's code does. This repo installs every React item from the pinned `r/` with `npx shadcn add` into `components/ui/` (generated at fetch time, gitignored), along with `@kind-ui/<lib>` and its `@ui-sdk/*` packages at the exact versions the library's docs app pins. The homepage uses the same installed components, which replaces its copied `components/ui/` and `vendor/`.
+- **MDX components:** this repo provides the components the library pages use (`Example`, `Caption`, `Tab`, `Tabs`, `TypeTable`) in `components/mdx.tsx`. `@kind-ui/docs-kit` replaces this copy when a second library needs the same components (phase 2b).
+- **Edit on GitHub** links point at the library's repo and tag, not this repo.
+
+### The registry
+
+`scripts/assemble-registry.mjs` copies every library's `r/*.json` into `public/r/` (gitignored) and writes `public/r/registry.json` with `name: "kind-ui"`, `homepage: "https://kindui.dev"` and every library's items, in `libraries.json` order. It fails on a duplicate item name or file. `_redirects` sends `/r` and `/r/` to `/r/registry.json`; `_headers` serves `/r/*` as JSON with `Access-Control-Allow-Origin: *`.
+
+### Updates
+
+Renovate watches each library's GitHub releases through a regex manager on `libraries.json`, grouped with the library's npm packages, so one PR bumps the tag and the packages together. CI builds the PR; nothing auto-merges. Merging deploys.
+
+### Phase 2a: Agent UI
+
+**In kind-ui/agent-ui** (one PR, released as 0.3.1):
+
+- MDX imports of examples become relative (`../../../examples/step/basic`, not `@/examples/step/basic`), since `@/` is the host app's root.
+- Links between pages become relative file links (`./step.mdx`), which `createRelativeLink` resolves in both apps.
+- The "not published yet" callout on Get Started goes; 0.3.0 is on npm.
+- `scripts/check-registry-namespace.mjs` treats a 404 from `https://kindui.dev/r/registry.json` as an empty registry.
+- Settings, then release: immutable releases on, `KINDUI_HOSTING=true`, a patch changeset.
+
+**In this repo:**
+
+- `libraries.json`, the fetch, workspace, loader and registry steps above.
+- `content/docs/agent-ui/` goes; Agent UI's Get Started page becomes `/docs/agent-ui`.
+- `.lycheeignore` drops `/r/` and the Agent UI paths.
+- The homepage moves to `@kind-ui/agent-ui` 0.3.1 and the installed `components/ui/`; its links into the Agent UI docs now resolve.
+
+### Phase 2b: Charts (outline)
+
+1. Rewrite the charts docs onto Agent UI's stack (Fumadocs 16.19.3 Base UI, Next 16.4.6) and retire `apps/showcase`.
+2. Give charts a `charts-site-<version>` asset with its `r/`, gated by `KINDUI_HOSTING`, and immutable releases.
+3. Move the shared MDX components into `@kind-ui/docs-kit`, which both libraries' docs apps install.
+4. Add charts to `libraries.json`; `content/docs/charts/` goes.
+
+### Breaking changes in phase 2a
+
+- `/docs/agent-ui/**` serves Agent UI's real docs; the placeholder page goes.
+- The homepage's Agent UI components come from the 0.3.1 registry instead of the copied pre-release source.
 
 ## Out of scope
 
