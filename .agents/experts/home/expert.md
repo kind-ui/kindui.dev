@@ -4,7 +4,7 @@ Read [`../README.md`](../README.md) first; it says how every expert works. Spec 
 
 ## What you know
 
-- The homepage is its own root layout in `app/(home)/` with its own `globals.css`, Geist fonts and `data-theme` theme script. It shares nothing with `app/(docs)/`.
+- The homepage is its own root layout in `app/(home)/` with its own `globals.css`, Geist fonts and next-themes (`attribute="data-theme"`). It shares nothing with `app/(docs)/`.
 - Every URL lives in `lib/links.ts` (and `components/agent/data.ts` for the Agent UI section). Links inside the site are root-relative (`/docs/...`); text a user pastes elsewhere keeps `https://kindui.dev`.
 - `/docs/agent-ui`, `/docs/charts` and `/r/` return 404 until spec phase 2. That's settled, not a finding.
 - The Agent UI components, stage and examples are copies that move to registry installs later. Review changes to them, not their existence.
