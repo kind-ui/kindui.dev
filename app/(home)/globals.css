@@ -196,6 +196,16 @@ body {
   }
 }
 
+.hero-rise {
+  animation: rise 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
 /* Chart frames sit inside our own cards. */
 .chart-root {
   min-width: 0;
@@ -256,7 +266,8 @@ body {
     animation: none;
     color: var(--muted-foreground);
   }
-  .typing-dots span {
+  .typing-dots span,
+  .hero-rise {
     animation: none;
   }
 }

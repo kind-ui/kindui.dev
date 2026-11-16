@@ -1,6 +1,5 @@
 "use client";
 import { ArrowUpRight } from "lucide-react";
-import Link from "next/link";
 import type { ComponentType } from "react";
 import { Reveal } from "@/components/reveal";
 import AttachmentsExample from "@/examples/attachments/basic";
@@ -46,7 +45,7 @@ export function ComponentsGrid() {
           >
             <article className="flex h-full min-w-0 flex-col rounded-[22px] border border-[var(--home-border)] bg-[var(--home-bg)] p-5 shadow-[var(--home-tile-shadow)]">
               <h3 className="text-[13px] text-[var(--home-muted-fg)]">
-                <Link
+                <a
                   href={docsHref(slug)}
                   className="group inline-flex items-center gap-1 transition-colors hover:text-[var(--home-fg)]"
                 >
@@ -55,7 +54,7 @@ export function ComponentsGrid() {
                     size={12}
                     className="transition-transform group-hover:-translate-y-px group-hover:translate-x-px"
                   />
-                </Link>
+                </a>
               </h3>
               <div className="flex min-h-40 flex-1 items-center justify-center py-6 [&>*]:w-full">
                 <Example />

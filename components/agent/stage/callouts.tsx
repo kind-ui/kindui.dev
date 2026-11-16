@@ -1,5 +1,4 @@
 "use client";
-import Link from "next/link";
 import { type RefObject, useEffect, useState } from "react";
 import { docsHref } from "../data";
 
@@ -140,7 +139,7 @@ export function Callouts({
         })}
       </svg>
       {callouts.map((c) => (
-        <Link
+        <a
           key={c.slug}
           href={docsHref(c.slug)}
           tabIndex={-1}
@@ -148,7 +147,7 @@ export function Callouts({
           className="pointer-events-auto absolute -translate-y-1/2 whitespace-nowrap rounded-full border border-[var(--home-border)] bg-[var(--home-bg)] px-2.5 py-1 font-mono text-[11px] text-[var(--home-muted-fg)] transition-[top,color] duration-300 hover:text-[var(--home-fg)]"
         >
           {c.name}
-        </Link>
+        </a>
       ))}
     </div>
   );

@@ -1,7 +1,7 @@
 "use client";
 import { ArrowRight } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
 import { links } from "@/lib/links";
 import { agentNames, BrandIcon } from "./brand-icon";
 import { LeadsDonutChart, OrdersBarChart, RingsTile, TrialsLineChart } from "./charts";
@@ -13,19 +13,13 @@ import { Stickers } from "./stickers";
 type Library = "charts" | "agent";
 
 export function Hero() {
-  const reduced = useReducedMotion();
   return (
     <section
       aria-labelledby="hero-title"
       className="relative mx-auto max-w-[1360px] px-5 pt-16 pb-12 text-center sm:pt-[70px] xl:flex xl:min-h-[calc(100svh-84px-150px)] xl:items-center xl:justify-center xl:py-10"
     >
       <Stickers />
-      <motion.div
-        className="relative"
-        initial={reduced ? false : { opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.65, ease }}
-      >
+      <div className="hero-rise relative">
         <h1
           id="hero-title"
           className="mx-auto max-w-[1100px] text-[clamp(32px,4.2vw,58px)] leading-[1.5] font-medium tracking-[-0.055em]"
@@ -49,7 +43,7 @@ export function Hero() {
           <CopyPrompt />
         </div>
         <Install />
-      </motion.div>
+      </div>
     </section>
   );
 }
@@ -73,6 +67,7 @@ function AgentPill() {
   const measureRef = useRef<HTMLSpanElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const name = agentNames[index];
+  const hintId = useId();
 
   useEffect(() => {
     if (reduced || paused) return;
@@ -109,13 +104,17 @@ function AgentPill() {
       className="pill"
       animate={{ width: width ?? "auto" }}
       transition={reduced ? { duration: 0 } : { type: "spring", stiffness: 420, damping: 34 }}
-      aria-label={`Switch agent: ${agentNames.join(", ")}`}
+      aria-describedby={hintId}
       onClick={() => setIndex((i) => (i + 1) % agentNames.length)}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onFocus={() => setPaused(true)}
       onBlur={() => setPaused(false)}
     >
+      <span className="sr-only">your agents</span>
+      <span id={hintId} hidden>
+        Shows the next agent
+      </span>
       <span ref={measureRef} className="pill-sizer" aria-hidden>
         <BrandIcon name={name} />
         {name}
@@ -123,6 +122,7 @@ function AgentPill() {
       <AnimatePresence initial={false} mode="popLayout">
         <motion.span
           key={name}
+          aria-hidden
           className="pill-face"
           initial={reduced ? false : { y: "55%", opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -240,7 +240,7 @@ const more: Record<Library, { names: string[]; href: string }> = {
       "Terminal",
       "File Tree",
     ],
-    href: links.agentUiDocs,
+    href: `${links.agentUiDocs}/`,
   },
 };
 

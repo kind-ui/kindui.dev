@@ -2,6 +2,7 @@
 import { Check, Copy, X } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useEffect, useId, useRef, useState } from "react";
+import { useCopy } from "@/lib/use-copy";
 import { ease } from "./reveal";
 
 type Choice = "agent" | "charts";
@@ -40,7 +41,7 @@ export function CopyPrompt() {
   const pillId = useId();
   const [open, setOpen] = useState(false);
   const [choice, setChoice] = useState<Choice>("agent");
-  const [copied, setCopied] = useState(false);
+  const { copied, copy, reset } = useCopy();
 
   useEffect(() => {
     const el = dialog.current;
@@ -48,12 +49,6 @@ export function CopyPrompt() {
     if (open && !el.open) el.showModal();
     if (!open && el.open) el.close();
   }, [open]);
-
-  const copy = async () => {
-    await navigator.clipboard.writeText(prompts[choice]);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 1500);
-  };
 
   return (
     <>
@@ -104,7 +99,7 @@ export function CopyPrompt() {
                   checked={choice === c.key}
                   onChange={() => {
                     setChoice(c.key);
-                    setCopied(false);
+                    reset();
                   }}
                   className="sr-only"
                 />
@@ -135,7 +130,7 @@ export function CopyPrompt() {
           </div>
           <button
             type="button"
-            onClick={copy}
+            onClick={() => copy(prompts[choice])}
             className="flex w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-85"
           >
             {copied ? <Check size={14} /> : <Copy size={14} />}

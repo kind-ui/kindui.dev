@@ -5,7 +5,7 @@ import { links } from "@/lib/links";
 
 type Entry = { title: string; group: string; href: string };
 
-const agentDocs = links.agentUiDocs;
+const agentDocs = `${links.agentUiDocs}/`;
 const chartsDocs = links.chartsDocs;
 const agentComponents = [
   "Conversation",
@@ -41,14 +41,14 @@ const slug = (s: string) => s.toLowerCase().replace(/\s+/g, "-");
 
 const entries: Entry[] = [
   { title: "Agent UI docs", group: "Docs", href: agentDocs },
-  { title: "AI SDK adapter", group: "Docs", href: `${agentDocs}/adapters/ai-sdk` },
+  { title: "AI SDK adapter", group: "Docs", href: `${agentDocs}adapters/ai-sdk/` },
   { title: "Charts docs", group: "Docs", href: chartsDocs },
   { title: "Installation", group: "Docs", href: `${chartsDocs}installation/` },
   { title: "Agents", group: "Docs", href: `${chartsDocs}agents/` },
   ...agentComponents.map((c) => ({
     title: c,
     group: "Agent UI",
-    href: `${agentDocs}/components/${slug(c)}`,
+    href: `${agentDocs}components/${slug(c)}/`,
   })),
   ...chartTypes.map(([t, s]) => ({ title: t, group: "Charts", href: `${chartsDocs}components/${s}/` })),
 ];
@@ -59,6 +59,20 @@ export function Search() {
   const listId = useId();
   const [query, setQuery] = useState("");
   const [active, setActive] = useState(0);
+  const [shortcut, setShortcut] = useState("⌘K");
+  const list = useRef<HTMLUListElement>(null);
+
+  useEffect(() => {
+    if (!/Mac|iPhone|iPad/.test(navigator.platform)) setShortcut("Ctrl K");
+  }, []);
+
+  // Arrow keys move real focus between the input and the result links, so screen readers announce each one.
+  const move = (from: number, step: 1 | -1) => {
+    const links = list.current?.querySelectorAll("a");
+    const next = from + step;
+    if (next < 0) input.current?.focus();
+    else links?.[Math.min(next, (links?.length ?? 1) - 1)]?.focus();
+  };
 
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -95,7 +109,7 @@ export function Search() {
         <SearchIcon size={14} aria-hidden />
         <span className="max-sm:hidden">Search</span>
         <kbd className="ml-6 rounded-md border border-border px-1.5 py-0.5 font-sans text-[11px] max-sm:hidden">
-          ⌘K
+          {shortcut}
         </kbd>
       </button>
       <dialog
@@ -116,10 +130,7 @@ export function Search() {
             onKeyDown={(e) => {
               if (e.key === "ArrowDown") {
                 e.preventDefault();
-                setActive((a) => Math.min(a + 1, results.length - 1));
-              } else if (e.key === "ArrowUp") {
-                e.preventDefault();
-                setActive((a) => Math.max(a - 1, 0));
+                move(-1, 1);
               } else if (e.key === "Enter" && results[active]) {
                 location.href = results[active].href;
               }
@@ -137,7 +148,7 @@ export function Search() {
         <p id={listId} aria-live="polite" className="sr-only">
           {results.length === 1 ? "1 result" : `${results.length} results`}
         </p>
-        <ul aria-label="Results" className="max-h-[50vh] overflow-y-auto p-2">
+        <ul ref={list} aria-label="Results" className="max-h-[50vh] overflow-y-auto p-2">
           {results.length === 0 && (
             <li className="px-3 py-6 text-center text-sm text-muted-foreground">No results</li>
           )}
@@ -147,6 +158,12 @@ export function Search() {
                 href={r.href}
                 onMouseEnter={() => setActive(i)}
                 onFocus={() => setActive(i)}
+                onKeyDown={(e) => {
+                  if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+                    e.preventDefault();
+                    move(i, e.key === "ArrowDown" ? 1 : -1);
+                  }
+                }}
                 className={`flex items-center justify-between rounded-xl px-3 py-2.5 text-sm ${i === active ? "bg-muted" : ""}`}
               >
                 <span>{r.title}</span>

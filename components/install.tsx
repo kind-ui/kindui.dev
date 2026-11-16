@@ -2,6 +2,7 @@
 import { Check, Copy } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useEffect, useId, useRef, useState } from "react";
+import { useCopy } from "@/lib/use-copy";
 import { ease } from "./reveal";
 
 type Library = "agent" | "charts";
@@ -58,7 +59,7 @@ export function Install() {
   const id = useId();
   const [library, setLibrary] = useState<Library>("agent");
   const [manager, setManager] = useState<Manager>("npm");
-  const [copied, setCopied] = useState(false);
+  const { copied, copy, reset } = useCopy(1800);
   const [itemIndex, setItemIndex] = useState(0);
   const lib = libraries.find((l) => l.key === library) ?? libraries[0];
   const item = lib.items[itemIndex % lib.items.length];
@@ -79,24 +80,25 @@ export function Install() {
 
   return (
     <div className="mx-auto mt-10 w-full max-w-[460px] text-left">
-      <div
-        role="tablist"
-        aria-label="Library"
-        className="mx-auto mb-3 flex w-fit gap-1 rounded-full bg-[#141414] p-1 text-[13px] text-white shadow-[0_8px_24px_#00000026] dark:border dark:border-border"
-      >
+      <fieldset className="mx-auto mb-3 flex w-fit gap-1 rounded-full bg-[#141414] p-1 text-[13px] text-white shadow-[0_8px_24px_#00000026] dark:border dark:border-border">
+        <legend className="sr-only">Library</legend>
         {libraries.map((l) => (
-          <button
+          <label
             key={l.key}
-            type="button"
-            role="tab"
-            aria-selected={library === l.key}
-            onClick={() => {
-              setLibrary(l.key);
-              setItemIndex(0);
-              setCopied(false);
-            }}
-            className="relative rounded-full px-4 py-1.5 text-white/60 transition-colors aria-selected:text-white"
+            className="relative cursor-pointer rounded-full px-4 py-1.5 text-white/60 transition-colors has-checked:text-white has-focus-visible:outline has-focus-visible:outline-white"
           >
+            <input
+              type="radio"
+              name={`${id}-library`}
+              value={l.key}
+              checked={library === l.key}
+              onChange={() => {
+                setLibrary(l.key);
+                setItemIndex(0);
+                reset();
+              }}
+              className="sr-only"
+            />
             {library === l.key && (
               <motion.span
                 layoutId={`${id}-library`}
@@ -105,25 +107,30 @@ export function Install() {
               />
             )}
             <span className="relative">{l.label}</span>
-          </button>
+          </label>
         ))}
-      </div>
+      </fieldset>
 
       <div ref={panel} className="install-panel rounded-[18px] border border-border px-4 pt-2.5 pb-4">
         <div className="flex items-center justify-between">
-          <div role="tablist" aria-label="Installation option" className="flex gap-0.5">
+          <fieldset className="flex gap-0.5">
+            <legend className="sr-only">Installation option</legend>
             {managers.map((m) => (
-              <button
+              <label
                 key={m}
-                type="button"
-                role="tab"
-                aria-selected={manager === m}
-                onClick={() => {
-                  setManager(m);
-                  setCopied(false);
-                }}
-                className="relative h-[30px] rounded-full px-[9px] text-[13px] text-muted-foreground transition-colors aria-selected:text-foreground"
+                className="relative flex h-[30px] cursor-pointer items-center rounded-full px-[9px] text-[13px] text-muted-foreground transition-colors has-checked:text-foreground has-focus-visible:outline has-focus-visible:outline-foreground"
               >
+                <input
+                  type="radio"
+                  name={`${id}-manager`}
+                  value={m}
+                  checked={manager === m}
+                  onChange={() => {
+                    setManager(m);
+                    reset();
+                  }}
+                  className="sr-only"
+                />
                 {manager === m && (
                   <motion.span
                     layoutId={`${id}-manager`}
@@ -132,16 +139,12 @@ export function Install() {
                   />
                 )}
                 <span className="relative">{m}</span>
-              </button>
+              </label>
             ))}
-          </div>
+          </fieldset>
           <button
             type="button"
-            onClick={async () => {
-              await navigator.clipboard.writeText(text);
-              setCopied(true);
-              setTimeout(() => setCopied(false), 1800);
-            }}
+            onClick={() => copy(text)}
             aria-label={copied ? "Install command copied" : "Copy install command"}
             className="grid size-7 place-items-center rounded-full text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
           >
@@ -149,6 +152,7 @@ export function Install() {
           </button>
         </div>
         <div className="mt-2 overflow-x-auto px-1.5 [scrollbar-width:none]">
+          <span className="sr-only">{text}</span>
           <AnimatePresence mode="popLayout" initial={false}>
             <motion.code
               key={cycling ? `${library}-shadcn` : text}
@@ -157,7 +161,7 @@ export function Install() {
               exit={reduced ? undefined : { opacity: 0, y: -6, filter: "blur(3px)" }}
               transition={{ duration: 0.22, ease }}
               className="flex font-mono text-sm whitespace-nowrap"
-              aria-label={text}
+              aria-hidden
             >
               <span className="text-muted-foreground" aria-hidden>
                 $&nbsp;

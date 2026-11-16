@@ -1,9 +1,9 @@
 "use client";
 import { Check, Copy } from "lucide-react";
-import { useState } from "react";
+import { useCopy } from "@/lib/use-copy";
 
 export function CopyCommand({ command, label }: { command: string; label?: string }) {
-  const [copied, setCopied] = useState(false);
+  const { copied, copy } = useCopy();
   return (
     <div className="group flex items-center gap-2 rounded-xl border border-border bg-background px-3 py-2 font-mono text-[13px]">
       <span aria-hidden className="select-none text-muted-foreground">
@@ -14,11 +14,7 @@ export function CopyCommand({ command, label }: { command: string; label?: strin
       </code>
       <button
         type="button"
-        onClick={async () => {
-          await navigator.clipboard.writeText(command);
-          setCopied(true);
-          setTimeout(() => setCopied(false), 1500);
-        }}
+        onClick={() => copy(command)}
         className="grid size-7 shrink-0 place-items-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
         aria-label={copied ? "Copied" : `Copy ${label ?? "command"}`}
       >
