@@ -7,10 +7,11 @@ Last reviewed: `e370847a47e7826873cff3971bd0867ba2fc4fc4` (spec, before any code
 ## Settled
 
 - Everything in the spec's "Decisions" section.
+- `/llms.txt` starts with `# Docs`, as fumadocs.dev's does.
 
 ## Known and open (don't report again, check whether fixed)
 
-Nothing yet.
+- **Phase 2: "Edit on GitHub" points at this repo.** `ViewOptionsPopover`'s `githubUrl` uses `kind-ui/kindui.dev/content/docs/...`; library pages are extracted at build, so it must point at each library's repo once they arrive.
 
 ## Resolved
 

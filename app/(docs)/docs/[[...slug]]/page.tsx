@@ -54,9 +54,15 @@ export async function generateMetadata(props: PageProps<"/docs/[[...slug]]">): P
   if (!page) notFound();
 
   return {
-    title: page.data.title,
+    // The overview's title is the site name, so it skips the root layout's `%s | Kind UI` template.
+    title: page.slugs.length === 0 ? { absolute: page.data.title } : page.data.title,
     description: page.data.description,
+    alternates: {
+      canonical: page.url,
+      types: { "text/markdown": `/llms.mdx${page.url}.md` },
+    },
     openGraph: {
+      url: page.url,
       images: getPageImageUrl(page).url,
     },
   };

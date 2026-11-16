@@ -19,7 +19,7 @@ const owners = {
     { test: (file) => file.startsWith("components/") && !docsComponents.test(file) },
     /^examples\//,
     /^lib\/links\.ts$/,
-    /^public\/(?!_headers$|\.assetsignore$)/,
+    /^public\/(?!_headers$|_redirects$|\.assetsignore$)/,
   ],
   docs: [
     /^app\/\(docs\)\//,
@@ -37,7 +37,7 @@ const owners = {
     /^wrangler\.jsonc$/,
     /^(biome|tsconfig)\.json$/,
     /^\.(lycheeignore|nvmrc|gitignore)$/,
-    /^public\/_headers$/,
+    /^public\/(_headers|_redirects)$/,
     /^public\/\.assetsignore$/,
     /^\.github\//,
     /^scripts\//,

@@ -25,6 +25,8 @@ export const source = loader({
 });
 
 export const docsLlms = llms(source, {
+  // Each library gets its own `llms.txt`; the overview root shares `/docs` with the site's.
+  section: (folder) => (folder.root && folder.index?.url !== "/docs" ? { collapse: true } : false),
   renderPage: async (page) => `# ${page.data.title} (${page.url})
 
 ${await page.data.getText("processed")}`,
