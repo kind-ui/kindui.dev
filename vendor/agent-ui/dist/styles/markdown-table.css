@@ -1,0 +1,100 @@
+/* Markdown Table (spec §7), shared by both render layers. */
+@layer components {
+  [data-slot="kind-markdown-table"] {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+    border: 1px solid var(--kind-color-border);
+    border-radius: var(--kind-radius);
+    color: var(--kind-color-fg);
+    font-size: 0.8125rem;
+    line-height: 1.5;
+  }
+
+  /* The copy button sits over the header row's end, which keeps room for it. */
+  [data-slot="kind-markdown-table-header"] {
+    position: absolute;
+    z-index: 1;
+    top: 0.25rem;
+    inset-inline-end: 0.25rem;
+    display: flex;
+    border-radius: calc(var(--kind-radius) / 2);
+    background-color: color-mix(in oklab, var(--kind-color-hover) 55%, var(--kind-color-surface));
+  }
+
+  [data-slot="kind-markdown-table-copy"] {
+    display: inline-grid;
+    padding: 0;
+    border: 0;
+    background-color: transparent;
+    place-items: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: calc(var(--kind-radius) / 2);
+    color: var(--kind-color-muted);
+    transition:
+      color var(--kind-duration-fast),
+      background-color var(--kind-duration-fast);
+
+    &::before {
+      content: "";
+      width: 0.875rem;
+      height: 0.875rem;
+      background-color: currentColor;
+      mask: var(--kind-icon-copy) center / contain no-repeat;
+    }
+    &:hover {
+      color: var(--kind-color-fg);
+      background-color: var(--kind-color-hover);
+    }
+    &:focus-visible {
+      color: var(--kind-color-fg);
+      outline: 1.5px solid var(--kind-color-ring);
+      outline-offset: -1.5px;
+    }
+    &[data-copied] {
+      color: var(--kind-color-success);
+    }
+    &[data-copied]::before {
+      mask-image: var(--kind-icon-check);
+    }
+  }
+
+  /* Fixed layout, so columns hold their width while rows stream in. With `--kind-markdown-table-columns`
+     set to the column count, a wide table scrolls sideways instead of squeezing its columns. */
+  [data-slot="kind-markdown-table-table"] {
+    table-layout: fixed;
+    width: max(100%, var(--kind-markdown-table-columns, 0) * var(--kind-markdown-table-column-width, 8rem));
+    border-collapse: collapse;
+    font-variant-numeric: tabular-nums;
+
+    & :where(th, td) {
+      padding: 0.5rem 0.875rem;
+      text-align: start;
+      vertical-align: top;
+    }
+    & :where(th) {
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      border-bottom: 1px solid var(--kind-color-border);
+      background-color: color-mix(in oklab, var(--kind-color-hover) 55%, var(--kind-color-surface));
+    }
+    & :where(th:last-child) {
+      padding-inline-end: 2.5rem;
+    }
+    & :where(tbody tr + tr) {
+      border-top: 1px solid color-mix(in oklab, var(--kind-color-border) 70%, transparent);
+    }
+    & :where([data-align="right"]) {
+      text-align: end;
+    }
+    & :where([data-align="center"]) {
+      text-align: center;
+    }
+  }
+}
