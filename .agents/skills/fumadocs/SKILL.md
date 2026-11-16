@@ -25,7 +25,7 @@ When the code differs from what the docs show, cite the docs page in the commit 
 
 The homepage is a separate root layout in `app/(home)/` with its own CSS and theme. Nothing in `app/(docs)/` imports from it.
 
-`content/docs/index.mdx` is the Kind UI overview at `/docs`. Each library's docs land under `content/docs/<library>/` at build time (spec phase 2); this repo owns only the root page, the shell and the shared MDX components.
+The shell follows fumadocs.dev's own setup: the Spacious layout (`fumadocs-ui/layouts/spacious`, and `layouts/spacious/page` for the page parts) on the `neutral` preset, with each part of the docs as a root folder (`"root": true`) shown as tabs at the top of the sidebar. `content/docs/(overview)/` is the Kind UI root at `/docs`; `content/docs/agent-ui/` and `content/docs/charts/` are the library roots, which phase 2 fills from each library's release. A library's pages take its color as `--color-fd-primary` (`app/(docs)/global.css`, `lib/sections.ts`).
 
 ## Use the CLIs, not hand-written code
 

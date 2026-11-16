@@ -28,33 +28,39 @@ No one uses the libraries yet, so URLs move in one cut with no redirects or shim
 
 ```
 app/(home)/layout.tsx, page.tsx, globals.css   homepage (own <html>, nav, theme)
-app/(docs)/layout.tsx                          RootProvider (own <html>)
-app/(docs)/docs/layout.tsx                     Fumadocs DocsLayout
+app/(docs)/layout.tsx, global.css              docs root layout and theme (own <html>)
+app/(docs)/docs/layout.tsx                     Fumadocs Spacious DocsLayout with library tabs
 app/(docs)/docs/[[...slug]]/page.tsx           renders content/docs
-app/api/search/route.ts                        static search index (force-static)
-app/llms.txt/route.ts                          llms.txt for /docs (force-static)
+app/api/search/route.ts                        static search index
+app/llms.txt, llms-full.txt, llms.mdx/         llms.txt and per-page Markdown
+app/og/docs/                                   Open Graph images
 components/ examples/ lib/ public/ vendor/     homepage, as imported
-components/mdx.tsx                             MDX components for /docs
-content/docs/index.mdx                         /docs
-content/docs/meta.json                         page order
-source.config.ts, lib/source.ts                fumadocs-mdx config and loader
+components/docs-*.tsx, mdx.tsx                 docs provider, search dialog, section body, MDX components
+content/docs/                                  docs content (below)
+lib/source.ts, shared.ts, sections.ts          loader, site constants, library sections
 wrangler.jsonc
 .github/workflows/ci.yml, deploy.yml
 ```
 
-The homepage and the docs use separate root layouts (Next route groups), so their CSS and theme handling stay independent.
+The docs app comes from `create-fumadocs-app` (`+next+fuma-docs-mdx+static`). The homepage and the docs use separate root layouts (Next route groups), so their CSS and theme handling stay independent.
 
-### `/docs` content
+### `/docs` content and shell
 
-`content/docs/index.mdx` is the only docs page in phase 1. It covers:
+The docs follow fumadocs.dev's own setup: each part of the docs is a root folder (`"root": true` in its `meta.json`), shown as a dropdown of tabs at the top of the sidebar, and only the open root's pages appear in the sidebar.
 
-- what Kind UI is;
-- one card per library linking to `/docs/agent-ui` and `/docs/charts`;
-- shared setup: the `@kind-ui` registry entry in `components.json` (`https://kindui.dev/r/{name}.json`), the Tailwind 4 requirement, and where `llms.txt` lives.
+```
+content/docs/meta.json                 ["(overview)", "agent-ui", "charts"]
+content/docs/(overview)/               root "Kind UI": index.mdx at /docs
+content/docs/agent-ui/                 root "Agent UI": /docs/agent-ui/**
+content/docs/charts/                   root "Charts": /docs/charts/**
+```
 
-`meta.json` lists `index`. Phase 2 adds `agent-ui` and `charts` as root folders, which become the sidebar's library switcher.
+- `/docs` covers what Kind UI is, one card per library, shared setup (the `@kind-ui` registry entry in `components.json`, the Tailwind 4 requirement) and where each library's `llms.txt` lives.
+- In phase 1, each library root holds one page: the library's own description and links to its repository and npm package. Phase 2 replaces each folder with the library's published docs, including its `meta.json`.
 
-The docs shell uses Fumadocs defaults: `DocsLayout` with nav links (Home, Docs, GitHub), light/dark theme, and static search via `createFromSource` with `staticGET` and the client's `type: "static"`. `/llms.txt` is generated from the docs source with Fumadocs' `llms()` helper.
+**Theme:** the same as fumadocs.dev: the `neutral` color preset with the Spacious layout (`fumadocs-ui/layouts/spacious`, `fumadocs-ui/css/generated/spacious.css`), Geist fonts, and a primary color per library. A client body component reads the first slug segment and sets a class (`agent-ui` or `charts`) that sets `--color-fd-primary`: Agent UI purple (`#9a63f6`, dark `#c29aff`) and Charts blue (`#1686ff`, dark `#7ec5ff`), the homepage's colors. Each tab's Lucide icon (`lucideIconsPlugin`) takes its library's color.
+
+Search is static (`createFromSource(...).staticGET` with `useStaticSearch`). `/llms.txt` is generated with Fumadocs' `llms()` helper, with absolute `https://kindui.dev` URLs.
 
 ### Homepage import
 
@@ -66,7 +72,7 @@ Copy the approved homepage (app, components, examples, lib, public, vendor, pack
 ### Hosting and deploys
 
 - `wrangler.jsonc` serves `./out` as static assets with `html_handling: "auto-trailing-slash"` and `not_found_handling: "404-page"`.
-- **`ci.yml` (pull requests):** `npm ci`, `npm run typecheck` (`fumadocs-mdx && tsc --noEmit`), `npm run build`, then `lycheeverse/lychee-action` in offline mode over `out/` to check internal links. `.lycheeignore` lists `/docs/agent-ui`, `/docs/charts` and `/r/`, the phase 2 paths; phase 2 deletes those entries.
+- **`ci.yml` (pull requests):** `npm ci`, `npm run lint`, `npm run typecheck` (`next typegen && tsc --noEmit`), `npm run build`, then `lycheeverse/lychee-action` in offline mode over `out/` to check internal links. `.lycheeignore` lists `/r/`, the phase 2 path; phase 2 deletes it.
 - **`deploy.yml` (push to main):** the same build, then `cloudflare/wrangler-action` deploy. It runs in a `production` environment holding `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`, with a concurrency group so deploys don't overlap.
 - **Rollback:** revert the commit, which redeploys, or `wrangler rollback`.
 
@@ -95,8 +101,8 @@ Retiring `apps/showcase` itself belongs to the charts docs rewrite in phase 2.
 - `/` serves the homepage instead of redirecting to `/charts`.
 - `/charts`, `/charts/docs/**` and `/agent-ui/**` stop existing, permanently.
 - `/r/**` returns 404 until phase 2, so `npx shadcn add https://kindui.dev/r/<item>.json` fails for charts items until then.
-- `/docs/agent-ui` and `/docs/charts`, which the homepage links to, return 404 until phase 2.
-- `/llms.txt` covers only `/docs` until phase 2.
+- `/docs/agent-ui` and `/docs/charts` hold one page each until phase 2, so the homepage's links to component pages under them return 404 until then.
+- `/llms.txt` covers only this repo's pages until phase 2.
 - agent-ui's release-time namespace check (`scripts/check-registry-namespace.mjs`) needs `/r/registry.json`. It only runs when `KINDUI_HOSTING` is `true`, which stays unset until phase 2.
 
 ## Phase 2: library docs and the merged registry (outline)
