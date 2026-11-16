@@ -17,6 +17,7 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    if: github.ref == 'refs/heads/main'
     environment:
       name: production
       url: https://kindui.dev
@@ -32,5 +33,4 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          wranglerVersion: "4.163.0"
           command: deploy
