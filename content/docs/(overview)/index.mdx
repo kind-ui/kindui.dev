@@ -1,0 +1,43 @@
+---
+title: Kind UI
+description: Open-source React components for AI interfaces and charts.
+---
+
+Kind UI is a family of open-source component libraries. Each library ships as an npm package and as [shadcn](https://ui.shadcn.com) registry items you copy into your project and own.
+
+## Libraries
+
+<Cards>
+  <Card title="Agent UI" href="/docs/agent-ui">
+    Agent-operable AI components for React and Web Components, built on UI SDK.
+  </Card>
+  <Card title="Charts" href="/docs/charts">
+    Composable, interactive charts for React and Next.js.
+  </Card>
+</Cards>
+
+## Setup
+
+Kind UI components use [Tailwind CSS](https://tailwindcss.com) 4. Add the `@kind-ui` registry to your `components.json`:
+
+```json title="components.json"
+{
+  "registries": {
+    "@kind-ui": "https://kindui.dev/r/{name}.json"
+  }
+}
+```
+
+Then add any component by name:
+
+```bash
+npx shadcn@latest add @kind-ui/conversation
+```
+
+<Callout title="The registry isn't served yet">
+  `https://kindui.dev/r/` goes live with each library's docs. Until then, install the npm packages: `@kind-ui/agent-ui` or `@kind-ui/charts`.
+</Callout>
+
+## For AI Agents
+
+[`/llms.txt`](/llms.txt) lists every docs page as Markdown, and each library has its own: [Agent UI](/docs/agent-ui/llms.txt) and [Charts](/docs/charts/llms.txt).

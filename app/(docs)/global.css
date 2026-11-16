@@ -1,0 +1,44 @@
+@import "tailwindcss";
+@import "fumadocs-ui/css/generated/spacious.css";
+@import "fumadocs-ui/css/neutral.css";
+@import "fumadocs-ui/css/preset.css";
+
+@theme inline {
+  --default-font-family: var(--font-geist-sans);
+  --default-mono-font-family: var(--font-geist-mono);
+}
+
+/* Each library's pages take its homepage color as the primary. */
+:root {
+  --agent-ui-color: #9a63f6;
+  --charts-color: #1686ff;
+}
+
+.dark {
+  --agent-ui-color: #c29aff;
+  --charts-color: #7ec5ff;
+}
+
+.agent-ui {
+  --color-fd-primary: var(--agent-ui-color);
+}
+
+.charts {
+  --color-fd-primary: var(--charts-color);
+}
+
+html {
+  scrollbar-gutter: stable;
+}
+
+/* The stable gutter already holds the scrollbar's place, so the scroll lock's `!important` margin is undone. */
+html > body[data-scroll-locked] {
+  /* biome-ignore lint/complexity/noImportantStyles: only `!important` beats the scroll lock's `!important` rule */
+  margin-right: 0px !important;
+  /* biome-ignore lint/complexity/noImportantStyles: as above */
+  --removed-body-scroll-bar-size: 0px !important;
+}
+
+body {
+  background-color: var(--color-fd-background);
+}
