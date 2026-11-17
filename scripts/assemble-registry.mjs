@@ -27,7 +27,7 @@ export function mergeRegistries(registries) {
   };
 }
 
-export function assembleRegistry() {
+function assembleRegistry() {
   const libraries = Object.keys(JSON.parse(readFileSync(path.join(root, "libraries.json"), "utf8")));
   rmSync(outDir, { recursive: true, force: true });
   mkdirSync(outDir, { recursive: true });

@@ -73,7 +73,7 @@ function copyLocal(library, local, dir) {
   cpSync(path.join(local, "artifacts/registry/r"), path.join(dir, "r"), { recursive: true });
 }
 
-export async function fetchLibraries() {
+async function fetchLibraries() {
   const libraries = JSON.parse(readFileSync(path.join(root, "libraries.json"), "utf8"));
   for (const [name, library] of Object.entries(libraries)) {
     const dir = path.join(librariesDir, name);
