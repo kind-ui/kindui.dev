@@ -7,13 +7,17 @@ import CheckpointExample from "@/examples/checkpoint/basic";
 import CodeBlockExample from "@/examples/code-block/basic";
 import ComposerExample from "@/examples/composer/basic";
 import ConversationExample from "@/examples/conversation/basic";
+import FileTreeExample from "@/examples/file-tree/basic";
 import LoaderExample from "@/examples/loader/basic";
 import MarkdownExample from "@/examples/markdown/basic";
 import MessageExample from "@/examples/message/basic";
 import PlanExample from "@/examples/plan/basic";
 import QuestionExample from "@/examples/question/basic";
 import ReasoningExample from "@/examples/reasoning/basic";
+import SourcesExample from "@/examples/sources/basic";
 import StreamingTextExample from "@/examples/streaming-text/basic";
+import TerminalExample from "@/examples/terminal/basic";
+import TestResultsExample from "@/examples/test-results/basic";
 import ToolExample from "@/examples/tool/basic";
 import { docsHref } from "./data";
 
@@ -31,6 +35,10 @@ const tiles: { name: string; slug: string; Example: ComponentType; wide?: boolea
   { name: "Attachments", slug: "attachments", Example: AttachmentsExample },
   { name: "Tool", slug: "tool", Example: ToolExample, wide: true },
   { name: "Question", slug: "question", Example: QuestionExample },
+  { name: "Terminal", slug: "terminal", Example: TerminalExample, wide: true },
+  { name: "Sources", slug: "sources", Example: SourcesExample },
+  { name: "File Tree", slug: "file-tree", Example: FileTreeExample },
+  { name: "Test Results", slug: "test-results", Example: TestResultsExample, wide: true },
 ];
 
 export function ComponentsGrid() {

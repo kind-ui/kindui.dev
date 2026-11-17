@@ -14,7 +14,7 @@ Last reviewed: `837073dc41fc58c02c4a1d41af413ed37248885c` (chapter install picke
 
 - **The install picker reads both libraries' items from their pinned registries** (`lib/registry-items.ts`): Agent UI's `react` layer and Charts' `registry:component` items.
 - **The ⌘K search in `components/search.tsx` is a hand-written list,** not the Fumadocs static index: it misses most docs pages and some Charts results 404. The error pages don't advertise it for that reason.
-- **Agent UI's stylesheet covers all 31 components** (about 22 KB gzip) though the homepage shows about 7. `@kind-ui/agent-ui` exports one `styles.css`; per-component entries would have to come from agent-ui.
+- **Agent UI's stylesheet covers all 42 components** (about 22 KB gzip) though the homepage shows about 7. `@kind-ui/agent-ui` exports one `styles.css`; per-component entries would have to come from agent-ui.
 - **Replay does nothing visible under reduced motion**, the same as the stage's Replay, since both already show the finished state.
 
 ## Resolved

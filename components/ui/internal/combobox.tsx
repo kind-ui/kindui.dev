@@ -8,6 +8,7 @@ import {
   ComboboxGroupLabel,
   ComboboxInput,
   ComboboxItem,
+  ComboboxItemIcon,
   ComboboxItemIndicator,
   ComboboxList,
   ComboboxTrigger,
@@ -45,6 +46,11 @@ export const KindComboboxItem = withKindClass(
   ComboboxItem,
   "flex cursor-default select-none items-center gap-2 rounded-[calc(var(--kind-radius)/3)] px-2 py-1.5 outline-none data-highlighted:bg-[var(--kind-color-hover)] data-disabled:cursor-not-allowed data-disabled:opacity-50",
   "KindComboboxItem",
+);
+export const KindComboboxItemIcon = withKindClass(
+  ComboboxItemIcon,
+  "inline-flex size-4 shrink-0 items-center justify-center",
+  "KindComboboxItemIcon",
 );
 export const KindComboboxItemIndicator = withKindClass(
   ComboboxItemIndicator,
