@@ -1,3 +1,5 @@
 # Each library's llms.txt, built under /llms.mdx by Fumadocs' llms() sections.
 /docs/:section/llms.txt /llms.mdx/docs/:section/llms.txt 200
 /docs/:section/llms-full.txt /llms.mdx/docs/:section/llms-full.txt 200
+/r /r/registry.json 302
+/r/ /r/registry.json 302
