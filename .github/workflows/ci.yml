@@ -20,7 +20,7 @@ jobs:
         with:
           persist-credentials: false
       - uses: ./.github/actions/setup
-      - run: npm audit --audit-level=high --include=dev
+      - run: npx audit-ci --config audit-ci.jsonc
       - run: npm run lint
       - run: npm test
       - run: npm run typecheck
