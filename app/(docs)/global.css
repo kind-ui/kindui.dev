@@ -5,6 +5,8 @@
 @import "@kind-ui/agent-ui/styles.css";
 
 @source "../../.libraries/agent-ui/source/apps/docs/examples";
+@source "../../.libraries/charts/source/apps/docs/examples";
+@source "../../.libraries/charts/source/packages/charts/src";
 @source "../../components/ui";
 
 @theme inline {
@@ -27,8 +29,18 @@
   --color-fd-primary: var(--agent-ui-color);
 }
 
+/* Charts read the host's theme variables, so they follow the docs theme in light and dark. */
 .charts {
   --color-fd-primary: var(--charts-color);
+  --foreground: var(--color-fd-foreground);
+  --border: var(--color-fd-border);
+  --card: var(--color-fd-card);
+  --radius: var(--radius-lg);
+  --muted: var(--color-fd-muted);
+  --muted-foreground: var(--color-fd-muted-foreground);
+  --popover: var(--color-fd-popover);
+  --popover-foreground: var(--color-fd-popover-foreground);
+  --kind-ui-radial-track: color-mix(in oklab, var(--color-fd-foreground) 10%, transparent);
 }
 
 /* Agent UI's `--kind-color-*` tokens are `light-dark()` pairs, so they follow the theme's `color-scheme`. */

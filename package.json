@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@kind-ui/agent-ui": "0.3.1",
-    "@kind-ui/charts": "^0.5.0",
+    "@kind-ui/charts": "0.5.1",
     "@shikijs/langs": "^4.6.0",
     "@shikijs/themes": "^4.6.0",
     "@ui-sdk/core": "0.1.0-beta.1",

@@ -38,12 +38,12 @@ const groups: { title: string; items: [string, string][]; all?: [string, string]
   {
     title: "Guides",
     items: [
-      ["Charts installation", `${links.chartsDocs}installation/`],
-      ["Charts quickstart", `${links.chartsDocs}quickstart/`],
-      ["Customization", `${links.chartsDocs}guides/customization/`],
+      ["Charts: get started", links.chartsDocs],
+      ["Chart root", `${links.chartsDocs}building-blocks/chart/`],
+      ["Materials", `${links.chartsDocs}guides/materials/`],
       ["Accessibility", `${links.chartsDocs}guides/accessibility/`],
       ["Motion", `${links.chartsDocs}guides/motion/`],
-      ["Composition", `${links.chartsDocs}concepts/composition/`],
+      ["AI agents", links.agents],
       ["AI SDK adapter", `${links.agentUiDocs}adapters/ai-sdk/`],
     ],
   },

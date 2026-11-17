@@ -7,6 +7,7 @@ const trigger =
 /**
  * A live example over its source, switched by Preview and Code buttons, with a plain-text `caption` below:
  * `<Example caption="…"><StepExample /><include …>./examples/step/basic.tsx</include></Example>`.
+ * Agent UI previews sit on its surface color at a message's width; Charts previews fill the page's width.
  */
 export function Example({ caption, children }: { caption?: string; children: ReactNode }) {
   const [preview, code] = Children.toArray(children);
@@ -23,9 +24,9 @@ export function Example({ caption, children }: { caption?: string; children: Rea
         </TabsList>
         <TabsContent
           value="preview"
-          className="flex min-h-72 items-center justify-center bg-[var(--kind-color-surface)] p-8 text-[var(--kind-color-fg)]"
+          className="flex min-h-72 items-center justify-center bg-fd-background p-8 in-[.agent-ui]:bg-[var(--kind-color-surface)] in-[.agent-ui]:text-[var(--kind-color-fg)]"
         >
-          <div className="w-full max-w-lg">{preview}</div>
+          <div className="w-full in-[.agent-ui]:max-w-lg">{preview}</div>
         </TabsContent>
         <TabsContent
           value="code"

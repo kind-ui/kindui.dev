@@ -131,9 +131,9 @@ Each library's docs render in this repo's Fumadocs shell, from the library's own
   - fails, naming the library and version, when the tag or asset is missing, the hash differs, or the installed `@kind-ui/<lib>` npm version differs from the pin.
 
   `.libraries/` is gitignored. `KINDUI_LIBRARY_<NAME>=<checkout>` copies a local checkout and its built registry instead, so a library author can preview unreleased docs.
-- **Render:** each library's docs folder (`.libraries/<lib>/source/<docs>`) is a [Fumadocs MDX workspace](https://www.fumadocs.dev/docs/mdx/workspace) with its own collection and the library's own `source.config.ts` options (Agent UI's `fumadocs-typescript` type tables). `lib/source.ts` combines the root collection and each workspace with a multi-source `loader()`, mounting each library under `/docs/<lib>/`. The root collection is defined in `source.config.ts` too, because the generated workspace types come from the root config's collection of the same name. The library's `meta.json` gives the sidebar order; this repo sets the root-folder title, description and icon, so the library needs no kindui.dev-specific metadata.
+- **Render:** each library's docs folder (`.libraries/<lib>/source/<docs>`) is a [Fumadocs MDX workspace](https://www.fumadocs.dev/docs/mdx/workspace) with its own collection and the library's own `source.config.ts` options (Agent UI's `fumadocs-typescript` type tables). `lib/source.ts` combines the root collection and each workspace with a multi-source `loader()`, mounting each library under `/docs/<lib>/`. Every workspace and the root share one `docs` collection, defined in `docs.collection.ts`, because the generated workspace types come from the root config's collection of the same name; a workspace that imported it from `source.config.ts` would wait on the config that awaits it. The library's `meta.json` gives the sidebar order; this repo sets the root-folder title, description and icon, so the library needs no kindui.dev-specific metadata.
 - **Components:** examples import `@/components/ui/<name>`, as a shadcn user's code does. `npm run components` installs every React item from the pinned `r/` with `npx shadcn add` into `components/ui/`, then restores the exact `@kind-ui/<lib>` and `@ui-sdk/*` pins that shadcn loosens. `components/ui/` is committed: shadcn edits `package.json` as it installs, so it can't run in every build. CI reinstalls and fails when the result differs, so a bump PR stays red until someone runs `npm run components` and commits. The homepage uses the same installed components, which replaces its copied `components/ui/` and `vendor/`.
-- **MDX components:** this repo provides the components the library pages use (`Example`, `Caption`, `Tab`, `Tabs`, `TypeTable`) in `components/mdx.tsx`. When a second library needs the same components, they move into a hidden `docs-kit` item in this site's `@kind-ui` registry (phase 2b).
+- **MDX components:** this repo provides the components the library pages use (`Example`, `Caption`, `Tab`, `Tabs`, `TypeTable`) in `components/mdx.tsx`. Both libraries' docs apps keep their own copy; only `Example`'s preview differs, which takes the library's section class (Agent UI's surface at a message's width, Charts at full width).
 - **Edit on GitHub** links point at the library's repo and tag, not this repo.
 
 ### The registry
@@ -161,12 +161,13 @@ Renovate watches each library's GitHub releases through a regex manager on `libr
 - `.lycheeignore` drops `/r/` and the Agent UI paths.
 - The homepage moves to `@kind-ui/agent-ui` 0.3.1 and the installed `components/ui/`; its links into the Agent UI docs now resolve.
 
-### Phase 2b: Charts (outline)
+### Phase 2b: Charts
 
-1. Rewrite the charts docs onto Agent UI's stack (Fumadocs 16.19.3 Base UI, Next 16.4.6) and retire `apps/showcase`.
-2. Give charts a `charts-site-<version>` asset with its `r/`, gated by `KINDUI_HOSTING`, and immutable releases.
-3. Move the shared MDX components into `docs-kit`, a hidden `registry:block` item in the `@kind-ui` registry with its source in this repo. Every docs app (this site and each library's preview app) installs it with `npx shadcn@latest add @kind-ui/docs-kit`. No npm package.
-4. Add charts to `libraries.json`; `content/docs/charts/` goes.
+**In kind-ui/charts:** the docs are rewritten onto Agent UI's stack (Fumadocs 16.19.3 Base UI, Next 16.4.6) and `apps/showcase` retires. Releases attach `charts-site-<version>.tar.gz` with its `r/`, gated by `KINDUI_HOSTING`, and are immutable. Tags are `@kind-ui/charts@<version>`.
+
+**In this repo:** charts joins `libraries.json` (tag `@kind-ui/charts@{version}`) and mounts under `/docs/charts/` like Agent UI; `content/docs/charts/` goes. Charts' registry items are `registry:component`s with no `layer`, so `npm run components` installs none of them; its examples import `@kind-ui/charts` from npm. Charts' pages map its theme variables (`--foreground`, `--border`, `--card`, …) onto Fumadocs' under `.charts`. Renovate's matcher takes any tag, with a per-library `extractVersion`.
+
+A shared `docs-kit` registry item for the MDX components is deferred until the libraries' copies diverge beyond `Example`'s preview.
 
 ### Breaking changes in phase 2a
 

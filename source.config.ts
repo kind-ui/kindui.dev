@@ -1,12 +1,7 @@
-import { metaSchema, pageSchema } from "fumadocs-core/source/schema";
-import { defineConfig, defineDocs } from "fumadocs-mdx/config";
+import { defineConfig } from "fumadocs-mdx/config";
 import libraries from "./libraries.json" with { type: "json" };
 
-export const docs = defineDocs({
-  dir: "content/docs",
-  docs: { schema: pageSchema, postprocess: { includeProcessedMarkdown: true } },
-  meta: { schema: metaSchema },
-});
+export { docs } from "./docs.collection";
 
 // For Markdown files brought in with `<include>`, like a library's CHANGELOG.md: drop their `#` heading, since the
 // page title is the page's h1, and show text like `<name>`, which Markdown reads as HTML that MDX can't compile, as
@@ -33,6 +28,10 @@ export default defineConfig({
     "agent-ui": {
       dir: `.libraries/agent-ui/source/${libraries["agent-ui"].docs}`,
       config: await import("./libraries/agent-ui.source.config"),
+    },
+    charts: {
+      dir: `.libraries/charts/source/${libraries.charts.docs}`,
+      config: await import("./libraries/charts.source.config"),
     },
   },
 });

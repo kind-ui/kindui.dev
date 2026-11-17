@@ -13,5 +13,20 @@
       "packages/agent-ui/src",
       "packages/agent-ui/CHANGELOG.md"
     ]
+  },
+  "charts": {
+    "repo": "kind-ui/charts",
+    "title": "Charts",
+    "tag": "@kind-ui/charts@{version}",
+    "version": "0.5.1",
+    "package": "@kind-ui/charts",
+    "docs": "apps/docs",
+    "paths": [
+      "apps/docs/content",
+      "apps/docs/examples",
+      "apps/docs/source.config.ts",
+      "packages/charts/src",
+      "packages/charts/CHANGELOG.md"
+    ]
   }
 }
