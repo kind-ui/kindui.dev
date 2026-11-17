@@ -1,0 +1,42 @@
+---
+title: Agents
+description: Set up Kind UI with a coding agent and point it at the docs it should read.
+---
+
+Kind UI is built to be used by coding agents as well as people. Each library publishes its docs as plain text, and the setup leaves notes in your project that tell an agent what to read before it changes a component.
+
+## Start From a Prompt
+
+The quickest start is the **Copy prompt** button on the [Kind UI homepage](/). Pick a library, copy the prompt, and paste it into your agent. It installs the library, adds the `@kind-ui` registry, and tells the agent which docs to read before it builds anything.
+
+## Docs as Text
+
+Every docs page is also served as Markdown. Give your agent one of these:
+
+- [`/llms.txt`](/llms.txt) lists every page on this site.
+- [`/docs/agent-ui/llms.txt`](/docs/agent-ui/llms.txt) lists the Agent UI pages.
+- [`/docs/charts/llms.txt`](/docs/charts/llms.txt) lists the Charts pages.
+
+Each list links to the Markdown of its pages, and `llms-full.txt` beside it holds them all in one file.
+
+## The Registry
+
+Agent UI components install with the shadcn CLI from the `@kind-ui` registry. Add it to `components.json`:
+
+```json title="components.json"
+{
+  "registries": {
+    "@kind-ui": "https://kindui.dev/r/{name}.json"
+  }
+}
+```
+
+Then add a component by name, for example `npx shadcn@latest add @kind-ui/step`. The first component you add also writes an `AGENTS.md` beside your components. It tells agents to read the `@kind-ui/agent-ui` README, the UI SDK skill and the UI SDK docs before changing a component, and to leave focus, keyboard and ARIA to UI SDK.
+
+## Charts Skill
+
+Charts ships an agent skill with rules for choosing a chart, composing it, theming it and checking it. Install it in agents that support skills:
+
+```bash
+npx skills add kind-ui/charts --skill kind-ui-charts
+```

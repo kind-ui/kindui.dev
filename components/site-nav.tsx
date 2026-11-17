@@ -5,8 +5,9 @@ import { GitHubMark, Wordmark } from "./wordmark";
 
 const navLinks = [
   ["Docs", links.docs],
-  ["Components", "#agent-ui"],
-  ["Agents", "#agents"],
+  ["Agent UI", `${links.agentUiDocs}/`],
+  ["Charts", links.chartsDocs],
+  ["Agents", links.agents],
 ] as const;
 
 export function SiteNav() {

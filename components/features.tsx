@@ -36,7 +36,7 @@ const features = [
 
 export function Features() {
   return (
-    <section id="agents" className="mx-auto max-w-[920px] scroll-mt-8 px-5 py-20 sm:px-9 sm:py-32">
+    <section className="mx-auto max-w-[920px] scroll-mt-8 px-5 py-20 sm:px-9 sm:py-32">
       <Reveal>
         <h2 className="text-center text-[clamp(32px,4vw,52px)] leading-[1.1] font-medium tracking-[-0.055em]">
           What every library includes.

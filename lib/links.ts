@@ -1,5 +1,6 @@
 export const links = {
-  docs: "/docs",
+  docs: "/docs/",
+  agents: "/docs/agents/",
   charts: "/docs/charts",
   chartsDocs: "/docs/charts/",
   chartsRepo: "https://github.com/kind-ui/charts",
