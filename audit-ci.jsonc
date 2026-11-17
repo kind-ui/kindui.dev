@@ -1,0 +1,9 @@
+{
+  "$schema": "https://github.com/IBM/audit-ci/raw/main/docs/schema.json",
+  "high": true,
+  "allowlist": [
+    // picomatch ReDoS, reached only through build tooling (fdir, tinyglobby, Fumadocs).
+    // No patched picomatch exists yet. Review by 2026-12-17; remove once picomatch ships a fix.
+    "GHSA-fc5q-39xc-vjpf"
+  ]
+}
