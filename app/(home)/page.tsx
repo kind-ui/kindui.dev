@@ -5,6 +5,7 @@ import { AgentSection, ChartsSection } from "@/components/sections";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteNav } from "@/components/site-nav";
 import { Together } from "@/components/together";
+import { installItems } from "@/lib/registry-items";
 
 export default function Home() {
   return (
@@ -17,7 +18,7 @@ export default function Home() {
       </a>
       <SiteNav />
       <main id="main">
-        <Hero />
+        <Hero installItems={installItems()} />
         <AgentSection />
         <ChartsSection />
         <Together />
