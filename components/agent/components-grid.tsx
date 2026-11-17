@@ -8,13 +8,13 @@ import CodeBlockExample from "@/examples/code-block/basic";
 import ComposerExample from "@/examples/composer/basic";
 import ConversationExample from "@/examples/conversation/basic";
 import FileTreeExample from "@/examples/file-tree/basic";
+import InlineCitationExample from "@/examples/inline-citation/basic";
 import LoaderExample from "@/examples/loader/basic";
 import MarkdownExample from "@/examples/markdown/basic";
 import MessageExample from "@/examples/message/basic";
 import PlanExample from "@/examples/plan/basic";
 import QuestionExample from "@/examples/question/basic";
 import ReasoningExample from "@/examples/reasoning/basic";
-import SourcesExample from "@/examples/sources/basic";
 import StreamingTextExample from "@/examples/streaming-text/basic";
 import TerminalExample from "@/examples/terminal/basic";
 import TestResultsExample from "@/examples/test-results/basic";
@@ -36,7 +36,7 @@ const tiles: { name: string; slug: string; Example: ComponentType; wide?: boolea
   { name: "Tool", slug: "tool", Example: ToolExample, wide: true },
   { name: "Question", slug: "question", Example: QuestionExample },
   { name: "Terminal", slug: "terminal", Example: TerminalExample, wide: true },
-  { name: "Sources", slug: "sources", Example: SourcesExample },
+  { name: "Inline Citation", slug: "inline-citation", Example: InlineCitationExample },
   { name: "File Tree", slug: "file-tree", Example: FileTreeExample },
   { name: "Test Results", slug: "test-results", Example: TestResultsExample, wide: true },
 ];
