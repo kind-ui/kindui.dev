@@ -1,7 +1,7 @@
 export function Wordmark({ className = "" }: { className?: string }) {
   return (
-    <span className={`wordmark ${className}`}>
-      kind<span className="wordmark-ui">ui</span>
+    <span className={`font-medium tracking-[-0.065em] ${className}`}>
+      kind<span className="font-normal opacity-55">ui</span>
     </span>
   );
 }
