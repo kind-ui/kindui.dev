@@ -2,7 +2,7 @@
 
 What is already decided, and what is known and open. The expert never re-raises a **Settled** item as a finding.
 
-Last reviewed: `3d484ed6450ba74db5b0c831a09eeb4a577b880f` (phase 2a)
+Last reviewed: `a1608d04db73c3d7603e3c1beb325be826f4c114` (error pages)
 
 ## Settled
 
