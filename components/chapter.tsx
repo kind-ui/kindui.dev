@@ -1,5 +1,5 @@
 import { ArrowRight } from "lucide-react";
-import { CopyCommand } from "./copy-command";
+import { AddCommand } from "./add-command";
 import { Reveal } from "./reveal";
 
 export function Chapter({
@@ -8,7 +8,8 @@ export function Chapter({
   name,
   title,
   body,
-  command,
+  items,
+  initialItem,
   docs,
   children,
   first,
@@ -19,7 +20,8 @@ export function Chapter({
   name: string;
   title: React.ReactNode;
   body: string;
-  command: string;
+  items: string[];
+  initialItem: string;
   docs: string;
   children: React.ReactNode;
 }) {
@@ -30,7 +32,7 @@ export function Chapter({
       className={`mx-auto max-w-[1260px] scroll-mt-8 px-5 sm:px-9 ${first ? "pt-6" : "pt-20 sm:pt-32"}`}
     >
       <Reveal>
-        <div className="grid grid-cols-[minmax(0,1fr)] gap-8 border-t border-border pt-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,420px)] lg:items-end">
+        <div className="grid grid-cols-[minmax(0,1fr)] gap-8 border-t border-border pt-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,440px)] lg:items-end">
           <div>
             <p className="font-mono text-xs text-muted-foreground">
               {index} · {name}
@@ -46,7 +48,7 @@ export function Chapter({
             </p>
           </div>
           <div className="space-y-3">
-            <CopyCommand command={command} label={`${name} install command`} />
+            <AddCommand items={items} initial={initialItem} label={`${name} install command`} />
             <a
               href={docs}
               className="group inline-flex items-center gap-1.5 rounded-full border border-border px-4 py-2 text-sm font-medium transition-colors hover:bg-muted"

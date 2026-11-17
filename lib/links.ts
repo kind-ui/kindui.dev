@@ -12,10 +12,3 @@ export const links = {
   npmCharts: "https://www.npmjs.com/package/@kind-ui/charts",
   uiSdk: "https://ui-sdk.dev/",
 };
-
-export const commands = {
-  npm: "npm install @kind-ui/charts",
-  agentUiAdd: "npx shadcn@latest add @kind-ui/conversation",
-  shadcn: "npx shadcn@latest add https://kindui.dev/r/bar-chart.json",
-  skill: "npx skills add kind-ui/charts --skill kind-ui-charts",
-};

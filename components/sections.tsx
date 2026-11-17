@@ -1,11 +1,12 @@
-import { commands, links } from "@/lib/links";
+import { links } from "@/lib/links";
+import type { InstallItems } from "@/lib/registry-items";
 import { ComponentsGrid } from "./agent/components-grid";
 import { Stage } from "./agent/stage/stage";
 import { Chapter } from "./chapter";
 import { ChartsGrid, MoreRow } from "./hero";
 import { UiSdkLogo } from "./ui-sdk-logo";
 
-export function AgentSection() {
+export function AgentSection({ items }: { items: InstallItems["agent"] }) {
   return (
     <Chapter
       first
@@ -24,7 +25,8 @@ export function AgentSection() {
         </>
       }
       body="Messages, the steps an agent took, answers that stream in, and a composer to reply. Your agent can read every component and use its controls, without screenshots. Works in React, Vue, Svelte, Solid and Web Components."
-      command={commands.agentUiAdd}
+      items={items}
+      initialItem="conversation"
       docs={links.agentUiDocs}
     >
       <Stage />
@@ -36,7 +38,7 @@ export function AgentSection() {
   );
 }
 
-export function ChartsSection() {
+export function ChartsSection({ items }: { items: InstallItems["charts"] }) {
   return (
     <Chapter
       id="charts"
@@ -44,7 +46,8 @@ export function ChartsSection() {
       name="Charts"
       title="Interactive charts, built on Recharts and Motion."
       body="Hover a bar to read it, or tab in and use the arrow keys. Tap a legend to focus one series. Bar, line, pie, radar, sankey and more."
-      command={commands.npm}
+      items={items}
+      initialItem="bar-chart"
       docs={links.chartsDocs}
     >
       <div className="rounded-[32px] border border-border bg-stage p-3 sm:p-4">

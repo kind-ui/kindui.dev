@@ -8,6 +8,7 @@ import { Together } from "@/components/together";
 import { installItems } from "@/lib/registry-items";
 
 export default function Home() {
+  const items = installItems();
   return (
     <>
       <a
@@ -18,9 +19,9 @@ export default function Home() {
       </a>
       <SiteNav />
       <main id="main">
-        <Hero installItems={installItems()} />
-        <AgentSection />
-        <ChartsSection />
+        <Hero installItems={items} />
+        <AgentSection items={items.agent} />
+        <ChartsSection items={items.charts} />
         <Together />
         <Features />
         <Faq />
