@@ -1,41 +1,79 @@
 ---
-title: Kind UI
-description: Open-source React components for AI interfaces and charts.
+title: Get Started
+description: Paste one prompt into your coding agent to set up a Kind UI library, then pick where to go next.
 ---
 
-Kind UI is a family of open-source component libraries. Each library ships as an npm package and as [shadcn](https://ui.shadcn.com) registry items you copy into your project and own.
+Each prompt sets up one library, [Agent UI](/docs/agent-ui) or [Charts](/docs/charts), and tells your agent which docs to read before it builds. New to Kind UI? Read the [Introduction](./introduction.mdx) first.
 
-## Libraries
+## Quick Start
+
+Pick a library, then copy its prompt into your agent:
+
+```text tab="Agent UI" title="Prompt"
+Set up Kind UI's Agent UI in this project.
+
+1. If the project has no components.json, run: npx shadcn@latest init
+2. Add the @kind-ui registry to components.json:
+   "registries": { "@kind-ui": "https://kindui.dev/r/{name}.json" }
+3. Add a component with: npx shadcn@latest add @kind-ui/conversation
+   For Web Components, add the -web version, for example @kind-ui/conversation-web.
+4. The CLI writes an AGENTS.md next to the components. Follow it, and read https://kindui.dev/docs/agent-ui/llms.txt before using a component.
+
+When you're done, ask me what I'd like to build.
+```
+
+```text tab="Charts" title="Prompt"
+Set up Kind UI Charts in this React project. It uses Tailwind CSS v4.
+
+1. Install @kind-ui/charts with the project's package manager.
+2. In the Tailwind entry CSS, after @import "tailwindcss", add a line so Tailwind scans the package (the path is relative to the CSS file):
+   @source "../node_modules/@kind-ui/charts/dist";
+3. If you support skills, run: npx skills add kind-ui/charts --skill kind-ui-charts
+4. Add a note to AGENTS.md, creating it if needed: before using Kind UI Charts, follow the kind-ui-charts skill if it's installed, and read https://kindui.dev/docs/charts/llms.txt.
+
+When you're done, ask me what I'd like to build.
+```
+
+To set things up by hand, see [Installation](./installation.mdx).
+
+## Find a Component
 
 <Cards>
-  <Card title="Agent UI" href="/docs/agent-ui">
-    Agent-operable AI components for React and Web Components, built on UI SDK.
+  <Card title="Conversation" href="/docs/agent-ui/components/conversation">
+    Hold a chat's messages in a log that follows new content and offers a jump back to the latest.
   </Card>
-  <Card title="Charts" href="/docs/charts">
-    Composable, interactive charts for React and Next.js.
+  <Card title="Composer" href="/docs/agent-ui/components/composer">
+    Let people write to the agent, with mentions, commands and files.
+  </Card>
+  <Card title="Tool" href="/docs/agent-ui/components/tool">
+    Show a tool call from its streamed input to its output or error.
+  </Card>
+  <Card title="Line Chart" href="/docs/charts/components/line">
+    Compose a line chart with axes, lines and tooltips.
+  </Card>
+  <Card title="Bar Chart" href="/docs/charts/components/bar">
+    Compare categories with columns, grouped or stacked series, and horizontal bars.
+  </Card>
+  <Card title="Sankey Chart" href="/docs/charts/components/sankey">
+    Trace quantities through branching and recombining flows.
   </Card>
 </Cards>
 
-## Setup
+## Work With Agents
 
-Kind UI components use [Tailwind CSS](https://tailwindcss.com) 4. Add the `@kind-ui` registry to your `components.json`:
+<Cards>
+  <Card title="Built for Agents" href="/docs/agents">
+    How Kind UI works with coding agents, and how agents use Agent UI components.
+  </Card>
+  <Card title="Set Up With an Agent" href="/docs/agents/setup">
+    What the prompts do, and the `AGENTS.md` the registry writes.
+  </Card>
+  <Card title="Docs for Agents" href="/docs/agents/docs">
+    Every page as Markdown, and the `llms.txt` files that list them.
+  </Card>
+  <Card title="MCP" href="/docs/agents/mcp">
+    Let your agent browse and add `@kind-ui` components through the shadcn MCP server.
+  </Card>
+</Cards>
 
-```json title="components.json"
-{
-  "registries": {
-    "@kind-ui": "https://kindui.dev/r/{name}.json"
-  }
-}
-```
-
-Then add any component by name:
-
-```bash
-npx shadcn@latest add @kind-ui/conversation
-```
-
-Agent UI's components are in the registry today. Charts components join it with the Charts docs; until then, install the [`@kind-ui/charts`](https://www.npmjs.com/package/@kind-ui/charts) npm package.
-
-## For AI Agents
-
-To set up a project with a coding agent, see [Agents](./agents.mdx).
+See what's new in the [Agent UI changelog](./changelog/agent-ui.mdx).

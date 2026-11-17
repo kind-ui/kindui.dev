@@ -1,0 +1,32 @@
+---
+title: Introduction
+description: What Kind UI is, how its libraries relate, and what they have in common.
+---
+
+Kind UI is a family of open-source, MIT-licensed component libraries for React. Each library has its own package, docs and release, and they share one shadcn registry, so you can use one or both.
+
+## The Libraries
+
+**[Agent UI](/docs/agent-ui)** has the pieces of an AI interface: a conversation, messages, streaming markdown and a composer; steps that show an agent's work, like reasoning, tool calls and plans; and the places a person answers the agent, like approvals and questions. It's built on [UI SDK](https://ui-sdk.dev/docs), which handles focus, keys and screen reader announcements, and it renders in React and Web Components. Its [AI SDK adapter](/docs/agent-ui/adapters/ai-sdk) turns AI SDK messages into what the components render.
+
+**[Charts](/docs/charts)** has thirteen chart families, from lines and bars to Sankey flows and activity rings. Each chart is a root like `LineChart` that holds your data, plus the parts you choose to show.
+
+The two work side by side: an assistant message in Agent UI can hold a Charts chart. [Use Agent UI and Charts Together](./guides/agent-ui-and-charts.mdx) shows how.
+
+## What They Share
+
+- **You own the code.** Add a component with the shadcn CLI and it's copied into your project to edit, while its behavior comes from the library's npm package. Charts also works straight from npm.
+- **Tailwind CSS 4.** Both style their components with Tailwind 4 and follow your page's `color-scheme` for dark mode. See [Theming](./theming.mdx).
+- **Accessible by default.** Agent UI gets keyboard and screen reader support from UI SDK. Charts take an accessible name and support keyboard inspection and reduced motion.
+- **Ready for agents.** Every docs page is served as Markdown, setup leaves notes your coding agent reads, and Agent UI's components can be read and operated by an agent at runtime. See [Built for Agents](./agents/index.mdx).
+
+## Next Steps
+
+<Cards>
+  <Card title="Installation" href="/docs/installation">
+    Add the `@kind-ui` registry and install a library.
+  </Card>
+  <Card title="Theming" href="/docs/theming">
+    Match both libraries to your app, in light and dark.
+  </Card>
+</Cards>

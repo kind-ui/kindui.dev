@@ -1,3 +1,4 @@
+import Link from "fumadocs-core/link";
 import {
   DocsBody,
   DocsDescription,
@@ -9,6 +10,7 @@ import {
 import { createRelativeLink } from "fumadocs-ui/mdx";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import type { ComponentProps } from "react";
 import { getMDXComponents } from "@/components/mdx";
 import { getPageImageUrl, libraryTitle, sourceUrl } from "@/lib/shared";
 import { source } from "@/lib/source";
@@ -36,12 +38,18 @@ export default async function Page(props: PageProps<"/docs/[[...slug]]">) {
         <MDX
           components={getMDXComponents({
             // this allows you to link to other pages with relative file paths
-            a: createRelativeLink(source, page),
+            a: createRelativeLink(source, page, FileLink),
           })}
         />
       </DocsBody>
     </DocsPage>
   );
+}
+
+// A file like `/llms.txt` isn't a route, so the client router would 404 on it; load it with a plain link.
+function FileLink(props: ComponentProps<typeof Link>) {
+  if (/\.(txt|md|json)$/.test(props.href ?? "")) return <a {...props} />;
+  return <Link {...props} />;
 }
 
 export async function generateStaticParams() {

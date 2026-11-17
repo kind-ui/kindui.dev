@@ -10,7 +10,8 @@
       "apps/docs/content",
       "apps/docs/examples",
       "apps/docs/source.config.ts",
-      "packages/agent-ui/src"
+      "packages/agent-ui/src",
+      "packages/agent-ui/CHANGELOG.md"
     ]
   }
 }

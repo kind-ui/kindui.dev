@@ -1,0 +1,24 @@
+---
+title: Skills
+description: Install the skills that teach your agent to build with Charts and UI SDK.
+---
+
+A skill is a set of instructions an agent loads when a task calls for it. Kind UI's libraries use two.
+
+## Charts
+
+The `kind-ui-charts` skill helps an agent pick the right chart for your data, build it from Charts' parts and check the result.
+
+Install it in agents that support skills:
+
+```bash
+npx skills add kind-ui/charts --skill kind-ui-charts
+```
+
+Charts' [AI agents guide](/docs/charts/guides/ai-agents) shows how to ask for a chart.
+
+## UI SDK
+
+Agent UI is built on UI SDK, and its components' `AGENTS.md` tells agents to follow the `ui-sdk` skill. The skill helps an agent build a component UI SDK doesn't ship, from its behaviors, and test its keyboard behavior, focus and ARIA.
+
+It ships inside `@ui-sdk/core`, at `node_modules/@ui-sdk/core/skills/ui-sdk/SKILL.md`, so it always matches the version you installed. To install it in agents that support skills, see UI SDK's [Skills](https://ui-sdk.dev/docs/agents/skills).

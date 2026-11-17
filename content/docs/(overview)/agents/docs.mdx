@@ -1,0 +1,28 @@
+---
+title: Docs for Agents
+description: Give your agent the docs as Markdown, one page or one library at a time.
+---
+
+Every docs page on kindui.dev is also served as Markdown, so an agent can read the page it needs without parsing the site. Point it at the smallest file that answers its question.
+
+## llms.txt
+
+| File | What it has |
+| --- | --- |
+| [`/llms.txt`](/llms.txt) | Links to the lists below |
+| [`/llms.mdx/docs/llms.txt`](/llms.mdx/docs/llms.txt) | Every Kind UI overview, agents and guides page |
+| [`/docs/agent-ui/llms.txt`](/docs/agent-ui/llms.txt) | Every Agent UI page, with its description |
+| [`/docs/charts/llms.txt`](/docs/charts/llms.txt) | Every Charts page, with its description |
+| [`/llms-full.txt`](/llms-full.txt) | Every page on the site in one file |
+
+Each library's `llms-full.txt`, beside its `llms.txt`, holds all of that library's pages in one file. A library's `llms.txt` is usually the better start: the agent picks a page from it, then reads only that page.
+
+## One Page as Markdown
+
+Each page's Markdown is at `/llms.mdx` followed by the page's path and `.md`. For example, the [Tool](/docs/agent-ui/components/tool) page is at [`/llms.mdx/docs/agent-ui/components/tool.md`](/llms.mdx/docs/agent-ui/components/tool.md). It includes the page's example source and API tables.
+
+Every page also has a **Copy Markdown** button under its title, and its menu opens the page as Markdown or on GitHub.
+
+## Docs in the Package
+
+Agent UI's setup also points agents at docs installed with your packages, which always match the installed version: the `@kind-ui/agent-ui` README and UI SDK's `llms.txt` under `node_modules/@ui-sdk/react/docs/` (or `@ui-sdk/web` for Web Components). See [Set Up With an Agent](./setup.mdx).

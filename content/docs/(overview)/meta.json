@@ -3,5 +3,16 @@
   "description": "Overview and setup",
   "icon": "Flower2",
   "root": true,
-  "pages": ["index", "agents"]
+  "pages": [
+    "---Overview---",
+    "index",
+    "introduction",
+    "installation",
+    "theming",
+    "changelog",
+    "---Agents---",
+    "...agents",
+    "---Guides---",
+    "...guides"
+  ]
 }

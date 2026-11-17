@@ -1,0 +1,72 @@
+---
+title: Use Agent UI and Charts Together
+description: Answer a question in an Agent UI conversation with a chart, drawn from a tool call's output.
+---
+
+When your agent calls a tool that returns numbers, show them as a chart under the tool call, inside the assistant's message. This guide uses the [AI SDK](https://ai-sdk.dev) and a `get_orders` tool that your route defines and that returns rows like `{ day: "Mon", orders: 88 }`.
+
+## Before You Start
+
+Set up both libraries as in [Installation](../installation.mdx). This guide uses these Agent UI items and the `@kind-ui/charts` package:
+
+```bash
+npx shadcn@latest add @kind-ui/conversation @kind-ui/message @kind-ui/tool
+```
+
+## Map the Messages
+
+The [AI SDK adapter](/docs/agent-ui/adapters/ai-sdk) turns the chat's `UIMessage`s into the messages Agent UI renders. Each tool call becomes a `step` part:
+
+```tsx
+import { useChat } from "@ai-sdk/react";
+import { fromUIMessages } from "@kind-ui/agent-ui/adapters/ai-sdk";
+
+const { messages, status } = useChat();
+const rendered = fromUIMessages(messages, status);
+```
+
+## Draw the Chart
+
+For each tool step, render a [Tool](/docs/agent-ui/components/tool). Once `get_orders` has its final output, render a [Bar Chart](/docs/charts/components/bar) from it below:
+
+```tsx
+"use client";
+import { hasOutput, isStepPart, isToolStep, type Message } from "@kind-ui/agent-ui";
+import { BarChart, type SeriesConfig } from "@kind-ui/charts";
+import { Tool } from "@/components/ui/tool";
+
+type Orders = { day: string; orders: number }[];
+
+const config = {
+  orders: { label: "Orders", color: "#3659b8" },
+} satisfies SeriesConfig;
+
+export function MessageSteps({ message }: { message: Message }) {
+  return message.parts.filter(isStepPart).map(({ step }) => {
+    if (!isToolStep(step)) return null;
+    const { call } = step;
+    const done = hasOutput(call) && call.output.state === "available";
+    return (
+      <div key={call.toolCallId}>
+        <Tool call={call} error={step.error} />
+        {call.name === "get_orders" && done && (
+          <BarChart data={call.output.value as Orders} config={config} aria-label="Orders per day">
+            <BarChart.XAxis dataKey="day" />
+            <BarChart.YAxis />
+            <BarChart.Series dataKey="orders" />
+            <BarChart.Tooltip />
+          </BarChart>
+        )}
+      </div>
+    );
+  });
+}
+```
+
+Render `MessageSteps` inside each assistant [Message](/docs/agent-ui/components/message), next to its text. The Tool closes into its header when the call completes, so the chart is what stays in view.
+
+The chart waits for `available` output, so it never draws from a partial or [preliminary](/docs/agent-ui/components/tool#input-and-output) result. Check the output's shape before you cast it if the tool's results can vary.
+
+## Match the Theme
+
+Both libraries follow your page's `color-scheme`, so the conversation and the chart switch to dark mode together. See [Theming](../theming.mdx).

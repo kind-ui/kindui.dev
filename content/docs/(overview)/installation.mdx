@@ -1,0 +1,58 @@
+---
+title: Installation
+description: Add the @kind-ui registry and install Agent UI, Charts or both.
+---
+
+Use the shadcn CLI to copy components into your project, or npm to use a library as a package. To let your coding agent do it, start from [a prompt](./index.mdx#quick-start) instead.
+
+## Requirements
+
+- [Tailwind CSS](https://tailwindcss.com/docs/installation) 4, set up in your app. With Vite, that's the `@tailwindcss/vite` plugin; with Next.js, `@tailwindcss/postcss`.
+- React 19 for the React components. Agent UI's Web Components don't need React.
+
+## Add the Registry
+
+Both libraries publish to the `@kind-ui` registry. If your project has no `components.json`, run `npx shadcn@latest init` first. Then add the registry to it:
+
+```json title="components.json"
+{
+  "registries": {
+    "@kind-ui": "https://kindui.dev/r/{name}.json"
+  }
+}
+```
+
+## Add Components
+
+Add any component by name. Each component page lists its item:
+
+```bash tab="Agent UI"
+npx shadcn@latest add @kind-ui/conversation
+```
+
+```bash tab="Charts"
+npx shadcn@latest add @kind-ui/line-chart
+```
+
+The first Agent UI component also installs `@kind-ui/agent-ui`, imports its styles into your stylesheet and writes an `AGENTS.md` for coding agents. Each item has a `-web` version for Web Components, like `@kind-ui/conversation-web`. See [Agent UI's Get Started](/docs/agent-ui).
+
+A Charts item copies an editable chart into your components, installs `@kind-ui/charts` and adds an `@source` for the package to your stylesheet. See [Charts' Get Started](/docs/charts).
+
+## Install With npm
+
+Charts works without the registry. Install it with its peers and tell Tailwind to scan it, with a path relative to your stylesheet:
+
+```bash
+npm install @kind-ui/charts motion recharts
+```
+
+```css title="app/globals.css"
+@import "tailwindcss";
+@source "../node_modules/@kind-ui/charts/dist";
+```
+
+Agent UI's package (`@kind-ui/agent-ui`) has the primitives, types and styles its components import. The styled components themselves come from the registry.
+
+## Next.js
+
+Agent UI's React components start with `"use client"`, so server components can import them. Put charts in a client component of your own: their parts, like `LineChart.XAxis`, are properties of a client component, which a server component can't reach.
