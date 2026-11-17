@@ -52,6 +52,13 @@ export function Install({ items }: { items: InstallItems }) {
   const cycling = isShadcn && pickedItem === null;
 
   const panel = useRef<HTMLDivElement>(null);
+  const commandRow = useRef<HTMLDivElement>(null);
+
+  // Long item names overflow the row, so keep its end, and the picker, in view.
+  // biome-ignore lint/correctness/useExhaustiveDependencies: each item changes the row's width.
+  useEffect(() => {
+    if (isShadcn) commandRow.current?.scrollTo({ left: commandRow.current.scrollWidth });
+  }, [isShadcn, item]);
 
   // Pauses while the panel is hovered, keyboard-focused or its list is open, so the command doesn't change under
   // the reader.
@@ -141,7 +148,7 @@ export function Install({ items }: { items: InstallItems }) {
             {copied ? <Check className="size-[13px]" /> : <Copy className="size-[13px]" />}
           </button>
         </div>
-        <div className="mt-2 overflow-x-auto px-1.5 [scrollbar-width:none]">
+        <div ref={commandRow} className="mt-2 overflow-x-auto px-1.5 [scrollbar-width:none]">
           <span className="sr-only">{isShadcn ? "npx shadcn@latest add @kind-ui/" : text}</span>
           <AnimatePresence mode="popLayout" initial={false}>
             <motion.code
@@ -165,8 +172,10 @@ export function Install({ items }: { items: InstallItems }) {
                     reset();
                   }}
                 >
-                  <SelectLabel className="sr-only">Component</SelectLabel>
-                  <SelectTrigger className="-my-0.5 inline-flex items-center gap-1 rounded-md px-1 py-0.5 transition-colors outline-none hover:bg-muted focus-visible:outline focus-visible:outline-foreground data-open:bg-muted">
+                  <SelectLabel render={<span aria-hidden />} className="sr-only">
+                    Component
+                  </SelectLabel>
+                  <SelectTrigger className="-my-0.5 inline-flex items-center gap-1 rounded-md py-0.5 pr-1 transition-colors outline-none hover:bg-muted focus-visible:outline focus-visible:outline-foreground data-open:bg-muted">
                     <span className="sr-only">{item}</span>
                     <span aria-hidden className="relative inline-flex overflow-hidden">
                       <AnimatePresence mode="popLayout" initial={false}>
