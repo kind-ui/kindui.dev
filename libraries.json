@@ -18,7 +18,7 @@
     "repo": "kind-ui/charts",
     "title": "Charts",
     "tag": "@kind-ui/charts@{version}",
-    "version": "0.5.0",
+    "version": "0.5.1",
     "package": "@kind-ui/charts",
     "docs": "apps/docs",
     "paths": [
