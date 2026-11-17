@@ -141,7 +141,15 @@ export function Install({ items }: { items: InstallItems }) {
             {copied ? <Check className="size-[13px]" /> : <Copy className="size-[13px]" />}
           </button>
         </div>
-        <div ref={commandRow} className="mt-2 overflow-x-auto px-1.5 [scrollbar-width:none]">
+        <div
+          ref={commandRow}
+          // The picker's hidden label and value would land in a selection's text.
+          onCopy={(event) => {
+            event.preventDefault();
+            event.clipboardData.setData("text/plain", text);
+          }}
+          className="mt-2 overflow-x-auto px-1.5 [scrollbar-width:none]"
+        >
           <span className="sr-only">{isShadcn ? addCommandPrefix : text}</span>
           <AnimatePresence mode="popLayout" initial={false}>
             <motion.code
