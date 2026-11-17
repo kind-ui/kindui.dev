@@ -21,6 +21,12 @@
     "version": "0.5.0",
     "package": "@kind-ui/charts",
     "docs": "apps/docs",
-    "paths": ["apps/docs/content", "apps/docs/examples", "apps/docs/source.config.ts", "packages/charts/src"]
+    "paths": [
+      "apps/docs/content",
+      "apps/docs/examples",
+      "apps/docs/source.config.ts",
+      "packages/charts/src",
+      "packages/charts/CHANGELOG.md"
+    ]
   }
 }
