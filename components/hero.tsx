@@ -1,7 +1,6 @@
 "use client";
 import { ArrowRight } from "lucide-react";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
+import { motion, useReducedMotion } from "motion/react";
 import { links } from "@/lib/links";
 import type { InstallItems } from "@/lib/registry-items";
 import { agentNames, BrandIcon } from "./brand-icon";
@@ -9,6 +8,7 @@ import { LeadsDonutChart, OrdersBarChart, RingsTile, TrialsLineChart } from "./c
 import { CopyPrompt } from "./copy-prompt";
 import { Install } from "./install";
 import { ease } from "./reveal";
+import { RotatingPill } from "./rotating-pill";
 import { Stickers } from "./stickers";
 
 type Library = "charts" | "agent";
@@ -67,80 +67,18 @@ function LibraryPill({ label, icon, href }: { label: string; icon: React.ReactNo
 }
 
 function AgentPill() {
-  const reduced = useReducedMotion();
-  const [index, setIndex] = useState(0);
-  const [paused, setPaused] = useState(false);
-  const [width, setWidth] = useState<number>();
-  const measureRef = useRef<HTMLSpanElement>(null);
-  const buttonRef = useRef<HTMLButtonElement>(null);
-  const name = agentNames[index];
-  const hintId = useId();
-
-  useEffect(() => {
-    if (reduced || paused) return;
-    const t = window.setInterval(() => {
-      if (!document.hidden) setIndex((i) => (i + 1) % agentNames.length);
-    }, 2600);
-    return () => window.clearInterval(t);
-  }, [paused, reduced]);
-
-  // The sizer holds the current name, so observing it re-measures whenever the name changes.
-  useLayoutEffect(() => {
-    const measure = measureRef.current;
-    const button = buttonRef.current;
-    if (!measure || !button) return;
-    const update = () => {
-      const s = getComputedStyle(button);
-      const chrome =
-        Number.parseFloat(s.paddingLeft) +
-        Number.parseFloat(s.paddingRight) +
-        Number.parseFloat(s.borderLeftWidth) +
-        Number.parseFloat(s.borderRightWidth);
-      setWidth(Math.ceil(measure.getBoundingClientRect().width + chrome));
-    };
-    const observer = new ResizeObserver(update);
-    observer.observe(measure);
-    void document.fonts.ready.then(update);
-    return () => observer.disconnect();
-  }, []);
-
   return (
-    <motion.button
-      ref={buttonRef}
-      type="button"
-      className="pill"
-      animate={{ width: width ?? "auto" }}
-      transition={reduced ? { duration: 0 } : { type: "spring", stiffness: 420, damping: 34 }}
-      aria-describedby={hintId}
-      onClick={() => setIndex((i) => (i + 1) % agentNames.length)}
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-      onFocus={() => setPaused(true)}
-      onBlur={() => setPaused(false)}
-    >
-      <span className="sr-only">your agents</span>
-      <span id={hintId} hidden>
-        Shows the next agent
-      </span>
-      <span ref={measureRef} className="pill-sizer" aria-hidden>
-        <BrandIcon name={name} />
-        {name}
-      </span>
-      <AnimatePresence initial={false} mode="popLayout">
-        <motion.span
-          key={name}
-          aria-hidden
-          className="pill-face"
-          initial={reduced ? false : { y: "55%", opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={reduced ? { opacity: 0 } : { y: "-55%", opacity: 0 }}
-          transition={{ duration: reduced ? 0 : 0.2, ease }}
-        >
+    <RotatingPill
+      items={agentNames}
+      label="your agents"
+      hint="Shows the next agent"
+      face={(name) => (
+        <>
           <BrandIcon name={name} />
           {name}
-        </motion.span>
-      </AnimatePresence>
-    </motion.button>
+        </>
+      )}
+    />
   );
 }
 
