@@ -3,7 +3,6 @@ import { GeistSans } from "geist/font/sans";
 import { ArrowLeft } from "lucide-react";
 import type { Metadata } from "next";
 import { ErrorPage, primaryButton } from "@/components/error-page";
-import { MissingPageCall } from "@/components/missing-page-call";
 import { ThemeProvider } from "@/components/theme-switcher";
 import "./(home)/globals.css";
 
@@ -19,7 +18,7 @@ export default function GlobalNotFound() {
         <ThemeProvider>
           <ErrorPage
             lead="This page went"
-            excuses={["missing", "for a walk", "off the chart", "to lunch"]}
+            excuses={{ missing: "🫥", "for a walk": "🚶", "off the chart": "📈", "to lunch": "🍜" }}
             description="We looked everywhere. Here are some pages that do exist."
             action={
               <a href="/" className={primaryButton}>
@@ -27,9 +26,7 @@ export default function GlobalNotFound() {
                 Back home
               </a>
             }
-          >
-            <MissingPageCall />
-          </ErrorPage>
+          />
         </ThemeProvider>
       </body>
     </html>

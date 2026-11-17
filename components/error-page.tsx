@@ -1,3 +1,4 @@
+"use client";
 import { links } from "@/lib/links";
 import { RotatingPill } from "./rotating-pill";
 import { SiteNav } from "./site-nav";
@@ -13,15 +14,13 @@ export function ErrorPage({
   excuses,
   description,
   action,
-  children,
 }: {
   lead: string;
-  /** The first one is what a screen reader reads. */
-  excuses: readonly string[];
+  /** Each excuse and its emoji. The first excuse is what a screen reader reads. */
+  excuses: Record<string, string>;
   description: string;
   /** The primary button. */
   action: React.ReactNode;
-  children?: React.ReactNode;
 }) {
   return (
     <>
@@ -32,7 +31,18 @@ export function ErrorPage({
             <span className="hero-sentence">
               {lead}{" "}
               <span className="pill-slot">
-                <RotatingPill items={excuses} label={excuses[0]} hint="Shows another excuse" />.
+                <RotatingPill
+                  items={Object.keys(excuses)}
+                  label={Object.keys(excuses)[0]}
+                  hint="Shows another excuse"
+                  face={(excuse) => (
+                    <>
+                      <span className="emoji">{excuses[excuse]}</span>
+                      {excuse}
+                    </>
+                  )}
+                />
+                .
               </span>
             </span>
           </h1>
@@ -49,7 +59,6 @@ export function ErrorPage({
               </a>
             ))}
           </div>
-          {children && <div className="mx-auto mt-12 max-w-md text-left">{children}</div>}
         </div>
       </main>
     </>

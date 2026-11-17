@@ -6,7 +6,7 @@ export function BrokenPage({ retry }: { retry: () => void }) {
   return (
     <ErrorPage
       lead="Something"
-      excuses={["broke", "tripped", "went sideways", "fell over"]}
+      excuses={{ broke: "💥", tripped: "🍌", "went sideways": "🦀", "fell over": "🙃" }}
       description="Not your fault. Try again, or head somewhere that works."
       action={
         <button type="button" onClick={retry} className={primaryButton}>
