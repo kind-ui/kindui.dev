@@ -1,23 +1,27 @@
 import * as AgentUi from "collections/agent-ui/server";
+import * as Charts from "collections/charts/server";
 import { docs } from "collections/server";
 import { llms, loader, update } from "fumadocs-core/source";
 import { lucideIconsPlugin } from "fumadocs-core/source/plugins/lucide-icons";
 import { docsRoute, origin } from "./shared";
 
-// A library's docs mount under `/docs/<library>/` as a root folder with this site's sidebar title and icon.
-const agentUi = update(AgentUi.docs.toFumadocsSource({ baseDir: "agent-ui" }))
-  .meta((file) =>
-    file.path === "agent-ui/meta.json"
-      ? {
-          ...file,
-          data: { ...file.data, description: "AI interface components", icon: "MessagesSquare", root: true },
-        }
-      : file,
-  )
-  .build();
+// A library's docs mount under `/docs/<library>/` as a root folder with this site's sidebar description and icon.
+function mountLibrary(name: string, collection: typeof AgentUi.docs, description: string, icon: string) {
+  return update(collection.toFumadocsSource({ baseDir: name }))
+    .meta((file) =>
+      file.path === `${name}/meta.json`
+        ? { ...file, data: { ...file.data, description, icon, root: true } }
+        : file,
+    )
+    .build();
+}
 
 export const source = loader(
-  { root: docs.toFumadocsSource(), "agent-ui": agentUi },
+  {
+    root: docs.toFumadocsSource(),
+    "agent-ui": mountLibrary("agent-ui", AgentUi.docs, "AI interface components", "MessagesSquare"),
+    charts: mountLibrary("charts", Charts.docs, "Interactive charts", "ChartColumn"),
+  },
   { baseUrl: docsRoute, plugins: [lucideIconsPlugin()] },
 );
 

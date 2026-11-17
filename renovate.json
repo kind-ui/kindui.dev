@@ -6,11 +6,8 @@
       "customType": "regex",
       "description": "Library releases pinned in libraries.json",
       "managerFilePatterns": ["/^libraries\\.json$/"],
-      "matchStrings": [
-        "\"repo\": \"(?<depName>[^\"]+)\",\\s*\"tag\": \"v\\{version\\}\",\\s*\"version\": \"(?<currentValue>[^\"]+)\""
-      ],
-      "datasourceTemplate": "github-releases",
-      "extractVersionTemplate": "^v(?<version>.*)$"
+      "matchStrings": ["\"repo\": \"(?<depName>[^\"]+)\",[^}]*?\"version\": \"(?<currentValue>[^\"]+)\""],
+      "datasourceTemplate": "github-releases"
     }
   ],
   "packageRules": [
@@ -18,6 +15,21 @@
       "description": "A library's release, its npm package and its UI SDK pins move together",
       "groupName": "agent-ui",
       "matchPackageNames": ["kind-ui/agent-ui", "@kind-ui/agent-ui", "@ui-sdk/**"]
+    },
+    {
+      "matchDatasources": ["github-releases"],
+      "matchPackageNames": ["kind-ui/agent-ui"],
+      "extractVersion": "^v(?<version>.+)$"
+    },
+    {
+      "description": "Charts' release and its npm package move together",
+      "groupName": "charts",
+      "matchPackageNames": ["kind-ui/charts", "@kind-ui/charts"]
+    },
+    {
+      "matchDatasources": ["github-releases"],
+      "matchPackageNames": ["kind-ui/charts"],
+      "extractVersion": "^@kind-ui/charts@(?<version>.+)$"
     }
   ]
 }

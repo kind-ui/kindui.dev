@@ -43,8 +43,7 @@ const entries: Entry[] = [
   { title: "Agent UI docs", group: "Docs", href: agentDocs },
   { title: "AI SDK adapter", group: "Docs", href: `${agentDocs}adapters/ai-sdk/` },
   { title: "Charts docs", group: "Docs", href: chartsDocs },
-  { title: "Installation", group: "Docs", href: `${chartsDocs}installation/` },
-  { title: "Agents", group: "Docs", href: `${chartsDocs}agents/` },
+  { title: "Agents", group: "Docs", href: links.agents },
   ...agentComponents.map((c) => ({
     title: c,
     group: "Agent UI",
