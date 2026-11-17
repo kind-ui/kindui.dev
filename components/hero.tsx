@@ -3,6 +3,7 @@ import { ArrowRight } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
 import { links } from "@/lib/links";
+import type { InstallItems } from "@/lib/registry-items";
 import { agentNames, BrandIcon } from "./brand-icon";
 import { LeadsDonutChart, OrdersBarChart, RingsTile, TrialsLineChart } from "./charts";
 import { CopyPrompt } from "./copy-prompt";
@@ -12,7 +13,7 @@ import { Stickers } from "./stickers";
 
 type Library = "charts" | "agent";
 
-export function Hero() {
+export function Hero({ installItems }: { installItems: InstallItems }) {
   return (
     <section
       aria-labelledby="hero-title"
@@ -48,7 +49,7 @@ export function Hero() {
           </a>
           <CopyPrompt />
         </div>
-        <Install />
+        <Install items={installItems} />
       </div>
     </section>
   );

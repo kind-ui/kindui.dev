@@ -3,34 +3,34 @@ import { ArrowUpRight } from "lucide-react";
 import type { ComponentType } from "react";
 import { Reveal } from "@/components/reveal";
 import AttachmentsExample from "@/examples/attachments/basic";
+import CheckpointExample from "@/examples/checkpoint/basic";
 import CodeBlockExample from "@/examples/code-block/basic";
 import ComposerExample from "@/examples/composer/basic";
 import ConversationExample from "@/examples/conversation/basic";
 import LoaderExample from "@/examples/loader/basic";
 import MarkdownExample from "@/examples/markdown/basic";
-import MarkdownTableExample from "@/examples/markdown-table/basic";
 import MessageExample from "@/examples/message/basic";
-import StepExample from "@/examples/step/basic";
+import PlanExample from "@/examples/plan/basic";
+import QuestionExample from "@/examples/question/basic";
+import ReasoningExample from "@/examples/reasoning/basic";
 import StreamingTextExample from "@/examples/streaming-text/basic";
-import ThinkingIndicatorExample from "@/examples/thinking-indicator/basic";
-import TypingIndicatorExample from "@/examples/typing-indicator/basic";
-import UploaderExample from "@/examples/uploader/basic";
+import ToolExample from "@/examples/tool/basic";
 import { docsHref } from "./data";
 
 const tiles: { name: string; slug: string; Example: ComponentType; wide?: boolean }[] = [
   { name: "Conversation", slug: "conversation", Example: ConversationExample, wide: true },
-  { name: "Step", slug: "step", Example: StepExample },
+  { name: "Plan", slug: "plan", Example: PlanExample },
   { name: "Message", slug: "message", Example: MessageExample, wide: true },
   { name: "Streaming Text", slug: "streaming-text", Example: StreamingTextExample },
   { name: "Loader", slug: "loader", Example: LoaderExample },
-  { name: "Thinking Indicator", slug: "thinking-indicator", Example: ThinkingIndicatorExample },
-  { name: "Typing Indicator", slug: "typing-indicator", Example: TypingIndicatorExample },
+  { name: "Reasoning", slug: "reasoning", Example: ReasoningExample },
+  { name: "Checkpoint", slug: "checkpoint", Example: CheckpointExample },
   { name: "Markdown", slug: "markdown", Example: MarkdownExample, wide: true },
   { name: "Code Block", slug: "code-block", Example: CodeBlockExample },
   { name: "Composer", slug: "composer", Example: ComposerExample, wide: true },
   { name: "Attachments", slug: "attachments", Example: AttachmentsExample },
-  { name: "Markdown Table", slug: "markdown-table", Example: MarkdownTableExample, wide: true },
-  { name: "Uploader", slug: "uploader", Example: UploaderExample },
+  { name: "Tool", slug: "tool", Example: ToolExample, wide: true },
+  { name: "Question", slug: "question", Example: QuestionExample },
 ];
 
 export function ComponentsGrid() {
