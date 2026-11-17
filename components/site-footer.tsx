@@ -38,8 +38,8 @@ const groups: { title: string; items: [string, string][]; all?: [string, string]
   {
     title: "Guides",
     items: [
-      ["Getting started", links.chartsDocs],
-      ["Composition", `${links.chartsDocs}building-blocks/chart/`],
+      ["Charts: get started", links.chartsDocs],
+      ["Chart root", `${links.chartsDocs}building-blocks/chart/`],
       ["Materials", `${links.chartsDocs}guides/materials/`],
       ["Accessibility", `${links.chartsDocs}guides/accessibility/`],
       ["Motion", `${links.chartsDocs}guides/motion/`],

@@ -12,11 +12,11 @@ Last reviewed: `a1608d04db73c3d7603e3c1beb325be826f4c114` (error pages)
 
 ## Known and open (don't report again, check whether fixed)
 
-- **Phase 2: "Edit on GitHub" points at this repo.** `ViewOptionsPopover`'s `githubUrl` uses `kind-ui/kindui.dev/content/docs/...`; library pages are extracted at build, so it must point at each library's repo once they arrive.
+- **Relative `.mdx` links in the `/llms.mdx/**.md` output don't resolve there.** Library pages link `./components/line.mdx`; the processed Markdown keeps it. Affects Agent UI and Charts alike.
 
 ## Resolved
 
-Nothing yet.
+- **"Edit on GitHub" pointed at this repo.** `sourceUrl` (`lib/shared.ts`) links library pages to the library's repo at its pinned tag.
 
 ## Revisit
 

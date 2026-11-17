@@ -165,7 +165,7 @@ Renovate watches each library's GitHub releases through a regex manager on `libr
 
 **In kind-ui/charts:** the docs are rewritten onto Agent UI's stack (Fumadocs 16.19.3 Base UI, Next 16.4.6) and `apps/showcase` retires. Releases attach `charts-site-<version>.tar.gz` with its `r/`, gated by `KINDUI_HOSTING`, and are immutable. Tags are `@kind-ui/charts@<version>`.
 
-**In this repo:** charts joins `libraries.json` (tag `@kind-ui/charts@{version}`) and mounts under `/docs/charts/` like Agent UI; `content/docs/charts/` goes. Charts' registry items are `registry:component`s with no `layer`, so `npm run components` installs none of them; its examples import `@kind-ui/charts` from npm. Charts' pages map its theme variables (`--foreground`, `--border`, …) onto Fumadocs' under `.charts`. Renovate's matcher takes any tag, with a per-library `extractVersion`.
+**In this repo:** charts joins `libraries.json` (tag `@kind-ui/charts@{version}`) and mounts under `/docs/charts/` like Agent UI; `content/docs/charts/` goes. Charts' registry items are `registry:component`s with no `layer`, so `npm run components` installs none of them; its examples import `@kind-ui/charts` from npm. Charts' pages map its theme variables (`--foreground`, `--border`, `--card`, …) onto Fumadocs' under `.charts`. Renovate's matcher takes any tag, with a per-library `extractVersion`.
 
 A shared `docs-kit` registry item for the MDX components is deferred until the libraries' copies diverge beyond `Example`'s preview.
 

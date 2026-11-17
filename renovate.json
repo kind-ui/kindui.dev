@@ -6,7 +6,9 @@
       "customType": "regex",
       "description": "Library releases pinned in libraries.json",
       "managerFilePatterns": ["/^libraries\\.json$/"],
-      "matchStrings": ["\"repo\": \"(?<depName>[^\"]+)\",[^}]*?\"version\": \"(?<currentValue>[^\"]+)\""],
+      "matchStrings": [
+        "\"repo\": \"(?<depName>[^\"]+)\",(?:\\s*\"[^\"]+\": \"[^\"]*\",)*?\\s*\"version\": \"(?<currentValue>[^\"]+)\""
+      ],
       "datasourceTemplate": "github-releases"
     }
   ],

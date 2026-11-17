@@ -34,6 +34,8 @@
   --color-fd-primary: var(--charts-color);
   --foreground: var(--color-fd-foreground);
   --border: var(--color-fd-border);
+  --card: var(--color-fd-card);
+  --radius: var(--radius-lg);
   --muted: var(--color-fd-muted);
   --muted-foreground: var(--color-fd-muted-foreground);
   --popover: var(--color-fd-popover);
