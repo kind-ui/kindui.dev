@@ -1,3 +1,5 @@
+"use client";
+
 import { Toolbar, ToolbarButton, ToolbarGroup, ToolbarSeparator } from "@ui-sdk/react/toolbar";
 import { withKindClass } from "./kind-class.js";
 

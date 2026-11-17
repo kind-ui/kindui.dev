@@ -4,7 +4,11 @@
     "tag": "v{version}",
     "version": "0.3.0",
     "package": "@kind-ui/agent-ui",
-    "docs": "apps/docs",
-    "paths": ["apps/docs/content", "apps/docs/examples", "apps/docs/source.config.ts", "packages/agent-ui/src"]
+    "paths": [
+      "apps/docs/content",
+      "apps/docs/examples",
+      "apps/docs/source.config.ts",
+      "packages/agent-ui/src"
+    ]
   }
 }

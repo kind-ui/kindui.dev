@@ -35,7 +35,21 @@ async function download(url) {
 function checkout(library, target) {
   const git = (args, cwd) => execFileSync("git", args, { cwd, stdio: ["ignore", "ignore", "inherit"] });
   const url = `https://github.com/${library.repo}.git`;
-  git(["clone", "--quiet", "--depth", "1", "--filter=blob:none", "--sparse", "--branch", tagFor(library), url, target], root);
+  git(
+    [
+      "clone",
+      "--quiet",
+      "--depth",
+      "1",
+      "--filter=blob:none",
+      "--sparse",
+      "--branch",
+      tagFor(library),
+      url,
+      target,
+    ],
+    root,
+  );
   git(["sparse-checkout", "set", "--no-cone", ...library.paths], target);
 }
 

@@ -1,3 +1,5 @@
+"use client";
+
 import { streamingTextPrimitive } from "@kind-ui/agent-ui/core";
 import { createParts } from "@ui-sdk/react/primitive";
 import type { ComponentProps } from "react";

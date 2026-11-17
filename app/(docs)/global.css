@@ -2,6 +2,10 @@
 @import "fumadocs-ui/css/generated/spacious.css";
 @import "fumadocs-ui/css/neutral.css";
 @import "fumadocs-ui/css/preset.css";
+@import "@kind-ui/agent-ui/styles.css";
+
+@source "../../.libraries/agent-ui/source/apps/docs/examples";
+@source "../../components/ui";
 
 @theme inline {
   --default-font-family: var(--font-geist-sans);
@@ -27,8 +31,14 @@
   --color-fd-primary: var(--charts-color);
 }
 
+/* Agent UI's `--kind-color-*` tokens are `light-dark()` pairs, so they follow the theme's `color-scheme`. */
 html {
+  color-scheme: light;
   scrollbar-gutter: stable;
+}
+
+html.dark {
+  color-scheme: dark;
 }
 
 /* The stable gutter already holds the scrollbar's place, so the scroll lock's `!important` margin is undone. */
