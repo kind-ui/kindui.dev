@@ -35,6 +35,7 @@ Run `lint` and `typecheck` while you work, and `build` when you touch pages, con
 
 ## Rules
 
+- CI audits dependencies with `audit-ci` (`audit-ci.jsonc`), failing on high severity. Its allowlist holds only `GHSA-fc5q-39xc-vjpf` (picomatch ReDoS in build tooling, no fix yet); remove it once picomatch ships a fix.
 - Static only: no server code, middleware or runtime env. Every route must export to a file in `out/`.
 - Links inside the site are root-relative (`/docs/...`). Use `https://kindui.dev` only in metadata and in text users paste elsewhere.
 - The homepage (`app/(home)/`) and the docs (`app/(docs)/`) are separate root layouts. Neither imports the other's CSS or components; both may import `components/brand/` (the wordmark) and the installed `components/ui/`.
