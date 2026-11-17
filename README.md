@@ -6,7 +6,7 @@ Each library keeps its own docs and registry in its repo ([agent-ui](https://git
 
 ## Develop
 
-Requires Node 22.18 or newer and npm 11.9.
+Requires Node 22.22 or newer and npm 11.9.
 
 ```bash
 npm ci
@@ -17,6 +17,12 @@ npm run build      # static export to out/
 ```
 
 `npx wrangler dev` serves `out/` the way production does.
+
+## Library docs and registries
+
+`libraries.json` pins each library's release. Before `dev`, `build` and `typecheck`, `npm run libraries` checks out the library's docs at that tag into `.libraries/`, downloads the release's registry, and assembles `public/r/`. `components/ui/` holds the pinned registry's React components, installed with `npm run components`; run it and commit the result after a library bump. Renovate opens the bump PRs, and CI fails until `components/ui/` matches.
+
+To preview a library's unreleased docs, build its registry in its checkout and point at it: `KINDUI_LIBRARY_AGENT_UI=../agent-ui npm run dev`.
 
 ## Deploy
 
