@@ -126,12 +126,12 @@ Each library's docs render in this repo's Fumadocs shell, from the library's own
   ```
 
 - **Fetch:** `scripts/fetch-libraries.mjs` runs before `dev`, `build` and `typecheck`. For each library it:
-  - sparse-checks out `paths` at the tag into `.libraries/<lib>/`, keeping the repo's layout, so every path relative to an MDX file (type tables, includes) resolves unchanged;
+  - sparse-checks out `paths` at the tag into `.libraries/<lib>/source/`, keeping the repo's layout, so every path relative to an MDX file (type tables, includes) resolves unchanged;
   - downloads `<lib>-site-<version>.tar.gz` and its `.sha256` from the release, checks the hash, and extracts only `r/` to `.libraries/<lib>/r/`;
   - fails, naming the library and version, when the tag or asset is missing, the hash differs, or the installed `@kind-ui/<lib>` npm version differs from the pin.
 
-  `.libraries/` is gitignored.
-- **Render:** each library's docs folder (`.libraries/<lib>/<docs>`) is a [Fumadocs MDX workspace](https://www.fumadocs.dev/docs/mdx/workspace) with its own collection and the library's own `source.config.ts` options (Agent UI's `fumadocs-typescript` type tables). `lib/source.ts` combines the root collection and each workspace with a multi-source `loader()`, mounting each library under `/docs/<lib>/`. The library's `meta.json` gives the sidebar order; this repo sets the root-folder title, description and icon, so the library needs no kindui.dev-specific metadata.
+  `.libraries/` is gitignored. `KINDUI_LIBRARY_<NAME>=<checkout>` copies a local checkout and its built registry instead, so a library author can preview unreleased docs.
+- **Render:** each library's docs folder (`.libraries/<lib>/source/<docs>`) is a [Fumadocs MDX workspace](https://www.fumadocs.dev/docs/mdx/workspace) with its own collection and the library's own `source.config.ts` options (Agent UI's `fumadocs-typescript` type tables). `lib/source.ts` combines the root collection and each workspace with a multi-source `loader()`, mounting each library under `/docs/<lib>/`. The library's `meta.json` gives the sidebar order; this repo sets the root-folder title, description and icon, so the library needs no kindui.dev-specific metadata.
 - **Components:** examples import `@/components/ui/<name>`, as a shadcn user's code does. This repo installs every React item from the pinned `r/` with `npx shadcn add` into `components/ui/` (generated at fetch time, gitignored), along with `@kind-ui/<lib>` and its `@ui-sdk/*` packages at the exact versions the library's docs app pins. The homepage uses the same installed components, which replaces its copied `components/ui/` and `vendor/`.
 - **MDX components:** this repo provides the components the library pages use (`Example`, `Caption`, `Tab`, `Tabs`, `TypeTable`) in `components/mdx.tsx`. `@kind-ui/docs-kit` replaces this copy when a second library needs the same components (phase 2b).
 - **Edit on GitHub** links point at the library's repo and tag, not this repo.

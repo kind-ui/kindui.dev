@@ -8,7 +8,12 @@
     "build": "next build --webpack",
     "typecheck": "next typegen && tsc --noEmit",
     "lint": "biome check .",
-    "format": "biome check --write ."
+    "format": "biome check --write .",
+    "libraries": "node scripts/fetch-libraries.mjs",
+    "predev": "npm run libraries",
+    "prebuild": "npm run libraries",
+    "pretypecheck": "npm run libraries",
+    "test": "node --test 'scripts/*.test.mjs'"
   },
   "dependencies": {
     "@kind-ui/agent-ui": "file:vendor/agent-ui",
