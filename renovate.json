@@ -1,0 +1,23 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Library releases pinned in libraries.json",
+      "managerFilePatterns": ["/^libraries\\.json$/"],
+      "matchStrings": [
+        "\"repo\": \"(?<depName>[^\"]+)\",\\s*\"tag\": \"v\\{version\\}\",\\s*\"version\": \"(?<currentValue>[^\"]+)\""
+      ],
+      "datasourceTemplate": "github-releases",
+      "extractVersionTemplate": "^v(?<version>.*)$"
+    }
+  ],
+  "packageRules": [
+    {
+      "description": "A library's release, its npm package and its UI SDK pins move together",
+      "groupName": "agent-ui",
+      "matchPackageNames": ["kind-ui/agent-ui", "@kind-ui/agent-ui", "@ui-sdk/**"]
+    }
+  ]
+}

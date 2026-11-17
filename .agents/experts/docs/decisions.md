@@ -2,10 +2,11 @@
 
 What is already decided, and what is known and open. The expert never re-raises a **Settled** item as a finding.
 
-Last reviewed: `3620073425867a8342134c07fe4ca08dbc5f5ee8` (phase 1 docs and hosting)
+Last reviewed: `3d484ed6450ba74db5b0c831a09eeb4a577b880f` (phase 2a)
 
 ## Settled
 
+- The wordmark lives in `components/brand/` and both layouts import it, so the docs logo matches the homepage's exactly (user's request). Neither imports anything else of the other's.
 - Everything in the spec's "Decisions" section.
 - `/llms.txt` starts with `# Docs`, as fumadocs.dev's does.
 

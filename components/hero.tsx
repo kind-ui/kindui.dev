@@ -246,7 +246,7 @@ const more: Record<Library, { names: string[]; href: string }> = {
       "Terminal",
       "File Tree",
     ],
-    href: `${links.agentUiDocs}/`,
+    href: links.agentUiDocs,
   },
 };
 

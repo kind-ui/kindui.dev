@@ -1,2 +1,0 @@
-export { type CodeBlockApi, type CodeBlockOptions, type CodeBlockPrimitive, type CodeBlockState, type CodeBlockWrapChangeReason, codeBlockPrimitive, type Highlight, type Token, } from "./code-block.js";
-//# sourceMappingURL=index.d.ts.map

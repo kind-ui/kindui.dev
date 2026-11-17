@@ -11,12 +11,15 @@ import { parseArgs } from "node:util";
 
 const root = path.resolve(import.meta.dirname, "..");
 
-const docsComponents = /^components\/(mdx|docs-[\w-]+|fumadocs\/.*)\.tsx?$/;
+const docsComponents = /^components\/(mdx|example|caption|docs-[\w-]+|fumadocs\/.*)\.tsx?$/;
 
 const owners = {
   home: [
     /^app\/\(home\)\//,
-    { test: (file) => file.startsWith("components/") && !docsComponents.test(file) },
+    {
+      test: (file) =>
+        file.startsWith("components/") && !docsComponents.test(file) && !file.startsWith("components/brand/"),
+    },
     /^examples\//,
     /^lib\/links\.ts$/,
     /^public\/(?!_headers$|_redirects$|\.assetsignore$)/,
@@ -27,6 +30,7 @@ const owners = {
     /^app\/llms[^/]*\//,
     /^content\//,
     /^source\.config\.ts$/,
+    /^libraries\//,
     /^lib\/source\.ts$/,
     /^cli\.json$/,
     docsComponents,
@@ -35,6 +39,7 @@ const owners = {
     /^next\.config\.mjs$/,
     /^package(-lock)?\.json$/,
     /^wrangler\.jsonc$/,
+    /^(libraries|renovate|components)\.json$/,
     /^(biome|tsconfig)\.json$/,
     /^\.(lycheeignore|nvmrc|gitignore)$/,
     /^public\/(_headers|_redirects)$/,
@@ -44,8 +49,9 @@ const owners = {
   ],
 };
 
-// Both apps are built by the same Next.js config and package.json.
-const sharedConfig = (file) => /^(next\.config\.mjs|package\.json)$/.test(file);
+// Both apps are built by the same Next.js config and package.json, and share the brand components.
+const sharedConfig = (file) =>
+  /^(next\.config\.mjs|package\.json)$/.test(file) || file.startsWith("components/brand/");
 const shared = { home: sharedConfig, docs: sharedConfig };
 
 const { values: flags, positionals } = parseArgs({

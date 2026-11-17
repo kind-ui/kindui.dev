@@ -25,7 +25,7 @@ export function AgentSection() {
       }
       body="Messages, the steps an agent took, answers that stream in, and a composer to reply. Your agent can read every component and use its controls, without screenshots. Works in React, Vue, Svelte, Solid and Web Components."
       command={commands.agentUiAdd}
-      docs={`${links.agentUiDocs}/`}
+      docs={links.agentUiDocs}
     >
       <Stage />
       <ComponentsGrid />

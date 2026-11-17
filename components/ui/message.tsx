@@ -1,3 +1,5 @@
+"use client";
+
 import { messagePrimitive } from "@kind-ui/agent-ui/core";
 import { createParts } from "@ui-sdk/react/primitive";
 import type { ComponentProps } from "react";

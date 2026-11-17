@@ -22,6 +22,7 @@ jobs:
       - uses: ./.github/actions/setup
       - run: npm audit --audit-level=high --include=dev
       - run: npm run lint
+      - run: npm test
       - run: npm run typecheck
       - run: npm run build
       - name: Check internal links
@@ -29,3 +30,12 @@ jobs:
         with:
           args: --offline --root-dir ${{ github.workspace }}/out --index-files index.html --no-progress 'out/**/*.html'
           fail: true
+      - name: Check components/ui matches the pinned registries
+        run: |
+          npm run components
+          changes=$(git status --porcelain -- components/ui "app/(docs)/global.css")
+          if [ -n "$changes" ]; then
+            echo "::error::components/ui differs from the pinned registries; run npm run components and commit it."
+            echo "$changes"
+            exit 1
+          fi

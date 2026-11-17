@@ -5,7 +5,7 @@ import { links } from "@/lib/links";
 
 type Entry = { title: string; group: string; href: string };
 
-const agentDocs = `${links.agentUiDocs}/`;
+const agentDocs = links.agentUiDocs;
 const chartsDocs = links.chartsDocs;
 const agentComponents = [
   "Conversation",

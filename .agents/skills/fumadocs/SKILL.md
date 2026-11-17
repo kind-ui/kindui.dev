@@ -25,7 +25,7 @@ When the code differs from what the docs show, cite the docs page in the commit 
 
 The homepage is a separate root layout in `app/(home)/` with its own CSS and theme. Nothing in `app/(docs)/` imports from it.
 
-The shell follows fumadocs.dev's own setup: the Spacious layout (`fumadocs-ui/layouts/spacious`, and `layouts/spacious/page` for the page parts) on the `neutral` preset, with each part of the docs as a root folder (`"root": true`) shown as tabs at the top of the sidebar. `content/docs/(overview)/` is the Kind UI root at `/docs`; `content/docs/agent-ui/` and `content/docs/charts/` are the library roots, which phase 2 fills from each library's release. A library's pages take its color as `--color-fd-primary` (`app/(docs)/global.css`, `lib/sections.ts`).
+The shell follows fumadocs.dev's own setup: the Spacious layout (`fumadocs-ui/layouts/spacious`, and `layouts/spacious/page` for the page parts) on the `neutral` preset, with each part of the docs as a root folder (`"root": true`) shown as tabs at the top of the sidebar. `content/docs/(overview)/` is the Kind UI root at `/docs`. Each library's docs app, checked out at its pinned tag into `.libraries/<lib>/source/`, is a Fumadocs MDX workspace (`source.config.ts`), mounted under `/docs/<lib>/` by the multi-source loader in `lib/source.ts`. `content/docs/charts/` is a placeholder until charts joins (spec phase 2b). A library's pages take its color as `--color-fd-primary` (`app/(docs)/global.css`, `lib/sections.ts`).
 
 ## Use the CLIs, not hand-written code
 

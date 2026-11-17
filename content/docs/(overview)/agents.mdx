@@ -1,0 +1,37 @@
+---
+title: Agents
+description: Set up Kind UI with a coding agent and point it at the docs it should read.
+---
+
+Kind UI is built to be used by coding agents as well as people. Each library publishes its docs as plain text, and the setup leaves notes in your project that tell an agent what to read before it changes a component.
+
+## Start From a Prompt
+
+The quickest start is the **Copy prompt** button on the [Kind UI homepage](/). Pick a library, copy the prompt, and paste it into your agent:
+
+- **Agent UI:** adds the `@kind-ui` registry to `components.json` and installs a first component with the shadcn CLI.
+- **Charts:** installs `@kind-ui/charts` from npm, sets up Tailwind to scan it, and installs the Charts skill.
+
+Both prompts then tell the agent which docs to read before it builds anything.
+
+## Docs as Text
+
+Every docs page is also served as Markdown. Give your agent one of these:
+
+- [`/llms.txt`](/llms.txt) links to each library's list below.
+- [`/docs/agent-ui/llms.txt`](/docs/agent-ui/llms.txt) lists the Agent UI pages.
+- [`/docs/charts/llms.txt`](/docs/charts/llms.txt) lists the Charts pages.
+
+Each library's list links to the Markdown of its pages, and `llms-full.txt` beside it holds them all in one file.
+
+## The AGENTS.md From the Registry
+
+When you add Agent UI components with the [registry](./index.mdx#setup), the first one also writes an `AGENTS.md` beside them. It tells agents to read the `@kind-ui/agent-ui` README, the UI SDK skill and the UI SDK docs before changing a component, and to leave focus, keyboard and ARIA to UI SDK.
+
+## Charts Skill
+
+Charts ships an agent skill with rules for choosing a chart, composing it, theming it and checking it. Install it in agents that support skills:
+
+```bash
+npx skills add kind-ui/charts --skill kind-ui-charts
+```

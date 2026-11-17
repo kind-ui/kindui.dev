@@ -1,3 +1,5 @@
+"use client";
+
 import { stepListPrimitive, stepPrimitive } from "@kind-ui/agent-ui/core";
 import { createParts } from "@ui-sdk/react/primitive";
 

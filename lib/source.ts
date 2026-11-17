@@ -1,28 +1,25 @@
-import { llms, loader } from "fumadocs-core/source";
+import * as AgentUi from "collections/agent-ui/server";
+import { docs } from "collections/server";
+import { llms, loader, update } from "fumadocs-core/source";
 import { lucideIconsPlugin } from "fumadocs-core/source/plugins/lucide-icons";
-import { metaSchema, pageSchema } from "fumadocs-core/source/schema";
-import { defineDocs } from "fumadocs-mdx/macro";
 import { docsRoute, origin } from "./shared";
 
-const docs = defineDocs({
-  dir: "content/docs",
-  docs: {
-    schema: pageSchema,
-    postprocess: {
-      includeProcessedMarkdown: true,
-    },
-  },
-  meta: {
-    schema: metaSchema,
-  },
-});
+// A library's docs mount under `/docs/<library>/` as a root folder with this site's sidebar title and icon.
+const agentUi = update(AgentUi.docs.toFumadocsSource({ baseDir: "agent-ui" }))
+  .meta((file) =>
+    file.path === "agent-ui/meta.json"
+      ? {
+          ...file,
+          data: { ...file.data, description: "AI interface components", icon: "MessagesSquare", root: true },
+        }
+      : file,
+  )
+  .build();
 
-// See https://fumadocs.dev/docs/headless/source-api for more info
-export const source = loader({
-  baseUrl: docsRoute,
-  source: docs.toFumadocsSource(),
-  plugins: [lucideIconsPlugin()],
-});
+export const source = loader(
+  { root: docs.toFumadocsSource(), "agent-ui": agentUi },
+  { baseUrl: docsRoute, plugins: [lucideIconsPlugin()] },
+);
 
 export const docsLlms = llms(source, {
   // Each library gets its own `llms.txt`; the overview root shares `/docs` with the site's.

@@ -1,3 +1,5 @@
+"use client";
+
 import { type ComposerTriggerItem, composerPrimitive } from "@kind-ui/agent-ui/core";
 import { FileInput, FileInputDropzone, FileInputTrigger } from "@ui-sdk/react/file-input";
 import { createParts } from "@ui-sdk/react/primitive";
@@ -97,7 +99,9 @@ export function ComposerTriggerMenu(props: ComponentProps<typeof KindTriggerMenu
 }
 
 /** The draft's attachments, hidden while there are none. */
-export function ComposerAttachments(props: Omit<AttachmentsProps, "items" | "onRemove" | "motion">) {
+export function ComposerAttachments(
+  props: Omit<AttachmentsProps, "items" | "onRemove" | "focusFallback" | "motion">,
+) {
   return (
     <parts.Attachments>
       {(attachments) => <Attachments aria-label="Attachments" {...props} {...attachments} />}

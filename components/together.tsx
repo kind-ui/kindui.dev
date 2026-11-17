@@ -1,4 +1,5 @@
 "use client";
+import { RotateCcw } from "lucide-react";
 import { motion, useInView, useReducedMotion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -40,6 +41,11 @@ export function Together() {
     }
   }, [inView, reduced, thinking, count]);
 
+  const replay = () => {
+    setThinking(!reduced);
+    setCount(reduced ? answer.length : 0);
+  };
+
   const done = !thinking && count >= answer.length;
   return (
     <section aria-labelledby="together-title" className="mx-auto max-w-[1260px] px-5 pt-20 sm:px-9 sm:pt-32">
@@ -55,9 +61,19 @@ export function Together() {
           no extra styling.
         </p>
       </Reveal>
+      <div className="mx-auto mt-14 mb-3 flex max-w-[720px] justify-end px-2 text-[13px] text-[var(--home-muted-fg)]">
+        <button
+          type="button"
+          onClick={replay}
+          className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 transition-colors hover:bg-[var(--home-muted)] hover:text-[var(--home-fg)]"
+        >
+          <RotateCcw className="size-3.5" aria-hidden />
+          Replay
+        </button>
+      </div>
       <div
         ref={ref}
-        className="mx-auto mt-14 max-w-[720px] rounded-[32px] border border-border bg-stage p-3 sm:p-4"
+        className="mx-auto max-w-[720px] rounded-[32px] border border-border bg-stage p-3 sm:p-4"
       >
         <div className="overflow-hidden rounded-[22px] border border-border bg-background shadow-[var(--home-tile-shadow)]">
           <Conversation aria-label="Conversation" messageCount={2}>

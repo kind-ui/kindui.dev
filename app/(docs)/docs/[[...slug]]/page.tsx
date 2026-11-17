@@ -10,7 +10,7 @@ import { createRelativeLink } from "fumadocs-ui/mdx";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getMDXComponents } from "@/components/mdx";
-import { getPageImageUrl, gitConfig } from "@/lib/shared";
+import { getPageImageUrl, libraryTitle, sourceUrl } from "@/lib/shared";
 import { source } from "@/lib/source";
 
 export default async function Page(props: PageProps<"/docs/[[...slug]]">) {
@@ -29,7 +29,7 @@ export default async function Page(props: PageProps<"/docs/[[...slug]]">) {
         <MarkdownCopyButton markdownUrl={markdownUrl} />
         <ViewOptionsPopover
           markdownUrl={markdownUrl}
-          githubUrl={`https://github.com/${gitConfig.user}/${gitConfig.repo}/blob/${gitConfig.branch}/content/docs/${encodeURI(page.path)}`}
+          githubUrl={encodeURI(sourceUrl(page.type, page.path))}
         />
       </div>
       <DocsBody>
@@ -54,8 +54,12 @@ export async function generateMetadata(props: PageProps<"/docs/[[...slug]]">): P
   if (!page) notFound();
 
   return {
-    // The overview's title is the site name, so it skips the root layout's `%s | Kind UI` template.
-    title: page.slugs.length === 0 ? { absolute: page.data.title } : page.data.title,
+    // The overview's title is the site name, so it skips the root layout's `%s | Kind UI` template;
+    // a library's pages name the library, since each has its own "Get Started".
+    title:
+      page.slugs.length === 0
+        ? { absolute: page.data.title }
+        : { absolute: `${page.data.title} | ${libraryTitle(page.type) ?? "Kind UI"}` },
     description: page.data.description,
     alternates: {
       canonical: page.url,

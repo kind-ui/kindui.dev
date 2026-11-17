@@ -1,4 +1,6 @@
-import { uploaderPrimitive } from "@kind-ui/agent-ui/core";
+"use client";
+
+import { type UploaderListState, uploaderPrimitive } from "@kind-ui/agent-ui/core";
 import { FileInput, FileInputDropzone, FileInputTrigger } from "@ui-sdk/react/file-input";
 import { createParts } from "@ui-sdk/react/primitive";
 import { Progress, ProgressIndicator, ProgressLabel, ProgressTrack } from "@ui-sdk/react/progress";
@@ -24,16 +26,15 @@ export function Uploader(props: UploaderProps) {
               <FileInputTrigger>browse</FileInputTrigger>
             </FileInputDropzone>
           </FileInput>
-          <parts.List>
-            {props.items?.map((item) => (
-              <UploaderItem key={item.id} value={item.id} />
-            ))}
-          </parts.List>
+          <parts.List>{ROWS}</parts.List>
         </>
       )}
     </parts.Root>
   );
 }
+
+const ROWS = ({ rows }: UploaderListState) =>
+  rows.map((row) => <UploaderItem key={row.item.id} value={row.item.id} />);
 
 /** One upload: the file's name and progress bar, what it's doing, and its action. */
 export function UploaderItem(props: Omit<ComponentProps<typeof parts.Item>, "children">) {

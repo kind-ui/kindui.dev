@@ -1,3 +1,4 @@
-# Served from spec phase 2; delete these lines then.
-/r/
-/docs/(agent-ui|charts)/.+
+# Rewritten by public/_redirects to the files under /llms.mdx.
+/docs/[^/]+/llms(-full)?\.txt
+# Charts docs are served from spec phase 2b; delete this line then.
+/docs/charts/.+

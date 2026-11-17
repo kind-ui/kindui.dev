@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@import "../../node_modules/@kind-ui/agent-ui/dist/styles/agent-ui.css";
+@import "@kind-ui/agent-ui/styles.css";
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 @source "../../node_modules/@kind-ui/charts/dist";
 
@@ -71,14 +71,6 @@ body {
   outline-offset: 3px;
 }
 
-.wordmark {
-  font-weight: 500;
-  letter-spacing: -0.065em;
-}
-.wordmark-ui {
-  font-weight: 400;
-  opacity: 0.55;
-}
 .emoji {
   font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
   letter-spacing: 0;
