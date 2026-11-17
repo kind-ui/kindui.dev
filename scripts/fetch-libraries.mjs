@@ -50,7 +50,7 @@ function checkout(library, target) {
     ],
     root,
   );
-  git(["sparse-checkout", "set", "--no-cone", ...library.paths], target);
+  git(["sparse-checkout", "set", "--no-cone", ...library.paths.map((entry) => `/${entry}`)], target);
 }
 
 async function extractRegistry(name, library, target) {

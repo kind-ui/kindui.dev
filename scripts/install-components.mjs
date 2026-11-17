@@ -30,4 +30,6 @@ execFileSync("npx", ["--yes", SHADCN, "add", "--yes", "--overwrite", "--silent",
   stdio: "inherit",
 });
 for (const [file, contents] of pinned) writeFileSync(path.join(root, file), contents);
+// shadcn rewrites the stylesheet named in components.json without its trailing newline.
+execFileSync("npx", ["biome", "format", "--write", "app/(docs)/global.css"], { cwd: root, stdio: "inherit" });
 execFileSync("npm", ["install", "--no-audit", "--no-fund"], { cwd: root, stdio: "inherit" });

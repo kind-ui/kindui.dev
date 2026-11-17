@@ -2,7 +2,7 @@
   "agent-ui": {
     "repo": "kind-ui/agent-ui",
     "tag": "v{version}",
-    "version": "0.3.0",
+    "version": "0.3.1",
     "package": "@kind-ui/agent-ui",
     "paths": [
       "apps/docs/content",
