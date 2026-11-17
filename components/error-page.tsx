@@ -49,11 +49,6 @@ export function ErrorPage({
               </a>
             ))}
           </div>
-          <p className="mt-6 text-sm text-muted-foreground max-sm:hidden">
-            Or press{" "}
-            <kbd className="rounded-md border border-border px-1.5 py-0.5 font-sans text-[11px]">⌘K</kbd> to
-            search.
-          </p>
           {children && <div className="mx-auto mt-12 max-w-md text-left">{children}</div>}
         </div>
       </main>

@@ -10,6 +10,7 @@ export default function GlobalError({ retry }: { error: unknown; retry: () => vo
     <html lang="en" suppressHydrationWarning className={`${GeistSans.variable} ${GeistMono.variable}`}>
       <body>
         <title>Something broke — Kind UI</title>
+        <link rel="icon" href="/cherry-blossom.png" />
         <ThemeProvider>
           <BrokenPage retry={retry} />
         </ThemeProvider>
