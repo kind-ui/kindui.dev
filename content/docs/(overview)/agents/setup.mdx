@@ -1,0 +1,34 @@
+---
+title: Set Up With an Agent
+description: What the setup prompts do, and the notes they leave for your coding agent.
+---
+
+Copy a prompt from [Get Started](../index.mdx#quick-start) or the **Copy prompt** button on the [homepage](/), and paste it into your agent. Each prompt sets up one library, then points the agent at the docs it should read before it builds anything.
+
+## What the Prompts Do
+
+**Agent UI:**
+
+1. Runs `npx shadcn@latest init` if the project has no `components.json`.
+2. Adds the `@kind-ui` registry to `components.json`.
+3. Adds a first component, `@kind-ui/conversation`, or `@kind-ui/conversation-web` for Web Components.
+4. Tells the agent to follow the `AGENTS.md` the registry writes, and to read [`/docs/agent-ui/llms.txt`](/docs/agent-ui/llms.txt) before it uses a component.
+
+**Charts:**
+
+1. Installs `@kind-ui/charts`.
+2. Adds an `@source` for the package to your Tailwind stylesheet.
+3. Installs the [Charts skill](./skills.mdx) if the agent supports skills.
+4. Adds a note to your `AGENTS.md`: follow the skill, and read [`/docs/charts/llms.txt`](/docs/charts/llms.txt) before using Charts.
+
+## The AGENTS.md From the Registry
+
+Every Agent UI component depends on the `agent-ui-setup` registry item, so the first one you add also writes an `AGENTS.md` beside the components. It tells agents to read, before they change or compose a component:
+
+1. The `@kind-ui/agent-ui` README, for the package's entries, theme tokens and styles.
+2. The UI SDK skill, at `node_modules/@ui-sdk/core/skills/ui-sdk/SKILL.md`.
+3. UI SDK's `llms.txt` for React or Web Components, then the page of every UI SDK component they use.
+
+It also tells them to leave focus, keyboard, popups, announcements and ARIA to UI SDK instead of writing them by hand.
+
+Keep these notes in your repository, so every agent that opens the project reads them.

@@ -1,0 +1,24 @@
+---
+title: Built for Agents
+description: How Kind UI works with coding agents, and how agents can use Agent UI's components.
+---
+
+Kind UI is built to be used by agents in two ways: a coding agent builds your interface with it, and an agent can use the finished Agent UI components the way a person does.
+
+## Agents Build With Kind UI
+
+Your coding agent needs the right context to use a library well. Kind UI gives it that in three places:
+
+- **Setup notes.** The [setup prompts](./setup.mdx) and the registry leave notes in your project, like an `AGENTS.md`, that tell the agent what to read before it changes a component.
+- **Docs as Markdown.** Every page is served as [Markdown](./docs.mdx), with `llms.txt` files that list them, so the agent reads only the page it needs.
+- **Skills.** [Skills](./skills.mdx) give the agent a workflow for Charts and for building on UI SDK.
+
+With the [shadcn MCP server](./mcp.mdx), the agent can also browse the `@kind-ui` registry and add components itself.
+
+## Agents Use Agent UI
+
+Agent UI's components are built on [UI SDK](https://ui-sdk.dev/docs), so an agent connected with UI SDK's `createAgent` can read and use the same component a person sees. It reads each component's state and calls its actions directly, without clicking through the page. For example, it finds a [Tool](/docs/agent-ui/components/tool) by its name, reads whether it's open and its status, and can expand it or copy its output.
+
+Each Agent UI component page lists what an agent can do with it under **Agent**. To connect one, see UI SDK's [Connect an Agent](https://ui-sdk.dev/docs/agents/connect-an-agent).
+
+Charts aren't built on UI SDK, so this applies to Agent UI only.

@@ -1,0 +1,42 @@
+---
+title: MCP
+description: Let your agent browse, search and add @kind-ui components through the shadcn MCP server.
+---
+
+The [shadcn MCP server](https://ui.shadcn.com/docs/mcp) gives your agent tools to list, search and install items from the registries in your `components.json`. Add the `@kind-ui` registry and your agent can find a Kind UI component and add it without you naming the command.
+
+## Set It Up
+
+Add the `@kind-ui` registry to `components.json`, as in [Installation](../installation.mdx#add-the-registry):
+
+```json title="components.json"
+{
+  "registries": {
+    "@kind-ui": "https://kindui.dev/r/{name}.json"
+  }
+}
+```
+
+Then configure the server for your client, for example VS Code:
+
+```bash
+npx shadcn@latest mcp init --client vscode
+```
+
+The CLI also takes `claude`, `cursor`, `codex` and `opencode`. Restart or start the server in your client as the [shadcn MCP docs](https://ui.shadcn.com/docs/mcp) describe for it.
+
+## Ask for Components
+
+Name the registry in your prompt:
+
+> Show me the components in the @kind-ui registry.
+
+> Add the Tool and Confirmation components from @kind-ui to my project.
+
+The server reads the same catalog as the CLI, at [`/r/registry.json`](/r/registry.json). To check what it sees, search the registry from your project:
+
+```bash
+npx shadcn@latest search @kind-ui -q tool
+```
+
+The MCP server installs components; to use them well, your agent still needs the [setup notes](./setup.mdx) and [docs](./docs.mdx).

@@ -55,7 +55,7 @@ content/docs/agent-ui/                 root "Agent UI": /docs/agent-ui/**
 content/docs/charts/                   root "Charts": /docs/charts/**
 ```
 
-- `/docs` covers what Kind UI is, one card per library, shared setup (the `@kind-ui` registry entry in `components.json`, the Tailwind 4 requirement) and where each library's `llms.txt` lives.
+- The Kind UI root covers only what spans the libraries, and links to a library's pages instead of repeating them. **Overview:** Get Started (`/docs`: a setup prompt per library and cards into each library), Introduction, Installation (the `@kind-ui` registry entry in `components.json`, Tailwind 4, shadcn CLI or npm), Theming (what both libraries share: `color-scheme` for dark mode) and Changelog (each library's `CHANGELOG.md` at its pinned tag, pulled in with `<include>`). **Agents** (`/docs/agents/**`): Built for Agents, Set Up With an Agent, Docs for Agents (`llms.txt` and per-page Markdown), Skills and MCP. **Guides:** only guides that use more than one library.
 - In phase 1, each library root holds one page: the library's own description and links to its repository and npm package. Phase 2 replaces each folder with the library's published docs, including its `meta.json`.
 
 **Theme:** the same as fumadocs.dev: the `neutral` color preset with the Spacious layout (`fumadocs-ui/layouts/spacious`, `fumadocs-ui/css/generated/spacious.css`), Geist fonts, and a primary color per library. A client body component reads the first slug segment and sets a class (`agent-ui` or `charts`) that sets `--color-fd-primary`: Agent UI purple (`#9a63f6`, dark `#c29aff`) and Charts blue (`#1686ff`, dark `#7ec5ff`), the homepage's colors. Each tab's Lucide icon (`lucideIconsPlugin`) takes its library's color.
