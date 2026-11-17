@@ -33,7 +33,9 @@ jobs:
       - name: Check components/ui matches the pinned registries
         run: |
           npm run components
-          git diff --exit-code -- components/ui || {
+          changes=$(git status --porcelain -- components/ui "app/(docs)/global.css")
+          if [ -n "$changes" ]; then
             echo "::error::components/ui differs from the pinned registries; run npm run components and commit it."
+            echo "$changes"
             exit 1
-          }
+          fi

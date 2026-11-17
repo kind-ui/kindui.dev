@@ -1,9 +1,9 @@
 import Image from "next/image";
 import { siX } from "simple-icons";
 import { links } from "@/lib/links";
-import { GitHubMark, Wordmark } from "./wordmark";
+import { GitHubMark, Wordmark } from "./brand/wordmark";
 
-const agent = (slug: string) => `${links.agentUiDocs}/components/${slug}/`;
+const agent = (slug: string) => `${links.agentUiDocs}components/${slug}/`;
 const chart = (slug: string) => `${links.chartsDocs}components/${slug}/`;
 
 const groups: { title: string; items: [string, string][]; all?: [string, string] }[] = [
@@ -19,7 +19,7 @@ const groups: { title: string; items: [string, string][]; all?: [string, string]
       ["Attachments", agent("attachments")],
       ["Thinking Indicator", agent("thinking-indicator")],
     ],
-    all: ["View all (13)", `${links.agentUiDocs}/`],
+    all: ["View all", links.agentUiDocs],
   },
   {
     title: "Charts",
@@ -33,7 +33,7 @@ const groups: { title: string; items: [string, string][]; all?: [string, string]
       ["Heatmap", chart("heatmap")],
       ["Activity Rings", chart("radial")],
     ],
-    all: ["View all (13)", links.chartsDocs],
+    all: ["View all", links.chartsDocs],
   },
   {
     title: "Guides",
@@ -44,13 +44,13 @@ const groups: { title: string; items: [string, string][]; all?: [string, string]
       ["Accessibility", `${links.chartsDocs}guides/accessibility/`],
       ["Motion", `${links.chartsDocs}guides/motion/`],
       ["Composition", `${links.chartsDocs}concepts/composition/`],
-      ["AI SDK adapter", `${links.agentUiDocs}/adapters/ai-sdk/`],
+      ["AI SDK adapter", `${links.agentUiDocs}adapters/ai-sdk/`],
     ],
   },
   {
     title: "Resources",
     items: [
-      ["Agent UI docs", `${links.agentUiDocs}/`],
+      ["Agent UI docs", links.agentUiDocs],
       ["Charts docs", links.chartsDocs],
       ["llms.txt", links.llms],
       ["npm package", links.npmCharts],

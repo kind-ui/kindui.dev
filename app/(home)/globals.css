@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@import "../../node_modules/@kind-ui/agent-ui/dist/styles/agent-ui.css";
+@import "@kind-ui/agent-ui/styles.css";
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 @source "../../node_modules/@kind-ui/charts/dist";
 

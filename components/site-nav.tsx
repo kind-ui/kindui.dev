@@ -1,11 +1,11 @@
 import { links } from "@/lib/links";
+import { GitHubMark, Wordmark } from "./brand/wordmark";
 import { Search } from "./search";
 import { ThemeSwitcher } from "./theme-switcher";
-import { GitHubMark, Wordmark } from "./wordmark";
 
 const navLinks = [
   ["Docs", links.docs],
-  ["Agent UI", `${links.agentUiDocs}/`],
+  ["Agent UI", links.agentUiDocs],
   ["Charts", links.chartsDocs],
   ["Agents", links.agents],
 ] as const;

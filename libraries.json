@@ -1,9 +1,11 @@
 {
   "agent-ui": {
     "repo": "kind-ui/agent-ui",
+    "title": "Agent UI",
     "tag": "v{version}",
     "version": "0.3.1",
     "package": "@kind-ui/agent-ui",
+    "docs": "apps/docs",
     "paths": [
       "apps/docs/content",
       "apps/docs/examples",

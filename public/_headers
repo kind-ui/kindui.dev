@@ -2,5 +2,4 @@
   Cache-Control: public, max-age=31536000, immutable
 
 /r/*
-  Content-Type: application/json
   Access-Control-Allow-Origin: *

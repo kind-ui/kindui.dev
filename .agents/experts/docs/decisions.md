@@ -6,6 +6,7 @@ Last reviewed: `3620073425867a8342134c07fe4ca08dbc5f5ee8` (phase 1 docs and host
 
 ## Settled
 
+- The wordmark lives in `components/brand/` and both layouts import it, so the docs logo matches the homepage's exactly (user's request). Neither imports anything else of the other's.
 - Everything in the spec's "Decisions" section.
 - `/llms.txt` starts with `# Docs`, as fumadocs.dev's does.
 

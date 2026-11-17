@@ -1,5 +1,5 @@
 import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
-import { Wordmark } from "@/components/wordmark";
+import { Wordmark } from "@/components/brand/wordmark";
 
 export function baseOptions(): BaseLayoutProps {
   return {

@@ -1,20 +1,20 @@
 import * as AgentUi from "collections/agent-ui/server";
 import { docs } from "collections/server";
-import { llms, loader } from "fumadocs-core/source";
+import { llms, loader, update } from "fumadocs-core/source";
 import { lucideIconsPlugin } from "fumadocs-core/source/plugins/lucide-icons";
 import { docsRoute, origin } from "./shared";
 
 // A library's docs mount under `/docs/<library>/` as a root folder with this site's sidebar title and icon.
-const agentUiSource = AgentUi.docs.toFumadocsSource();
-const agentUi: typeof agentUiSource = {
-  ...agentUiSource,
-  files: agentUiSource.files.map((file) => ({ ...file, path: `agent-ui/${file.path}` })),
-};
-for (const file of agentUi.files) {
-  if (file.type === "meta" && file.path === "agent-ui/meta.json") {
-    Object.assign(file.data, { description: "AI interface components", icon: "MessagesSquare", root: true });
-  }
-}
+const agentUi = update(AgentUi.docs.toFumadocsSource({ baseDir: "agent-ui" }))
+  .meta((file) =>
+    file.path === "agent-ui/meta.json"
+      ? {
+          ...file,
+          data: { ...file.data, description: "AI interface components", icon: "MessagesSquare", root: true },
+        }
+      : file,
+  )
+  .build();
 
 export const source = loader(
   { root: docs.toFumadocsSource(), "agent-ui": agentUi },

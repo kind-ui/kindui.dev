@@ -36,7 +36,8 @@ function assembleRegistry() {
     const registryDir = path.join(librariesDir, library, "r");
     registries[library] = JSON.parse(readFileSync(path.join(registryDir, "registry.json"), "utf8"));
     for (const file of readdirSync(registryDir)) {
-      if (file !== "registry.json") cpSync(path.join(registryDir, file), path.join(outDir, file));
+      if (file === "registry.json") continue;
+      cpSync(path.join(registryDir, file), path.join(outDir, file), { force: false, errorOnExist: true });
     }
   }
   writeFileSync(

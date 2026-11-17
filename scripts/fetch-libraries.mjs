@@ -33,10 +33,12 @@ async function download(url) {
 }
 
 function checkout(library, target) {
-  const git = (args, cwd) => execFileSync("git", args, { cwd, stdio: ["ignore", "ignore", "inherit"] });
+  const git = (args, cwd) => execFileSync("git", args, { cwd, stdio: ["ignore", "ignore", "pipe"] });
   const url = `https://github.com/${library.repo}.git`;
   git(
     [
+      "-c",
+      "advice.detachedHead=false",
       "clone",
       "--quiet",
       "--depth",
@@ -73,30 +75,39 @@ function copyLocal(library, local, dir) {
   cpSync(path.join(local, "artifacts/registry/r"), path.join(dir, "r"), { recursive: true });
 }
 
+async function fetchLibrary(name, library) {
+  const dir = path.join(librariesDir, name);
+  const local = overrideFor(name);
+  if (local) {
+    rmSync(dir, { recursive: true, force: true });
+    copyLocal(library, path.resolve(local), dir);
+    console.log(`${name}: copied ${local}`);
+    return;
+  }
+  const manifest = path.join(root, "node_modules", library.package, "package.json");
+  if (!existsSync(manifest)) throw new Error(`${library.package} isn't installed; run npm ci`);
+  checkInstalled(name, library.package, library.version, JSON.parse(readFileSync(manifest, "utf8")).version);
+  // The whole entry, so editing its paths or repo refetches too.
+  const stamp = path.join(dir, ".stamp");
+  const pinned = JSON.stringify(library);
+  if (existsSync(stamp) && readFileSync(stamp, "utf8") === pinned) return;
+  rmSync(dir, { recursive: true, force: true });
+  mkdirSync(dir, { recursive: true });
+  checkout(library, path.join(dir, "source"));
+  await extractRegistry(name, library, dir);
+  writeFileSync(stamp, pinned);
+  console.log(`${name}: ${tagFor(library)}`);
+}
+
 async function fetchLibraries() {
   const libraries = JSON.parse(readFileSync(path.join(root, "libraries.json"), "utf8"));
   for (const [name, library] of Object.entries(libraries)) {
-    const dir = path.join(librariesDir, name);
-    const local = overrideFor(name);
-    if (local) {
-      rmSync(dir, { recursive: true, force: true });
-      copyLocal(library, path.resolve(local), dir);
-      console.log(`${name}: copied ${local}`);
-      continue;
+    try {
+      await fetchLibrary(name, library);
+    } catch (error) {
+      console.error(`${name}@${library.version}: ${error.message.split("\n")[0]}`);
+      process.exitCode = 1;
     }
-    const installed = JSON.parse(
-      readFileSync(path.join(root, "node_modules", library.package, "package.json"), "utf8"),
-    ).version;
-    checkInstalled(name, library.package, library.version, installed);
-    const stamp = path.join(dir, ".tag");
-    const tag = tagFor(library);
-    if (existsSync(stamp) && readFileSync(stamp, "utf8") === tag) continue;
-    rmSync(dir, { recursive: true, force: true });
-    mkdirSync(dir, { recursive: true });
-    checkout(library, path.join(dir, "source"));
-    await extractRegistry(name, library, dir);
-    writeFileSync(stamp, tag);
-    console.log(`${name}: ${tag}`);
   }
 }
 

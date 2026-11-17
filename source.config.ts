@@ -1,5 +1,6 @@
 import { metaSchema, pageSchema } from "fumadocs-core/source/schema";
 import { defineConfig, defineDocs } from "fumadocs-mdx/config";
+import libraries from "./libraries.json" with { type: "json" };
 
 export const docs = defineDocs({
   dir: "content/docs",
@@ -12,7 +13,7 @@ export const docs = defineDocs({
 export default defineConfig({
   workspaces: {
     "agent-ui": {
-      dir: ".libraries/agent-ui/source/apps/docs",
+      dir: `.libraries/agent-ui/source/${libraries["agent-ui"].docs}`,
       config: await import("./libraries/agent-ui.source.config"),
     },
   },

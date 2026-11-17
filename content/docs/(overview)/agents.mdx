@@ -7,31 +7,26 @@ Kind UI is built to be used by coding agents as well as people. Each library pub
 
 ## Start From a Prompt
 
-The quickest start is the **Copy prompt** button on the [Kind UI homepage](/). Pick a library, copy the prompt, and paste it into your agent. It installs the library, adds the `@kind-ui` registry, and tells the agent which docs to read before it builds anything.
+The quickest start is the **Copy prompt** button on the [Kind UI homepage](/). Pick a library, copy the prompt, and paste it into your agent:
+
+- **Agent UI:** adds the `@kind-ui` registry to `components.json` and installs a first component with the shadcn CLI.
+- **Charts:** installs `@kind-ui/charts` from npm, sets up Tailwind to scan it, and installs the Charts skill.
+
+Both prompts then tell the agent which docs to read before it builds anything.
 
 ## Docs as Text
 
 Every docs page is also served as Markdown. Give your agent one of these:
 
-- [`/llms.txt`](/llms.txt) lists every page on this site.
+- [`/llms.txt`](/llms.txt) links to each library's list below.
 - [`/docs/agent-ui/llms.txt`](/docs/agent-ui/llms.txt) lists the Agent UI pages.
 - [`/docs/charts/llms.txt`](/docs/charts/llms.txt) lists the Charts pages.
 
-Each list links to the Markdown of its pages, and `llms-full.txt` beside it holds them all in one file.
+Each library's list links to the Markdown of its pages, and `llms-full.txt` beside it holds them all in one file.
 
-## The Registry
+## The AGENTS.md From the Registry
 
-Agent UI components install with the shadcn CLI from the `@kind-ui` registry. Add it to `components.json`:
-
-```json title="components.json"
-{
-  "registries": {
-    "@kind-ui": "https://kindui.dev/r/{name}.json"
-  }
-}
-```
-
-Then add a component by name, for example `npx shadcn@latest add @kind-ui/step`. The first component you add also writes an `AGENTS.md` beside your components. It tells agents to read the `@kind-ui/agent-ui` README, the UI SDK skill and the UI SDK docs before changing a component, and to leave focus, keyboard and ARIA to UI SDK.
+When you add Agent UI components with the [registry](./index.mdx#setup), the first one also writes an `AGENTS.md` beside them. It tells agents to read the `@kind-ui/agent-ui` README, the UI SDK skill and the UI SDK docs before changing a component, and to leave focus, keyboard and ARIA to UI SDK.
 
 ## Charts Skill
 
