@@ -15,6 +15,14 @@ This repository includes material adapted from the projects below. Each entry na
 - Used in: `.agents/skills/documentation-writer`, installed unchanged with `npx skills add` (`skills-lock.json`). Not served on the site.
 - Copyright GitHub, Inc. Licensed under the MIT License.
 
+## Lobe Icons
+
+- Source: https://github.com/lobehub/lobe-icons, npm `@lobehub/icons-static-svg@1.103.0`, by way of kind-ui/agent-ui (`apps/docs/examples/model-selector/logos.tsx`).
+- Used in: `examples/model-selector/logos.tsx`, in the homepage's Composer tile.
+- Changes: path data unchanged; dropped `width`, `height`, `style` and `<title>`, added `aria-hidden`, and renamed Gemini's gradient ids.
+- The logos are trademarks of their owners, used here only to name their models.
+- Copyright (c) 2023 LobeHub. Licensed under the MIT License.
+
 ---
 
 ## Apache License 2.0
@@ -203,6 +211,32 @@ This repository includes material adapted from the projects below. Each entry na
 MIT License
 
 Copyright GitHub, Inc.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+## Lobe Icons license
+
+MIT License
+
+Copyright (c) 2023 LobeHub
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

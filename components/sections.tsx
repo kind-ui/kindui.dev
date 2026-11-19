@@ -24,7 +24,7 @@ export function AgentSection({ items }: { items: InstallItems["agent"] }) {
           </span>
         </>
       }
-      body="Messages, the steps an agent took, the sources it cited and the code it ran, answers that stream in, and a composer to reply. Your agent can read every component and use its controls, without screenshots. Works in React, Vue, Svelte, Solid and Web Components."
+      body="Messages, the steps an agent took, the sources it cited and the code it ran, answers that stream in, and a composer to reply, with its model, effort and approval controls and a mic. Your agent can read every component and use its controls, without screenshots. Works in React, Vue, Svelte, Solid and Web Components."
       items={items}
       initialItem="conversation"
       docs={links.agentUiDocs}

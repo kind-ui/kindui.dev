@@ -5,7 +5,7 @@ import { Reveal } from "@/components/reveal";
 import AttachmentsExample from "@/examples/attachments/basic";
 import CheckpointExample from "@/examples/checkpoint/basic";
 import CodeBlockExample from "@/examples/code-block/basic";
-import ComposerExample from "@/examples/composer/basic";
+import ComposerExample from "@/examples/composer/full";
 import ConversationExample from "@/examples/conversation/basic";
 import FileTreeExample from "@/examples/file-tree/basic";
 import InlineCitationExample from "@/examples/inline-citation/basic";
