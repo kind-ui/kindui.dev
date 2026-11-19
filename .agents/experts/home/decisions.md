@@ -2,13 +2,14 @@
 
 What is already decided, and what is known and open. The expert never re-raises a **Settled** item as a finding.
 
-Last reviewed: `ad578ce591f5386c78c5fd8e6247b0baa1f1b79b` (Agent UI 0.4.0)
+Last reviewed: `1d92086c417c8073a3a666f3660f3a09634bb6e9` (header GitHub link)
 
 ## Settled
 
 - The wordmark lives in `components/brand/` and both layouts import it, so the docs logo matches the homepage's exactly (user's request). Neither imports anything else of the other's.
 - Everything in the spec's "Decisions" section.
 - **The install picker lists items in registry order**, which is the library's docs sidebar order, so the first command shown is `step`. It follows the source rather than a hand-picked order.
+- **The header GitHub icon (homepage and docs nav) links to `kind-ui/agent-ui`; the footer's links to the org** (user's request). The footer lists the org on purpose.
 
 ## Known and open (don't report again, check whether fixed)
 
