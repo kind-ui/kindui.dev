@@ -1,5 +1,6 @@
 import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
 import { Wordmark } from "@/components/brand/wordmark";
+import { links } from "@/lib/links";
 
 export function baseOptions(): BaseLayoutProps {
   return {
@@ -13,6 +14,6 @@ export function baseOptions(): BaseLayoutProps {
         </>
       ),
     },
-    githubUrl: "https://github.com/kind-ui",
+    githubUrl: links.agentUiRepo,
   };
 }
