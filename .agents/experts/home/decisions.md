@@ -9,6 +9,7 @@ Last reviewed: `d0fdaf55e66164fcd2dc88c8a4f1e0ff9e29011b` (Agent UI 0.5.0)
 - The wordmark lives in `components/brand/` and both layouts import it, so the docs logo matches the homepage's exactly (user's request). Neither imports anything else of the other's.
 - Everything in the spec's "Decisions" section.
 - **The install picker lists items in registry order**, which is the library's docs sidebar order, so the first command shown is `step`. It follows the source rather than a hand-picked order.
+- **The header GitHub icon (homepage and docs nav) links to `kind-ui/agent-ui`; the footer's links to the org** (user's request). The footer lists the org on purpose.
 
 ## Known and open (don't report again, check whether fixed)
 

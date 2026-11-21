@@ -36,8 +36,8 @@ export function SiteNav() {
         <Search />
         <ThemeSwitcher />
         <a
-          href={links.org}
-          aria-label="Kind UI on GitHub"
+          href={links.agentUiRepo}
+          aria-label="Agent UI on GitHub"
           className="grid size-9 place-items-center rounded-full border border-border bg-background/85 backdrop-blur-md transition-colors hover:bg-muted"
         >
           <GitHubMark />
