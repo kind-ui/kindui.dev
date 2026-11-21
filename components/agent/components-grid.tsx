@@ -20,9 +20,9 @@ const tiles: { name: string; slug: string; Example: ComponentType; wide?: boolea
     Example: dynamic(() => import("@/examples/thread-list/basic")),
   },
   {
-    name: "Conversation Search",
-    slug: "conversation-search",
-    Example: dynamic(() => import("@/examples/conversation-search/basic")),
+    name: "Sidebar",
+    slug: "sidebar",
+    Example: dynamic(() => import("@/examples/sidebar/basic")),
     wide: true,
   },
   {
