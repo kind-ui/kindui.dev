@@ -26,17 +26,17 @@ export type ModelControlProps = Omit<
   "children" | "models" | "actions" | "settings"
 > & {
   models?: ModelControlModel[];
-  /** Items after the models in the Model submenu, like "More models". */
+  /** Items after the models, like "More models". */
   actions?: (Omit<NonNullable<ModelControlOptions["actions"]>[number], "icon"> & { icon?: Icon })[];
-  /** More rows: toggles above Model and Effort, choices below. */
+  /** More rows after Model and Effort: choices, then toggles. */
   settings?: SettingsMenuSetting[];
   children?: ReactNode;
 };
 
 /**
- * One button for the model and its effort, reading "GPT-5 · High", that opens a menu: the Model submenu, the Effort
- * submenu of the levels the model supports, and your own toggles and choices. Any `children` replace the trigger and
- * the content, inside UI SDK Menu.
+ * One button for the model and its effort, reading "GPT-5 · High", that opens one menu: the models, grouped with
+ * their icons, then the effort levels the model supports, then your own choices and toggles. Any `children` replace
+ * the trigger and the content, inside UI SDK Menu.
  */
 export function ModelControl({ children = DEFAULT_PARTS, ...props }: ModelControlProps) {
   return <parts.Root {...props}>{(menu) => <KindMenu {...menu}>{children}</KindMenu>}</parts.Root>;

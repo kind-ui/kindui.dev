@@ -8,7 +8,7 @@ const parts = createParts(loaderPrimitive, { root: "span", label: "span", dots: 
 
 export type LoaderProps = Omit<ComponentProps<typeof parts.Root>, "children">;
 
-/** A polite status: three flowing dots beside its `label`, "Loading" by default. */
+/** A polite status: three flowing dots beside its `label`, "Loading…" by default. */
 export function Loader(props: LoaderProps) {
   return (
     <parts.Root {...props}>

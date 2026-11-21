@@ -135,29 +135,24 @@ export function QuestionText({
 export type QuestionSubmitProps = ComponentProps<typeof parts.Submit>;
 
 /** Calls `onSubmit`. Reads the `submitLabel` unless you pass children. Rendered only while `onSubmit` is set. */
-export function QuestionSubmit({ children = ({ label }) => label, ...props }: QuestionSubmitProps) {
+export function QuestionSubmit({ children = withPendingMark, ...props }: QuestionSubmitProps) {
   return <parts.Submit {...props}>{children}</parts.Submit>;
 }
 
 export type QuestionSkipProps = ComponentProps<typeof parts.Skip>;
 
 /** Calls `onSkip`. Reads the `skipLabel` unless you pass children. Rendered only while `onSkip` is set. */
-export function QuestionSkip({ children = ({ label }) => label, ...props }: QuestionSkipProps) {
+export function QuestionSkip({ children = withPendingMark, ...props }: QuestionSkipProps) {
   return <parts.Skip {...props}>{children}</parts.Skip>;
 }
 
 export type QuestionStatusProps = ComponentProps<typeof parts.Status>;
 
-/** "Sending answers" or "Skipping" with a spinner while the host has them, unless you pass children. */
-export function QuestionStatus({
-  children = ({ label }) => (
-    <>
-      <QuestionStatusIcon />
-      {label}
-    </>
-  ),
-  ...props
-}: QuestionStatusProps) {
+/**
+ * "Sending answers" or "Skipping" while the host has them, unless you pass children. The pressed button holds the
+ * running mark, so the words stand alone.
+ */
+export function QuestionStatus({ children = ({ label }) => label, ...props }: QuestionStatusProps) {
   return <parts.Status {...props}>{children}</parts.Status>;
 }
 
@@ -194,6 +189,14 @@ export function QuestionSummary({
 }: QuestionSummaryProps) {
   return <parts.Summary {...props}>{children}</parts.Summary>;
 }
+
+// The mark shows only while the button's call is pending (controls.css).
+const withPendingMark = ({ label }: { label: string }) => (
+  <>
+    <span data-kind-pending-mark="" data-status-mark="" data-status="running" aria-hidden="true" />
+    {label}
+  </>
+);
 
 // Lucide's check, as the status mark draws it.
 const CHECK = (

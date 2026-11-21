@@ -167,7 +167,7 @@ const DEFAULT_PARTS = (
       <StackTraceTitle />
     </StackTraceTrigger>
     <StackTraceContent>
-      <div data-stack-trace-panel="">
+      <div data-stack-trace-panel="" data-kind-code="">
         <StackTraceMessage />
         <StackTraceList />
         <StackTraceCopy />

@@ -89,7 +89,9 @@ export type DocumentDownloadProps = ComponentProps<typeof parts.Download>;
  */
 export function DocumentDownload({
   children = ({ label }) => (
-    <KindToolbarButton aria-label={label ? `Download ${label}` : "Download"}>{label}</KindToolbarButton>
+    <KindToolbarButton aria-label={label ? `Download ${label}` : "Download"}>
+      {label && <span data-document-download-label="">{label}</span>}
+    </KindToolbarButton>
   ),
   ...props
 }: DocumentDownloadProps) {

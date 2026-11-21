@@ -15,6 +15,17 @@ const tiles: { name: string; slug: string; Example: ComponentType; wide?: boolea
   },
   { name: "Plan", slug: "plan", Example: dynamic(() => import("@/examples/plan/basic")) },
   {
+    name: "Thread List",
+    slug: "thread-list",
+    Example: dynamic(() => import("@/examples/thread-list/basic")),
+  },
+  {
+    name: "Conversation Search",
+    slug: "conversation-search",
+    Example: dynamic(() => import("@/examples/conversation-search/basic")),
+    wide: true,
+  },
+  {
     name: "Message",
     slug: "message",
     Example: dynamic(() => import("@/examples/message/basic")),

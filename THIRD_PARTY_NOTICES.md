@@ -19,7 +19,7 @@ This repository includes material adapted from the projects below. Each entry na
 
 - Source: https://github.com/lobehub/lobe-icons, npm `@lobehub/icons-static-svg@1.103.0`, by way of kind-ui/agent-ui (`apps/docs/examples/model-selector/logos.tsx`).
 - Used in: `examples/model-selector/logos.tsx`, in the homepage's Composer tile.
-- Changes: path data unchanged; dropped `width`, `height`, `style` and `<title>`, added `aria-hidden`, and renamed Gemini's gradient ids.
+- Changes: path data unchanged; dropped `width`, `height`, `style` and `<title>`, added `aria-hidden`. The Google monogram is drawn here, not taken from Lobe Icons.
 - The logos are trademarks of their owners, used here only to name their models.
 - Copyright (c) 2023 LobeHub. Licensed under the MIT License.
 

@@ -67,9 +67,9 @@ export function ContextMeterTitle({ children = ({ label }) => label, ...props }:
 
 export type ContextMeterDescriptionProps = ComponentProps<typeof parts.Description>;
 
-/** Used and total tokens and the percentage, unless you pass children. Describes the details. */
+/** Used and total tokens, unless you pass children. Describes the details. */
 export function ContextMeterDescription({
-  children = ({ valueText }) => valueText,
+  children = ({ countText }) => countText,
   ...props
 }: ContextMeterDescriptionProps) {
   return <parts.Description {...props}>{children}</parts.Description>;

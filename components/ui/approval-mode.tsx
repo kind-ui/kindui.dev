@@ -20,6 +20,7 @@ import {
   KindMenuItemIndicator,
   KindMenuRadioGroup,
   KindMenuRadioItem,
+  KindMenuSeparator,
 } from "./internal/menu.js";
 
 const parts = createParts(approvalModePrimitive, { root: "div", trigger: "span", content: "div" });
@@ -30,23 +31,18 @@ export type ApprovalModeProps = Omit<ComponentProps<typeof parts.Root>, "childre
 
 /**
  * A button showing the approval mode, named "Approvals, <mode>", that opens a menu of modes: radio items with a
- * description each, a risky one marked, and an optional Learn more link in the header. Any `children` replace the
+ * description each, a risky one marked, and an optional Learn more link after them. Any `children` replace the
  * trigger and the content, inside UI SDK Menu.
  */
 export function ApprovalMode({ children = DEFAULT_PARTS, ...props }: ApprovalModeProps) {
   return <parts.Root {...props}>{(menu) => <KindMenu {...menu}>{children}</KindMenu>}</parts.Root>;
 }
 
-const RISKY = (
-  <span data-approval-mode-risk="">
-    <span data-status-mark="" data-status="warning" aria-hidden="true" />
-    Risky
-  </span>
-);
+const RISKY = <span data-approval-mode-risk="">Risky</span>;
 
 export type ApprovalModeRowsProps = Pick<ApprovalModeContentState, "rows">;
 
-/** The modes' radio items, a risky one marked with the warning mark and "Risky". Choosing one closes the menu. */
+/** The modes' radio items, a risky one marked "Risky". Choosing one closes the menu. */
 export function ApprovalModeRows({ rows }: ApprovalModeRowsProps) {
   return rows.map((row) => (
     <KindMenuRadioItem
@@ -102,8 +98,8 @@ export type ApprovalModeContentProps = Omit<ComponentProps<typeof KindMenuConten
 };
 
 /**
- * The menu: UI SDK's `MenuContent` holding one radio group, headed by the `label` and a Learn more item (a link with
- * `learnMoreHref`), then the modes unless you pass children. Props go to the content.
+ * The menu: UI SDK's `MenuContent` holding one radio group, headed by the `label`, of the modes unless you pass
+ * children, then a Learn more item (a link with `learnMoreHref`). Props go to the content.
  */
 export function ApprovalModeContent({ children = DEFAULT_ROWS, ...props }: ApprovalModeContentProps) {
   return (
@@ -113,19 +109,23 @@ export function ApprovalModeContent({ children = DEFAULT_ROWS, ...props }: Appro
           <KindMenuRadioGroup name={APPROVAL_MODE_GROUP} value={state.value}>
             <div data-approval-mode-header="">
               <KindMenuGroupLabel>{state.label}</KindMenuGroupLabel>
-              {state.learnMore ? (
-                <KindMenuItem
-                  value={APPROVAL_MODE_LEARN_MORE}
-                  data-approval-mode-learn-more=""
-                  // biome-ignore lint/a11y/useAnchorContent: UI SDK renders the item's children into the link.
-                  render={state.learnMoreHref ? <a href={state.learnMoreHref} /> : undefined}
-                >
-                  Learn more
-                </KindMenuItem>
-              ) : null}
             </div>
             {typeof children === "function" ? children(state) : children}
           </KindMenuRadioGroup>
+          {state.learnMore ? (
+            <>
+              <KindMenuSeparator data-approval-mode-learn-more="" />
+              <KindMenuItem
+                value={APPROVAL_MODE_LEARN_MORE}
+                data-approval-mode-learn-more=""
+                data-menu-inset=""
+                // biome-ignore lint/a11y/useAnchorContent: UI SDK renders the item's children into the link.
+                render={state.learnMoreHref ? <a href={state.learnMoreHref} /> : undefined}
+              >
+                Learn more
+              </KindMenuItem>
+            </>
+          ) : null}
         </KindMenuContent>
       )}
     </parts.Content>

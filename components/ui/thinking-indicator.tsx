@@ -13,16 +13,16 @@ const parts = createParts(thinkingIndicatorPrimitive, {
 
 export type ThinkingIndicatorProps = Omit<ComponentProps<typeof parts.Root>, "children">;
 
-/** A polite status: its `label`, "Thinking" by default, shimmering, then three flowing dots. */
+/** A polite status: three flowing dots, then its `label`, "Thinking…" by default. */
 export function ThinkingIndicator(props: ThinkingIndicatorProps) {
   return (
     <parts.Root {...props}>
-      <parts.Label>{({ label }) => label}</parts.Label>
       <parts.Dots>
         <parts.Dot />
         <parts.Dot />
         <parts.Dot />
       </parts.Dots>
+      <parts.Label>{({ label }) => label}</parts.Label>
     </parts.Root>
   );
 }

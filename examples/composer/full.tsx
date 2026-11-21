@@ -1,14 +1,13 @@
 "use client";
 import type { EffortLevel, ModelOption, SettingsEntry, SettingsValues } from "@kind-ui/agent-ui";
 import type { DictationEvent, DictationSource } from "@kind-ui/agent-ui/core";
-import { type ReactElement, useRef, useState } from "react";
+import { type ComponentProps, type ReactElement, useRef, useState } from "react";
 import { AddMenu } from "@/components/ui/add-menu";
 import { ApprovalMode } from "@/components/ui/approval-mode";
 import { Composer, ComposerInput, ComposerSubmit } from "@/components/ui/composer";
 import { ContextBar } from "@/components/ui/context-bar";
 import { Dictation } from "@/components/ui/dictation";
 import { ModelControl } from "@/components/ui/model-control";
-import { SettingsMenu } from "@/components/ui/settings-menu";
 import { AnthropicLogo, OpenAILogo } from "../model-selector/logos";
 
 const addItems = [
@@ -71,7 +70,17 @@ const demoSource: DictationSource = {
   },
 };
 
-export default function FullComposerExample() {
+type FullComposerProps = Pick<ComponentProps<typeof Composer>, "onSubmit" | "disabled"> & {
+  placeholder?: string;
+};
+
+const send = () => new Promise<void>((resolve) => setTimeout(resolve, 1000));
+
+export default function FullComposerExample({
+  onSubmit = send,
+  disabled,
+  placeholder = "Ask anything…",
+}: FullComposerProps) {
   const [chips, setChips] = useState(context);
   const [model, setModel] = useState<string | null>("claude-sonnet-5.5");
   const [effort, setEffort] = useState("medium");
@@ -80,13 +89,13 @@ export default function FullComposerExample() {
   const editor = useRef<HTMLDivElement>(null);
 
   return (
-    <Composer aria-label="Message" onSubmit={() => new Promise<void>((resolve) => setTimeout(resolve, 1000))}>
+    <Composer aria-label="Message" onSubmit={onSubmit} disabled={disabled}>
       <ContextBar
         chips={chips}
         onRemove={(id) => setChips((current) => current.filter((chip) => chip.id !== id))}
         focusFallback={() => editor.current}
       />
-      <ComposerInput ref={editor} aria-label="Prompt" placeholder="Ask anything" />
+      <ComposerInput ref={editor} aria-label="Prompt" placeholder={placeholder} />
       <div className="flex min-w-0 flex-wrap items-center gap-1.5" style={{ gridArea: "attach" }}>
         <AddMenu
           items={addItems}
@@ -103,9 +112,11 @@ export default function FullComposerExample() {
           levels={levels}
           effort={effort}
           onEffortChange={setEffort}
+          settings={settings}
+          values={values}
+          onValuesChange={setValues}
         />
         <ApprovalMode modes={modes} value={mode} onValueChange={setMode} />
-        <SettingsMenu settings={settings} values={values} onValuesChange={setValues} />
       </div>
       <Dictation source={demoSource} />
       <ComposerSubmit />

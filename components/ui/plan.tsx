@@ -19,13 +19,15 @@ const parts = createParts(planPrimitive, {
   "item-title": "span",
   "item-description": "span",
   accept: "button",
+  outcome: "div",
+  "outcome-icon": "span",
 });
 
 export type PlanProps = ComponentProps<typeof parts.Root>;
 
 /**
- * The steps an agent plans to take, with a progress bar and, while `onAccept` is set, an Accept button. Any
- * `children` replace the default parts.
+ * The steps an agent plans to take, with how many are done and, while `onAccept` is set, an Accept button that
+ * "Accepted" replaces. Any `children` replace the default parts.
  */
 export function Plan({ children, ...props }: PlanProps) {
   return <parts.Root {...props}>{children !== undefined ? children : DEFAULT_PARTS}</parts.Root>;
@@ -35,6 +37,7 @@ export const PlanTrigger = parts.Trigger;
 export const PlanIcon = parts.Icon;
 export const PlanContent = parts.Content;
 export const PlanItemIcon = parts.ItemIcon;
+export const PlanOutcomeIcon = parts.OutcomeIcon;
 
 export type PlanTitleProps = ComponentProps<typeof parts.Title>;
 
@@ -52,7 +55,10 @@ export function PlanMeta({ children = ({ done, total }) => `${done} of ${total}`
 
 export type PlanProgressProps = ComponentProps<typeof parts.Progress>;
 
-/** A UI SDK Progress of the items done, labeled "3 of 5 steps", unless you pass children. */
+/**
+ * A UI SDK Progress of the items done, labeled "3 of 5 steps", unless you pass children. Not in the default parts,
+ * whose meta says the same.
+ */
 export function PlanProgress({
   children = ({ value, label }) => (
     <Progress value={value}>
@@ -103,10 +109,34 @@ export function PlanItemDescription({
 
 export type PlanAcceptProps = ComponentProps<typeof parts.Accept>;
 
-/** Calls `onAccept`. Reads "Accept plan" unless you pass children. Rendered only while `onAccept` is set. */
-export function PlanAccept({ children = "Accept plan", ...props }: PlanAcceptProps) {
+/**
+ * Calls `onAccept`. Reads "Accept plan", with a running mark while pending, unless you pass children. Rendered only
+ * while `onAccept` is set and the plan isn't accepted.
+ */
+export function PlanAccept({ children = ACCEPT, ...props }: PlanAcceptProps) {
   return <parts.Accept {...props}>{children}</parts.Accept>;
 }
+
+export type PlanOutcomeProps = ComponentProps<typeof parts.Outcome>;
+
+/** "Accepted" with a complete mark, in Accept's place once the plan is accepted, unless you pass children. */
+export function PlanOutcome({ children = OUTCOME, ...props }: PlanOutcomeProps) {
+  return <parts.Outcome {...props}>{children}</parts.Outcome>;
+}
+
+const ACCEPT = (
+  <>
+    <span data-kind-pending-mark="" data-status-mark="" data-status="running" aria-hidden="true" />
+    Accept plan
+  </>
+);
+
+const OUTCOME = (
+  <>
+    <PlanOutcomeIcon />
+    Accepted
+  </>
+);
 
 // Shared, so an update to the items doesn't render the default parts' wrappers again.
 const DEFAULT_ITEM_PARTS = (
@@ -122,11 +152,12 @@ const DEFAULT_PARTS = (
     <PlanTrigger>
       <PlanIcon />
       <PlanTitle />
+      <PlanMeta />
     </PlanTrigger>
-    <PlanProgress />
     <PlanContent>
       <PlanList />
     </PlanContent>
     <PlanAccept />
+    <PlanOutcome />
   </>
 );

@@ -56,7 +56,7 @@ export function FeedbackUp({
   ...props
 }: FeedbackThumbProps) {
   return (
-    <Toggle value="up" aria-label="Good response" {...props}>
+    <Toggle value="up" aria-label="Good response" data-kind-icon-button="" data-kind-size="sm" {...props}>
       {children}
     </Toggle>
   );
@@ -68,7 +68,7 @@ export function FeedbackDown({
   ...props
 }: FeedbackThumbProps) {
   return (
-    <Toggle value="down" aria-label="Bad response" {...props}>
+    <Toggle value="down" aria-label="Bad response" data-kind-icon-button="" data-kind-size="sm" {...props}>
       {children}
     </Toggle>
   );
@@ -97,18 +97,16 @@ export function FeedbackContent({ children = DEFAULT_CONTENT, ...props }: Feedba
 
 export type FeedbackTitleProps = ComponentProps<typeof parts.Title>;
 
-/** "Add a comment", unless you pass children. Names the comment box. */
+/** "Add a comment", unless you pass children. Names the comment box; the styles keep it for assistive technology only. */
 export function FeedbackTitle({ children = "Add a comment", ...props }: FeedbackTitleProps) {
   return <parts.Title {...props}>{children}</parts.Title>;
 }
 
 export type FeedbackCommentTextProps = ComponentProps<typeof parts.CommentText>;
 
-/** UI SDK's Textarea, unless you pass children, a function that gets its props. */
+/** UI SDK's Textarea, unless you pass children, a function that gets its props, its placeholder keyed on the rating. */
 export function FeedbackCommentText({
-  children = (textarea) => (
-    <KindTextarea {...textarea} aria-label="Comment" placeholder="What could be better?" rows={3} />
-  ),
+  children = (textarea) => <KindTextarea {...textarea} rows={3} />,
   ...props
 }: FeedbackCommentTextProps) {
   return <parts.CommentText {...props}>{children}</parts.CommentText>;

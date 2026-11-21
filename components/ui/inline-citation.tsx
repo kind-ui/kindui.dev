@@ -1,6 +1,7 @@
 "use client";
 
 import { inlineCitationPrimitive } from "@kind-ui/agent-ui/core";
+import { Avatar, AvatarFallback, AvatarImage } from "@ui-sdk/react/avatar";
 import {
   Carousel,
   CarouselContent,
@@ -20,6 +21,7 @@ const parts = createParts(inlineCitationPrimitive, {
   carousel: "span",
   item: "span",
   link: "a",
+  icon: "span",
   host: "span",
   "source-title": "span",
   snippet: "span",
@@ -129,13 +131,31 @@ export function InlineCitationCarousel({ children, ...props }: InlineCitationCar
 
 export type InlineCitationItemProps = ComponentProps<typeof parts.Item>;
 
-/** The source whose `id` is `value`. Without children, it shows its host name and title, a link when its `url` is safe, then its snippet. */
+/**
+ * The source whose `id` is `value`. Without children, it shows its icon, title and host name, a link when its `url`
+ * is safe, then its snippet.
+ */
 export function InlineCitationItem({ children, ...props }: InlineCitationItemProps) {
   return <parts.Item {...props}>{children !== undefined ? children : DEFAULT_ITEM_PARTS}</parts.Item>;
 }
 
 /** Links to the source's `url` in a new tab; an `a` without `href`, which is text, when the URL isn't safe. */
 export const InlineCitationLink = parts.Link;
+
+export type InlineCitationIconProps = ComponentProps<typeof parts.Icon>;
+
+/** A UI SDK Avatar of the source's `favicon`, showing a link glyph until it loads or without one. */
+export function InlineCitationIcon({
+  children = ({ favicon }) => (
+    <Avatar>
+      {favicon ? <AvatarImage src={favicon} alt="" /> : null}
+      <AvatarFallback />
+    </Avatar>
+  ),
+  ...props
+}: InlineCitationIconProps) {
+  return <parts.Icon {...props}>{children}</parts.Icon>;
+}
 
 export type InlineCitationHostProps = ComponentProps<typeof parts.Host>;
 
@@ -180,7 +200,7 @@ export function InlineCitationPrevious({
   ...props
 }: ComponentProps<typeof CarouselPrevious>) {
   return (
-    <CarouselPrevious aria-label="Previous source" data-agent-hidden="" {...props}>
+    <CarouselPrevious aria-label="Previous source" data-agent-hidden="" data-kind-icon-button="" {...props}>
       {children}
     </CarouselPrevious>
   );
@@ -192,7 +212,7 @@ export function InlineCitationNext({
   ...props
 }: ComponentProps<typeof CarouselNext>) {
   return (
-    <CarouselNext aria-label="Next source" data-agent-hidden="" {...props}>
+    <CarouselNext aria-label="Next source" data-agent-hidden="" data-kind-icon-button="" {...props}>
       {children}
     </CarouselNext>
   );
@@ -202,8 +222,9 @@ export function InlineCitationNext({
 const DEFAULT_ITEM_PARTS = (
   <>
     <InlineCitationLink>
-      <InlineCitationHost />
+      <InlineCitationIcon />
       <InlineCitationSourceTitle />
+      <InlineCitationHost />
     </InlineCitationLink>
     <InlineCitationSnippet />
   </>

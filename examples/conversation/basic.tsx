@@ -44,7 +44,7 @@ export default function ConversationExample() {
               <p
                 className={
                   message.role === "user"
-                    ? "ms-auto w-fit max-w-[80%] rounded-2xl bg-[var(--kind-color-hover)] px-3.5 py-2"
+                    ? "ms-auto w-fit max-w-[80%] rounded-2xl bg-[var(--kind-color-bubble)] px-3.5 py-2"
                     : undefined
                 }
               >

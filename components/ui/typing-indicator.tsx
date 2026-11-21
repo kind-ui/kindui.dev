@@ -13,7 +13,7 @@ const parts = createParts(typingIndicatorPrimitive, {
 
 export type TypingIndicatorProps = Omit<ComponentProps<typeof parts.Root>, "children">;
 
-/** A polite status: three flowing dots in a bubble. Its `label`, "Typing" by default, is for assistive technology. */
+/** A polite status: three flowing dots where the reply will start. Its `label`, "Typing" by default, is for assistive technology. */
 export function TypingIndicator(props: TypingIndicatorProps) {
   return (
     <parts.Root {...props}>

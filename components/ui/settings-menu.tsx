@@ -8,7 +8,7 @@ import {
 } from "@kind-ui/agent-ui/core";
 import { MenuItemIndicator, MenuTrigger } from "@ui-sdk/react/menu";
 import { createParts } from "@ui-sdk/react/primitive";
-import type { ComponentProps, ReactElement, ReactNode } from "react";
+import { type ComponentProps, Fragment, type ReactElement, type ReactNode } from "react";
 import {
   KindMenu,
   KindMenuCheckboxItem,
@@ -42,6 +42,54 @@ export type SettingsMenuProps = Omit<ComponentProps<typeof parts.Root>, "childre
   children?: ReactNode;
 };
 
+type ChoiceRow = Extract<SettingsMenuRow, { type: "choice" }>;
+
+/** A choice's options in one radio group, under their group labels, then its actions. */
+function Choices({ row }: { row: ChoiceRow }) {
+  return (
+    <>
+      <KindMenuRadioGroup name={row.id} value={row.value ?? null}>
+        {row.groups.map((group, index) => {
+          const radios = group.options.map((option) => (
+            <KindMenuRadioItem
+              key={option.value}
+              value={option.value}
+              label={option.label}
+              disabled={option.disabled ?? false}
+            >
+              <KindMenuItemIndicator keepMounted>
+                <span data-menu-check="" aria-hidden="true" />
+              </KindMenuItemIndicator>
+              <KindMenuItemContent icon={option.icon} label={option.label} />
+            </KindMenuRadioItem>
+          ));
+          // A labelled group sits inside the one radio group, which UI SDK keys by the setting's `id`.
+          return group.label === undefined ? (
+            radios
+          ) : (
+            // By position: an inline row's own label can match a host group's.
+            <KindMenuGroup key={index}>
+              <KindMenuGroupLabel>{group.label}</KindMenuGroupLabel>
+              {radios}
+            </KindMenuGroup>
+          );
+        })}
+      </KindMenuRadioGroup>
+      {row.actions.length && !row.inline ? <KindMenuSeparator /> : null}
+      {row.actions.map((action) => (
+        <KindMenuItem
+          key={action.value}
+          value={action.value}
+          label={action.label}
+          data-menu-inset={row.inline ? "" : undefined}
+        >
+          <KindMenuItemContent icon={action.icon} label={action.label} />
+        </KindMenuItem>
+      ))}
+    </>
+  );
+}
+
 function Row({ row }: { row: SettingsMenuRow }) {
   if (row.type === "toggle")
     return (
@@ -52,6 +100,7 @@ function Row({ row }: { row: SettingsMenuRow }) {
         </MenuItemIndicator>
       </KindMenuCheckboxItem>
     );
+  if (row.inline) return <Choices row={row} />;
   return (
     <KindMenuSub>
       <KindMenuSubTrigger>
@@ -66,38 +115,7 @@ function Row({ row }: { row: SettingsMenuRow }) {
         <span data-menu-chevron="" />
       </KindMenuSubTrigger>
       <KindMenuSubContent>
-        <KindMenuRadioGroup name={row.id} value={row.value ?? null}>
-          {row.groups.map((group) => {
-            const radios = group.options.map((option) => (
-              <KindMenuRadioItem
-                key={option.value}
-                value={option.value}
-                label={option.label}
-                disabled={option.disabled ?? false}
-              >
-                <KindMenuItemIndicator keepMounted>
-                  <span data-menu-check="" aria-hidden="true" />
-                </KindMenuItemIndicator>
-                <KindMenuItemContent icon={option.icon} label={option.label} />
-              </KindMenuRadioItem>
-            ));
-            // A labelled group sits inside the one radio group, which UI SDK keys by the setting's `id`.
-            return group.label === undefined ? (
-              radios
-            ) : (
-              <KindMenuGroup key={group.label}>
-                <KindMenuGroupLabel>{group.label}</KindMenuGroupLabel>
-                {radios}
-              </KindMenuGroup>
-            );
-          })}
-        </KindMenuRadioGroup>
-        {row.actions.length ? <KindMenuSeparator /> : null}
-        {row.actions.map((action) => (
-          <KindMenuItem key={action.value} value={action.value} label={action.label}>
-            <KindMenuItemContent icon={action.icon} label={action.label} />
-          </KindMenuItem>
-        ))}
+        <Choices row={row} />
       </KindMenuSubContent>
     </KindMenuSub>
   );
@@ -106,11 +124,17 @@ function Row({ row }: { row: SettingsMenuRow }) {
 export type SettingsMenuRowsProps = { rows: SettingsMenuRow[] };
 
 /**
- * The rows: a switch for each toggle, and a submenu of options for each choice, showing its value, its options under
- * their group labels and any actions after them. Model Control draws its rows with it too.
+ * The rows: a switch for each toggle, and for each choice a submenu showing its value, or while `inline` a section of
+ * the menu, holding its options under their group labels and any actions after them. A separator follows an inline
+ * section. Model Control draws its rows with it too.
  */
 export function SettingsMenuRows({ rows }: SettingsMenuRowsProps) {
-  return rows.map((row) => <Row key={row.id} row={row} />);
+  return rows.map((row, index) => (
+    <Fragment key={row.id}>
+      <Row row={row} />
+      {row.type === "choice" && row.inline && index < rows.length - 1 ? <KindMenuSeparator /> : null}
+    </Fragment>
+  ));
 }
 
 /**

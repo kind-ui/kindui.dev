@@ -21,6 +21,7 @@ import {
   KindCommandList,
   KindCommandPage,
   KindCommandSeparator,
+  KindCommandStatus,
 } from "./internal/command.js";
 
 const parts = createParts(pickerPrimitive, {
@@ -78,9 +79,17 @@ export type PickerParts = Pick<typeof parts, "Trigger" | "Content" | "Viewport" 
 /**
  * The trigger, popover, list and rows of a picker, rendered through `parts`, for Model Selector and the other
  * components that spread `pickerBase` to share Picker's markup, each part named `<name><Part>` in React's tools.
- * `Default` is the trigger and the popover.
+ * `Default` is the trigger and the popover. `icon` draws a row's icon (an image URL or an element by default; `null`
+ * draws none), and `trailing` what follows its `meta`.
  */
-export function pickerParts(parts: PickerParts, name: string) {
+export function pickerParts(
+  parts: PickerParts,
+  name: string,
+  {
+    icon = (row: PickerRow) => iconOf(row.icon),
+    trailing,
+  }: { icon?: (row: PickerRow) => ReactNode; trailing?: (row: PickerRow) => ReactNode } = {},
+) {
   function Trigger({
     children = ({ text, icon }) => (
       <>
@@ -118,6 +127,9 @@ export function pickerParts(parts: PickerParts, name: string) {
         {(state) => (
           <KindCommand {...state.props}>
             <KindCommandInput aria-label={state.label} placeholder={state.placeholder} data-agent-hidden="" />
+            {state.statusText !== undefined ? (
+              <KindCommandStatus>{state.statusText}</KindCommandStatus>
+            ) : null}
             <KindCommandEmpty>{state.emptyText}</KindCommandEmpty>
             <KindCommandList>{children(state)}</KindCommandList>
           </KindCommand>
@@ -150,7 +162,9 @@ export function pickerParts(parts: PickerParts, name: string) {
         <KindCommandGroup>
           {section.label ? <KindCommandGroupLabel>{section.label}</KindCommandGroupLabel> : null}
           {section.rows.map((row) => (
-            <Fragment key={row.option.value}>{children(row)}</Fragment>
+            // Keyed by its label too: React Command filters a row by the label it mounted with, and a footer row's
+            // label can hold the search.
+            <Fragment key={`${row.option.value}\u0000${row.option.label}`}>{children(row)}</Fragment>
           ))}
         </KindCommandGroup>
       </>
@@ -168,7 +182,7 @@ export function pickerParts(parts: PickerParts, name: string) {
   function Item({
     children = ({ row, description }) => (
       <>
-        {row.icon !== undefined ? <KindCommandItemIcon>{iconOf(row.icon)}</KindCommandItemIcon> : null}
+        {iconOfRow(row)}
         <span data-picker-item-text="">
           <KindCommandItemText>{row.label}</KindCommandItemText>
           {description.length ? (
@@ -180,6 +194,7 @@ export function pickerParts(parts: PickerParts, name: string) {
           ) : null}
         </span>
         {row.meta ? <span data-picker-meta="">{row.meta}</span> : null}
+        {trailing?.(row)}
         <span data-picker-mark="" />
       </>
     ),
@@ -187,6 +202,11 @@ export function pickerParts(parts: PickerParts, name: string) {
   }: PickerItemProps) {
     return <parts.Item {...props}>{children}</parts.Item>;
   }
+
+  const iconOfRow = (row: PickerRow) => {
+    const drawn = row.icon === undefined ? null : icon(row);
+    return drawn == null ? null : <KindCommandItemIcon>{drawn}</KindCommandItemIcon>;
+  };
 
   // Shared, so an update doesn't render the default parts' wrappers again.
   const DEFAULT_LIST = <List />;
