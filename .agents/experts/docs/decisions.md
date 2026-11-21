@@ -2,7 +2,7 @@
 
 What is already decided, and what is known and open. The expert never re-raises a **Settled** item as a finding.
 
-Last reviewed: `d0fdaf55e66164fcd2dc88c8a4f1e0ff9e29011b` (Agent UI 0.5.0)
+Last reviewed: `5836dedbc9e58cde9e2408084c6ed59a249f2207` (Agent UI 0.6.0)
 
 ## Settled
 
