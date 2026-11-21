@@ -13,7 +13,7 @@ import { withKindClass } from "./kind-class.js";
 export const KindScrollArea = withKindClass(ScrollArea, "relative overflow-hidden", "KindScrollArea");
 export const KindScrollAreaViewport = withKindClass(
   ScrollAreaViewport,
-  "size-full rounded-[inherit] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--kind-color-ring)]",
+  "size-full rounded-[inherit] focus-visible:[outline:var(--kind-focus-ring)] focus-visible:[outline-offset:var(--kind-focus-offset-inset)]",
   "KindScrollAreaViewport",
 );
 export const KindScrollAreaContent = withKindClass(ScrollAreaContent, "min-w-full", "KindScrollAreaContent");
@@ -29,6 +29,6 @@ export const KindScrollAreaThumb = withKindClass(
 );
 export const KindScrollAreaScrollToEnd = withKindClass(
   ScrollAreaScrollToEnd,
-  "inline-flex h-8 items-center justify-center gap-1.5 rounded-[calc(var(--kind-radius)/2)] border border-[var(--kind-color-border)] bg-[var(--kind-color-surface)] px-3 text-sm font-medium text-[var(--kind-color-fg)] hover:bg-[var(--kind-color-hover)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--kind-color-ring)] data-disabled:cursor-not-allowed data-disabled:opacity-50 data-pending:cursor-wait opacity-0 data-visible:opacity-100",
+  "inline-flex h-[var(--kind-control-height)] items-center justify-center gap-1.5 rounded-[var(--kind-radius-full)] bg-[var(--kind-color-raised)] px-3.5 text-[length:var(--kind-text-md)]/5 font-medium text-[var(--kind-color-fg)] hover:bg-[var(--kind-color-hover)] focus-visible:[outline:var(--kind-focus-ring)] focus-visible:[outline-offset:var(--kind-focus-offset)] data-disabled:cursor-not-allowed data-disabled:opacity-[var(--kind-disabled-opacity)] data-pending:cursor-wait opacity-0 data-visible:opacity-100 shadow-[0_0_0_1px_var(--kind-color-hairline)]",
   "KindScrollAreaScrollToEnd",
 );

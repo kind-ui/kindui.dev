@@ -2,13 +2,14 @@
 
 What is already decided, and what is known and open. The expert never re-raises a **Settled** item as a finding.
 
-Last reviewed: `ad578ce591f5386c78c5fd8e6247b0baa1f1b79b` (Agent UI 0.4.0)
+Last reviewed: `5836dedbc9e58cde9e2408084c6ed59a249f2207` (Agent UI 0.6.0)
 
 ## Settled
 
 - The wordmark lives in `components/brand/` and both layouts import it, so the docs logo matches the homepage's exactly (user's request). Neither imports anything else of the other's.
 - Everything in the spec's "Decisions" section.
 - `/llms.txt` starts with `# Docs`, as fumadocs.dev's does.
+- **Agent UI previews sit at a message's width** (`components/example.tsx`), so a narrow control like a Picker button starts at that box's left edge rather than the preview's centre.
 
 ## Known and open (don't report again, check whether fixed)
 

@@ -64,7 +64,11 @@ export function CheckpointRestore({
   children = ({ controller, dismissible, ...dialog }) => (
     <KindAlertDialog controller={controller} dismissible={dismissible}>
       <KindTooltip type="label">
-        <KindTooltipTrigger render={<KindAlertDialogTrigger />} data-checkpoint-trigger="" />
+        <KindTooltipTrigger
+          render={<KindAlertDialogTrigger />}
+          data-checkpoint-trigger=""
+          data-kind-icon-button=""
+        />
         <KindTooltipContent>Restore checkpoint</KindTooltipContent>
       </KindTooltip>
       <CheckpointDialog {...dialog} />
@@ -75,7 +79,8 @@ export function CheckpointRestore({
   return <parts.Restore {...props}>{children}</parts.Restore>;
 }
 
-export type CheckpointDialogProps = Omit<CheckpointDialogState, "controller" | "dismissible"> & {
+export type CheckpointDialogProps = Omit<CheckpointDialogState, "controller" | "dismissible" | "busy"> & {
+  busy?: boolean;
   children?: ReactNode;
 };
 
@@ -84,12 +89,13 @@ export function CheckpointDialog({
   title,
   description,
   initialFocus,
+  busy,
   children = DEFAULT_ANSWERS,
 }: CheckpointDialogProps) {
   return (
     <>
       <KindAlertDialogBackdrop />
-      <KindAlertDialogContent initialFocus={initialFocus}>
+      <KindAlertDialogContent initialFocus={initialFocus} aria-busy={busy || undefined}>
         <KindAlertDialogTitle>{title}</KindAlertDialogTitle>
         <KindAlertDialogDescription>{description}</KindAlertDialogDescription>
         {children}
@@ -132,10 +138,18 @@ export function CheckpointCancel({ children = "Cancel", ...props }: CheckpointCa
 
 export type CheckpointConfirmProps = ComponentProps<typeof parts.Confirm>;
 
-/** Calls `onRestore`. Reads "Restore" unless you pass children. */
-export function CheckpointConfirm({ children = "Restore", ...props }: CheckpointConfirmProps) {
+/** Calls `onRestore`. Reads "Restore", with a running mark while the restore is pending, unless you pass children. */
+export function CheckpointConfirm({ children = CONFIRM_LABEL, ...props }: CheckpointConfirmProps) {
   return <parts.Confirm {...props}>{children}</parts.Confirm>;
 }
+
+// The mark shows only while the restore is pending (controls.css).
+const CONFIRM_LABEL = (
+  <>
+    <span data-kind-pending-mark="" data-status-mark="" data-status="running" aria-hidden="true" />
+    Restore
+  </>
+);
 
 // Shared, so an update doesn't render the default parts' wrappers again.
 const DEFAULT_ANSWERS = (

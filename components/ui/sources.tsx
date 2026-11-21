@@ -57,12 +57,12 @@ export function SourcesItem({ children, ...props }: SourcesItemProps) {
 
 export type SourcesIconProps = ComponentProps<typeof parts.Icon>;
 
-/** A UI SDK Avatar of the source's `favicon`, showing its site's initial until it loads or without one. */
+/** A UI SDK Avatar of the source's `favicon`, showing a link glyph until it loads or without one. */
 export function SourcesIcon({
-  children = ({ favicon, initial }) => (
+  children = ({ favicon }) => (
     <Avatar>
       {favicon ? <AvatarImage src={favicon} alt="" /> : null}
-      <AvatarFallback>{initial}</AvatarFallback>
+      <AvatarFallback />
     </Avatar>
   ),
   ...props

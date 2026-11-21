@@ -1,5 +1,7 @@
 "use client";
+
 import { fromUIMessagePart } from "@kind-ui/agent-ui/adapters/ai-sdk";
+import { useState } from "react";
 import { Tool } from "@/components/ui/tool";
 
 const parts = [
@@ -32,14 +34,31 @@ const parts = [
   },
 ] as const;
 
+// How long each finished call took, which the host knows from its own timing.
+const durations: Record<string, number> = { call_1: 1.2, call_4: 30 };
+
 export default function ToolExample() {
+  const [approved, setApproved] = useState<boolean>();
   return (
     <div className="flex flex-col gap-1">
       {parts.map((part, index) => {
-        const mapped = fromUIMessagePart(part, { messageId: "message_1", index });
+        const answered =
+          part.state === "approval-requested" && approved !== undefined
+            ? { ...part, state: "approval-responded" as const, approval: { id: part.approval.id, approved } }
+            : part;
+        const mapped = fromUIMessagePart(answered, { messageId: "message_1", index });
         if (mapped?.type !== "step" || mapped.step.kind !== "tool") return null;
         const { step } = mapped;
-        return <Tool key={step.id} call={step.call} error={step.error} />;
+        return (
+          <Tool
+            key={step.id}
+            call={step.call}
+            error={step.error}
+            durationSeconds={durations[part.toolCallId]}
+            onApprove={() => setApproved(true)}
+            onDeny={() => setApproved(false)}
+          />
+        );
       })}
     </div>
   );

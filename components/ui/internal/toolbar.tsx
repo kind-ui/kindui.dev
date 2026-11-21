@@ -10,7 +10,7 @@ export const KindToolbar = withKindClass(
 );
 export const KindToolbarButton = withKindClass(
   ToolbarButton,
-  "inline-flex h-7 min-w-7 items-center justify-center gap-1.5 rounded-[calc(var(--kind-radius)/2)] px-1.5 text-sm text-[var(--kind-toolbar-button-fg,var(--kind-color-muted))] hover:bg-[var(--kind-color-hover)] hover:text-[var(--kind-color-fg)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--kind-color-ring)] data-disabled:opacity-50",
+  "inline-flex h-[var(--kind-control-height-sm)] min-w-[var(--kind-control-height-sm)] items-center justify-center gap-1.5 rounded-[var(--kind-radius-full)] px-2 text-[length:var(--kind-text-md)]/5 text-[var(--kind-toolbar-button-fg,var(--kind-color-muted))] hover:bg-[var(--kind-color-hover)] hover:text-[var(--kind-color-fg)] focus-visible:[outline:var(--kind-focus-ring)] focus-visible:[outline-offset:var(--kind-focus-offset)] data-disabled:opacity-[var(--kind-disabled-opacity)]",
   "KindToolbarButton",
 );
 export const KindToolbarGroup = withKindClass(

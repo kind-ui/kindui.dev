@@ -12,6 +12,7 @@ const parts = createParts(toolPrimitive, {
   trigger: "button",
   icon: "span",
   title: "span",
+  meta: "span",
   approval: "span",
   content: "div",
   input: "div",
@@ -67,7 +68,10 @@ export function ToolInput({
   children = ({ label, code, streaming, highlight }) => (
     <>
       <div data-tool-heading="">
-        Input<span data-tool-badge="">Partial</span>
+        Input
+        <span data-tool-badge="" data-kind-badge="">
+          Partial
+        </span>
         <ToolInputCopy />
       </div>
       <CodeBlock
@@ -95,7 +99,10 @@ export function ToolOutput({
   children = ({ label, kind, text, preliminary, highlight }) => (
     <>
       <div data-tool-heading="">
-        Output<span data-tool-badge="">Preliminary</span>
+        Output
+        <span data-tool-badge="" data-kind-badge="">
+          Preliminary
+        </span>
         <ToolOutputCopy />
       </div>
       {kind === "markdown" ? (
@@ -117,6 +124,13 @@ export function ToolOutput({
   return <parts.Output {...props}>{children}</parts.Output>;
 }
 
+export type ToolMetaProps = ComponentProps<typeof parts.Meta>;
+
+/** How long the call took, as "N s", unless you pass children. Rendered only with `durationSeconds`. */
+export function ToolMeta({ children = ({ duration }) => duration, ...props }: ToolMetaProps) {
+  return <parts.Meta {...props}>{children}</parts.Meta>;
+}
+
 export type ToolErrorProps = ComponentProps<typeof parts.Error>;
 
 /** The `error` message while the status is `error`, unless you pass children. */
@@ -130,6 +144,7 @@ const DEFAULT_PARTS = (
     <ToolTrigger>
       <ToolIcon />
       <ToolTitle />
+      <ToolMeta />
     </ToolTrigger>
     <ToolContent>
       <ToolInput />

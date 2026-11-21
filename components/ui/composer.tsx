@@ -27,6 +27,8 @@ const parts = createParts(composerPrimitive, {
   attachments: "div",
   submit: "button",
   stop: "button",
+  restored: "div",
+  discard: "button",
 });
 
 export type ComposerProps = Omit<ComponentProps<typeof parts.Root>, "children"> & { children?: ReactNode };
@@ -112,6 +114,23 @@ export function ComposerAttachments(
 /** Opens the file picker. */
 export function ComposerAttach(props: ComponentProps<typeof FileInputTrigger>) {
   return <FileInputTrigger aria-label="Attach files" {...props} />;
+}
+
+/** Empties a restored draft and removes it from `draftStorage`. */
+export const ComposerDiscard = parts.Discard;
+
+/** "Draft restored" with Discard, shown while a draft restored from `draftStorage` is still unedited. */
+export function ComposerRestored({ children, ...props }: ComponentProps<typeof parts.Restored>) {
+  return (
+    <parts.Restored {...props}>
+      {children ?? (
+        <>
+          <span>Draft restored</span>
+          <ComposerDiscard>Discard</ComposerDiscard>
+        </>
+      )}
+    </parts.Restored>
+  );
 }
 
 /** Sends the draft. Hidden while Stop shows. */

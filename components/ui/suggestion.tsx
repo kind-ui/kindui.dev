@@ -32,27 +32,36 @@ export type SuggestionProps = Omit<ComponentProps<typeof parts.Root>, "children"
 
 /**
  * A row of prompts a person can send in one press. It scrolls sideways when the prompts don't fit, with Previous and
- * Next beside it. Any `children` replace the row and its buttons, inside the Carousel.
+ * Next beside it, or wraps onto more lines with `layout="wrap"`. Any `children` replace the row and its buttons:
+ * `SuggestionItem`s inside the Carousel, or `SuggestionChip`s when it wraps.
  */
 export function Suggestion({ children, ...props }: SuggestionProps) {
   return (
     <parts.Root {...props}>
-      {({ label, suggestions }) => (
-        <KindCarousel aria-label={label} slidesPerPage="auto" dragFree>
-          {children !== undefined ? (
+      {({ label, layout, suggestions }) =>
+        layout === "wrap" ? (
+          children !== undefined ? (
             children
           ) : (
-            <>
-              <SuggestionViewport>
-                {suggestions.map((suggestion) => (
-                  <SuggestionItem key={suggestion.id} value={suggestion.id} />
-                ))}
-              </SuggestionViewport>
-              <SuggestionControls />
-            </>
-          )}
-        </KindCarousel>
-      )}
+            suggestions.map((suggestion) => <SuggestionChip key={suggestion.id} value={suggestion.id} />)
+          )
+        ) : (
+          <KindCarousel aria-label={label} slidesPerPage="auto" dragFree>
+            {children !== undefined ? (
+              children
+            ) : (
+              <>
+                <SuggestionViewport>
+                  {suggestions.map((suggestion) => (
+                    <SuggestionItem key={suggestion.id} value={suggestion.id} />
+                  ))}
+                </SuggestionViewport>
+                <SuggestionControls />
+              </>
+            )}
+          </KindCarousel>
+        )
+      }
     </parts.Root>
   );
 }
@@ -71,8 +80,19 @@ export function SuggestionViewport({
 
 export type SuggestionItemProps = ComponentProps<typeof parts.Item>;
 
-/** A suggestion, whose `value` is its `id`. Reads its label and description unless you pass children. */
-export function SuggestionItem({
+/** A suggestion in the Carousel: a `SuggestionChip` in its slide. */
+export function SuggestionItem(props: SuggestionItemProps) {
+  return (
+    <KindCarouselItem>
+      <SuggestionChip {...props} />
+    </KindCarouselItem>
+  );
+}
+
+export type SuggestionChipProps = ComponentProps<typeof parts.Item>;
+
+/** A suggestion's button, whose `value` is its `id`. Reads its label and description unless you pass children. */
+export function SuggestionChip({
   children = ({ label, description }) => (
     <>
       <span data-suggestion-label="">{label}</span>
@@ -85,12 +105,8 @@ export function SuggestionItem({
     </>
   ),
   ...props
-}: SuggestionItemProps) {
-  return (
-    <KindCarouselItem>
-      <parts.Item {...props}>{children}</parts.Item>
-    </KindCarouselItem>
-  );
+}: SuggestionChipProps) {
+  return <parts.Item {...props}>{children}</parts.Item>;
 }
 
 /** Holds Previous and Next, unless you pass children, and hides them while every suggestion fits. */

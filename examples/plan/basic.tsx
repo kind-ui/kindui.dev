@@ -19,7 +19,8 @@ export default function PlanExample() {
         { id: "migrate", status: "pending", title: "Copy the live sessions" },
         { id: "cleanup", status: "pending", title: "Remove the old store" },
       ]}
-      onAccept={accepted ? undefined : () => setAccepted(true)}
+      accepted={accepted}
+      onAccept={() => setAccepted(true)}
     />
   );
 }

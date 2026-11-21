@@ -1,2 +1,5 @@
 # Rewritten by public/_redirects to the files under /llms.mdx.
 /docs/[^/]+/llms(-full)?\.txt
+# Agent UI 0.6.0's Inline Citation page links `./sources` without `.mdx`; fixed by kind-ui/agent-ui#150.
+# Remove this entry once #11 moves to Agent UI 0.6.1.
+/docs/agent-ui/components/inline-citation/sources

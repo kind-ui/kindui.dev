@@ -6,7 +6,7 @@ import { withKindClass } from "./kind-class.js";
 export const KindCheckboxGroup = withKindClass(CheckboxGroup, "flex flex-col gap-1", "KindCheckboxGroup");
 export const KindCheckbox = withKindClass(
   Checkbox,
-  "relative inline-flex size-4 shrink-0 items-center justify-center rounded-[calc(var(--kind-radius)/3)] border border-[var(--kind-color-border)] bg-[var(--kind-color-surface)] text-[var(--kind-color-on-accent)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--kind-color-ring)] data-checked:border-[var(--kind-color-accent)] data-checked:bg-[var(--kind-color-accent)] data-disabled:cursor-not-allowed data-disabled:opacity-50",
+  "relative inline-flex size-4 shrink-0 items-center justify-center rounded-[var(--kind-radius-sm)] border border-[var(--kind-color-border)] bg-[var(--kind-color-surface)] text-[var(--kind-color-on-accent)] focus-visible:[outline:var(--kind-focus-ring)] focus-visible:[outline-offset:var(--kind-focus-offset)] data-checked:border-[var(--kind-color-accent)] data-checked:bg-[var(--kind-color-accent)] data-disabled:cursor-not-allowed data-disabled:opacity-[var(--kind-disabled-opacity)]",
   "KindCheckbox",
 );
 export const KindCheckboxIndicator = withKindClass(

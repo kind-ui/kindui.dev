@@ -6,15 +6,19 @@ import { withKindClass } from "./kind-class.js";
 // No Kind group: a `display` utility would outrank the `hidden` a closed group gets.
 export { TreeGroup as KindTreeGroup } from "@ui-sdk/react/tree";
 
-export const KindTree = withKindClass(Tree, "flex flex-col text-sm text-[var(--kind-color-fg)]", "KindTree");
+export const KindTree = withKindClass(
+  Tree,
+  "flex flex-col text-[length:var(--kind-text-md)]/5 text-[var(--kind-color-fg)]",
+  "KindTree",
+);
 export const KindTreeItem = withKindClass(
   TreeItem,
-  "outline-none [&:focus-visible>[data-slot=tree-label]]:outline-2 [&:focus-visible>[data-slot=tree-label]]:-outline-offset-2 [&:focus-visible>[data-slot=tree-label]]:outline-[var(--kind-color-ring)]",
+  "outline-hidden [&:focus-visible>[data-slot=tree-label]]:[outline:var(--kind-focus-ring)] [&:focus-visible>[data-slot=tree-label]]:[outline-offset:var(--kind-focus-offset-inset)]",
   "KindTreeItem",
 );
 export const KindTreeItemLabel = withKindClass(
   TreeItemLabel,
-  "flex min-h-7 cursor-default items-center gap-1.5 rounded-[calc(var(--kind-radius)/2)] ps-[calc((var(--tree-level)-1)*1rem+0.25rem)] pe-2 select-none hover:bg-[var(--kind-color-hover)] data-selected:bg-[color-mix(in_oklab,var(--kind-color-accent)_12%,transparent)] data-disabled:opacity-50",
+  "flex min-h-7 cursor-default items-center gap-1.5 rounded-[var(--kind-radius-md)] ps-[calc((var(--tree-level)-1)*1rem+0.25rem)] pe-2 select-none hover:bg-[var(--kind-color-hover)] data-selected:bg-[var(--kind-color-selected)] data-disabled:opacity-[var(--kind-disabled-opacity)]",
   "KindTreeItemLabel",
 );
 export const KindTreeItemIndicator = withKindClass(

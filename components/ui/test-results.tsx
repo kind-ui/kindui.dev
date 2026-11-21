@@ -5,11 +5,6 @@ import { createParts } from "@ui-sdk/react/primitive";
 import type { TreeItemData } from "@ui-sdk/react/tree";
 import { type ComponentProps, memo } from "react";
 import {
-  KindSegmentedControl,
-  KindSegmentedControlIndicator,
-  KindSegmentedControlItem,
-} from "./internal/segmented-control.js";
-import {
   KindTree,
   KindTreeGroup,
   KindTreeItem,
@@ -26,6 +21,7 @@ const parts = createParts(testResultsPrimitive, {
   meta: "span",
   content: "div",
   filter: "div",
+  count: "button",
   tree: "div",
   item: "span",
   "item-status": "span",
@@ -43,8 +39,9 @@ const CHEVRON = (
 export type TestResultsProps = ComponentProps<typeof parts.Root>;
 
 /**
- * A test run as a step: its counts and duration in the header, over a filter and a tree of suites and tests, in which
- * a failed test opens to its message and stack trace. Any `children` replace the default parts.
+ * A test run as a step: its duration in the header, its counts beside it, which filter the tests when pressed, over a
+ * tree of suites and tests in which a failed test opens to its message and stack trace. Any `children` replace the
+ * default parts.
  */
 export function TestResults({ children, ...props }: TestResultsProps) {
   return <parts.Root {...props}>{children !== undefined ? children : DEFAULT_PARTS}</parts.Root>;
@@ -63,46 +60,35 @@ export function TestResultsTitle({ children = ({ title }) => title, ...props }: 
 
 export type TestResultsMetaProps = ComponentProps<typeof parts.Meta>;
 
-/** How many tests passed, failed and were skipped, each with a mark, and the duration, unless you pass children. */
-export function TestResultsMeta({
-  children = ({ counts, duration }) => (
-    <>
-      <span data-test-results-count="pass" data-zero={counts.pass === 0 ? "" : undefined}>
-        {counts.pass} passed
-      </span>{" "}
-      <span data-test-results-count="fail" data-zero={counts.fail === 0 ? "" : undefined}>
-        {counts.fail} failed
-      </span>{" "}
-      <span data-test-results-count="skip" data-zero={counts.skip === 0 ? "" : undefined}>
-        {counts.skip} skipped
-      </span>
-      {duration ? <span data-test-results-duration=""> {duration}</span> : null}
-    </>
-  ),
-  ...props
-}: TestResultsMetaProps) {
+/** The run's duration, unless you pass children. */
+export function TestResultsMeta({ children = ({ duration }) => duration, ...props }: TestResultsMetaProps) {
   return <parts.Meta {...props}>{children}</parts.Meta>;
 }
 
 export type TestResultsFilterProps = ComponentProps<typeof parts.Filter>;
 
-/** The filter: all, failed, passed or skipped tests, as a Segmented Control, unless you pass children. */
-export function TestResultsFilter({
-  children = ({ levels, ...control }) => (
-    // Hidden from agents, which use the Test Results' own `setFilter`.
-    <KindSegmentedControl {...control} data-agent-hidden="">
-      <KindSegmentedControlIndicator />
-      {levels.map((level) => (
-        <KindSegmentedControlItem key={level.value} value={level.value}>
-          {level.label}
-        </KindSegmentedControlItem>
-      ))}
-    </KindSegmentedControl>
-  ),
-  ...props
-}: TestResultsFilterProps) {
+/** Holds the counts beside the trigger: a `TestResultsCount` for passed, failed and skipped, unless you pass children. */
+export function TestResultsFilter({ children = COUNTS, ...props }: TestResultsFilterProps) {
   return <parts.Filter {...props}>{children}</parts.Filter>;
 }
+
+export type TestResultsCountProps = ComponentProps<typeof parts.Count>;
+
+/**
+ * A toggle button for the tests with its `value` (`"pass"`, `"fail"` or `"skip"`): pressing it shows only those, and
+ * pressing it again shows every test. "3 passed", unless you pass children.
+ */
+export function TestResultsCount({ children = ({ text }) => text, ...props }: TestResultsCountProps) {
+  return <parts.Count {...props}>{children}</parts.Count>;
+}
+
+const COUNTS = (
+  <>
+    <TestResultsCount value="pass" />
+    <TestResultsCount value="fail" />
+    <TestResultsCount value="skip" />
+  </>
+);
 
 export type TestResultsTreeProps = ComponentProps<typeof parts.Tree>;
 
@@ -198,9 +184,9 @@ const DEFAULT_PARTS = (
       <TestResultsTitle />
       <TestResultsMeta />
     </TestResultsTrigger>
+    <TestResultsFilter />
     <TestResultsContent>
       <div data-test-results-panel="">
-        <TestResultsFilter />
         <TestResultsTree />
         <TestResultsEmpty />
       </div>

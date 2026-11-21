@@ -46,7 +46,7 @@ export function TerminalTitle({ children = ({ title }) => title, ...props }: Ter
 
 export type TerminalExitProps = ComponentProps<typeof parts.Exit>;
 
-/** "Exit N" once there's an exit code, unless you pass children. */
+/** "exit N" once there's an exit code, unless you pass children. */
 export function TerminalExit({ children = ({ text }) => text, ...props }: TerminalExitProps) {
   return <parts.Exit {...props}>{children}</parts.Exit>;
 }
@@ -60,7 +60,10 @@ export function TerminalMeta({ children = ({ duration }) => duration, ...props }
 
 export type TerminalCommandProps = ComponentProps<typeof parts.Command>;
 
-/** The command after its prompt, which the stylesheet draws, unless you pass children. */
+/**
+ * The command after its prompt, which the stylesheet draws, unless you pass children. Present only while a `label`
+ * replaces the command as the title.
+ */
 export function TerminalCommand({ children = ({ command }) => command, ...props }: TerminalCommandProps) {
   return <parts.Command {...props}>{children}</parts.Command>;
 }
@@ -85,6 +88,7 @@ export type TerminalLineProps = ComponentProps<typeof parts.Line>;
  * didn't change isn't rendered again when the lines in view change.
  */
 export const TerminalLine = memo(function TerminalLine({
+  value,
   children = ({ spans }) =>
     spans.map((span, index) => (
       <span
@@ -101,7 +105,11 @@ export const TerminalLine = memo(function TerminalLine({
     )),
   ...props
 }: TerminalLineProps) {
-  return <parts.Line {...props}>{children}</parts.Line>;
+  return (
+    <parts.Line value={value ?? String(props.index)} {...props}>
+      {children}
+    </parts.Line>
+  );
 });
 
 export type TerminalJumpProps = ComponentProps<typeof parts.Jump>;
@@ -121,7 +129,7 @@ const DEFAULT_PARTS = (
       <TerminalMeta />
     </TerminalTrigger>
     <TerminalContent>
-      <div data-terminal-screen="">
+      <div data-terminal-screen="" data-kind-code="">
         <div data-terminal-header="">
           <TerminalCommand />
           <TerminalCopy />

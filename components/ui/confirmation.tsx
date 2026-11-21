@@ -7,10 +7,12 @@ import { KindTextarea } from "./internal/textarea.js";
 
 const parts = createParts(confirmationPrimitive, {
   root: "div",
+  title: "div",
   reason: "div",
   choices: "div",
   approve: "button",
   deny: "button",
+  cancel: "button",
   error: "span",
   outcome: "div",
   "outcome-icon": "span",
@@ -29,9 +31,19 @@ export function Confirmation({ children, ...props }: ConfirmationProps) {
 export const ConfirmationChoices = parts.Choices;
 export const ConfirmationOutcomeIcon = parts.OutcomeIcon;
 
+export type ConfirmationTitleProps = ComponentProps<typeof parts.Title>;
+
+/** The `label`, unless you pass children. Rendered only while `label` is set, and hidden inside a Tool. */
+export function ConfirmationTitle({ children = ({ label }) => label, ...props }: ConfirmationTitleProps) {
+  return <parts.Title {...props}>{children}</parts.Title>;
+}
+
 export type ConfirmationReasonProps = ComponentProps<typeof parts.Reason>;
 
-/** A box for the reason Deny sends, unless you pass children. Rendered only with the `reason` option. */
+/**
+ * A box for the reason Deny sends, unless you pass children. Rendered with the `reason` option, once a person's Deny
+ * opens it.
+ */
 export function ConfirmationReason({
   children = ({ controller, readOnly }) => (
     <KindTextarea
@@ -50,15 +62,25 @@ export function ConfirmationReason({
 export type ConfirmationApproveProps = ComponentProps<typeof parts.Approve>;
 
 /** Calls `onApprove`. Reads the `approveLabel` unless you pass children. Rendered only while `onApprove` is set. */
-export function ConfirmationApprove({ children = ({ label }) => label, ...props }: ConfirmationApproveProps) {
+export function ConfirmationApprove({ children = withPendingMark, ...props }: ConfirmationApproveProps) {
   return <parts.Approve {...props}>{children}</parts.Approve>;
 }
 
 export type ConfirmationDenyProps = ComponentProps<typeof parts.Deny>;
 
-/** Calls `onDeny`. Reads the `denyLabel` unless you pass children. Rendered only while `onDeny` is set. */
-export function ConfirmationDeny({ children = ({ label }) => label, ...props }: ConfirmationDenyProps) {
+/**
+ * Calls `onDeny`. With `reason`, a person's first press opens the reason box instead. Reads the `denyLabel` unless
+ * you pass children. Rendered only while `onDeny` is set.
+ */
+export function ConfirmationDeny({ children = withPendingMark, ...props }: ConfirmationDenyProps) {
   return <parts.Deny {...props}>{children}</parts.Deny>;
+}
+
+export type ConfirmationCancelProps = ComponentProps<typeof parts.Cancel>;
+
+/** Closes the reason box without deciding. Reads "Cancel" unless you pass children. Rendered while the box is open. */
+export function ConfirmationCancel({ children = "Cancel", ...props }: ConfirmationCancelProps) {
+  return <parts.Cancel {...props}>{children}</parts.Cancel>;
 }
 
 export type ConfirmationErrorProps = ComponentProps<typeof parts.Error>;
@@ -87,13 +109,23 @@ export function ConfirmationOutcome({
   return <parts.Outcome {...props}>{children}</parts.Outcome>;
 }
 
+// The mark shows only while the button's call is pending (controls.css).
+const withPendingMark = ({ label }: { label: string }) => (
+  <>
+    <span data-kind-pending-mark="" data-status-mark="" data-status="running" aria-hidden="true" />
+    {label}
+  </>
+);
+
 // Shared, so an update to the request doesn't render the default parts' wrappers again.
 const DEFAULT_PARTS = (
   <>
+    <ConfirmationTitle />
     <ConfirmationReason />
     <ConfirmationChoices>
       <ConfirmationApprove />
       <ConfirmationDeny />
+      <ConfirmationCancel />
       <ConfirmationError />
     </ConfirmationChoices>
     <ConfirmationOutcome />
